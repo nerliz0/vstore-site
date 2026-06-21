@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Vstore — сервис цифровых товаров: игровые подписки и сервисы." />
+    <title>Vstore</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="bg-glow" aria-hidden="true">
+      <div class="bg-glow__orb bg-glow__orb--1"></div>
+      <div class="bg-glow__orb bg-glow__orb--2"></div>
+    </div>
+
+    <header class="header">
+      <a href="#" class="header__logo" aria-label="Vstore — на главную">
+        <img src="assets/logo.svg" alt="Vstore" width="160" height="48" />
+      </a>
+      <nav class="header__nav">
+        <a href="#prices" class="header__link">Каталог</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section scene" id="hero">
+        <div class="container hero__inner reveal-group reveal-group--hero">
+          <img
+            class="hero__logo reveal-item"
+            src="assets/logo.svg"
+            alt="Vstore"
+            width="320"
+            height="80"
+          />
+          <p class="hero__eyebrow reveal-item">Digital marketplace</p>
+          <h1 class="hero__title reveal-item">Сервис цифровых<br />товаров и подписок</h1>
+          <p class="hero__subtitle reveal-item">
+            Игровые сервисы и подписки —<br />
+            с выдачей и поддержкой через Telegram.
+          </p>
+          <div class="hero__actions reveal-item">
+            <a href="#" class="btn btn--hero" data-telegram>Написать в Telegram</a>
+            <a href="#prices" class="btn btn--ghost">Смотреть каталог</a>
+          </div>
+          <p class="hero__hint reveal-item" id="redirect-hint">
+            Вы перейдёте в Telegram для оформления заказа
+          </p>
+        </div>
+      </section>
+
+      <section class="trust-line section scene" aria-label="О сервисе">
+        <div class="container reveal-group">
+          <p class="trust-line__text reveal-item" id="trust-line">
+            Заказы обрабатываются вручную · мгновенная замена при проблеме
+          </p>
+        </div>
+      </section>
+
+      <section class="about section scene" id="about">
+        <div class="container reveal-group">
+          <h2 class="section__title reveal-item">Что такое Vstore</h2>
+          <p class="about__text reveal-item">
+            Vstore — сервис цифровых товаров.<br />
+            Мы работаем по двум направлениям: gaming и подписки.
+          </p>
+          <p class="about__text about__text--muted reveal-item">
+            Каждый заказ обрабатывается вручную.<br />
+            Поддержка и выдача — через Telegram.
+          </p>
+        </div>
+      </section>
+
+      <section class="how section scene" id="how">
+        <div class="container">
+          <div class="reveal-group">
+            <h2 class="section__title section__title--sm reveal-item">Как это работает</h2>
+          </div>
+          <ol class="how__steps">
+            <li class="how__step reveal-group">
+              <span class="how__num reveal-item">1</span>
+              <div class="reveal-item">
+                <h3 class="how__step-title">Выберите товар</h3>
+                <p class="how__step-text">Найдите нужный продукт в каталоге</p>
+              </div>
+            </li>
+            <li class="how__step reveal-group">
+              <span class="how__num reveal-item">2</span>
+              <div class="reveal-item">
+                <h3 class="how__step-title">Нажмите «Заказать»</h3>
+                <p class="how__step-text">Откроется Telegram с готовым сообщением</p>
+              </div>
+            </li>
+            <li class="how__step reveal-group">
+              <span class="how__num reveal-item">3</span>
+              <div class="reveal-item">
+                <h3 class="how__step-title">Свяжитесь с поддержкой</h3>
+                <p class="how__step-text">Менеджер подтвердит заказ и оплату</p>
+              </div>
+            </li>
+            <li class="how__step reveal-group">
+              <span class="how__num reveal-item">4</span>
+              <div class="reveal-item">
+                <h3 class="how__step-title">Получите выдачу</h3>
+                <p class="how__step-text">Выдача в указанный срок на карточке товара</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="guarantee section scene" id="guarantee">
+        <div class="container reveal-group">
+          <h2 class="section__title section__title--sm reveal-item">Гарантия</h2>
+          <ul class="guarantee__list">
+            <li class="guarantee__item reveal-item">Мгновенная замена, если возникла проблема с заказом</li>
+            <li class="guarantee__item reveal-item">Заказы обрабатываются вручную — без автоматических ошибок</li>
+            <li class="guarantee__item reveal-item">Выдача в заявленный срок</li>
+            <li class="guarantee__item reveal-item">Поддержка через Telegram</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="prices section section--catalog scene" id="prices">
+        <div class="container">
+          <div class="reveal-group prices__head">
+            <p class="section__eyebrow reveal-item">Каталог</p>
+            <h2 class="section__title section__title--catalog reveal-item">Два направления сервиса</h2>
+            <p class="section__subtitle section__subtitle--catalog reveal-item">
+              Gaming · Subscriptions
+            </p>
+          </div>
+          <div class="prices__catalog" id="price-catalog" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="contact section scene" id="contact">
+        <div class="container">
+          <div class="contact__card reveal-group">
+            <p class="contact__eyebrow reveal-item">Поддержка</p>
+            <h2 class="contact__title reveal-item">Контакты</h2>
+            <p class="contact__label reveal-item">Telegram Support</p>
+            <a href="#" class="contact__handle reveal-item" data-telegram id="telegram-handle">
+              @MenagerVoltixStore
+            </a>
+            <p class="contact__meta reveal-item">
+              <span class="contact__dot" aria-hidden="true"></span>
+              Онлайн каждый день · ответ <span id="response-time">&lt; 1 часа</span>
+            </p>
+            <p class="contact__note reveal-item">
+              Напишите в Telegram — менеджер обработает заказ вручную
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner reveal-group">
+        <img class="reveal-item" src="assets/logo.svg" alt="Vstore" width="130" height="40" />
+        <p class="footer__copy reveal-item">&copy; <span id="year"></span> Vstore. Все права защищены.</p>
+      </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/prices.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
