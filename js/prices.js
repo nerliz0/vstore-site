@@ -46,7 +46,7 @@ const VOLTIX_PRICES = {
 
           delivery: "5–15 мин",
 
-          image: "crew.png"
+          image: "assets/crew.png"
 
         },
         {
@@ -57,7 +57,7 @@ const VOLTIX_PRICES = {
           label: "Валюта",
           note: "800 V-Bucks",
           delivery: "5–15 мин",
-          image: "vbucks800.png"
+          image: "assets/vbucks800.png"
         },
         
         {
@@ -68,7 +68,7 @@ const VOLTIX_PRICES = {
           label: "Валюта",
           note: "2400 V-Bucks",
           delivery: "5–15 мин",
-          image: "vbucks2400.png"
+          image: "assets/vbucks2400.png"
         },
         
         {
@@ -79,7 +79,7 @@ const VOLTIX_PRICES = {
           label: "Валюта",
           note: "4500 V-Bucks",
           delivery: "5–15 мин",
-          image: "vbucks4500.png"
+          image: "assets/vbucks4500.png"
         },
         
         {
@@ -90,7 +90,7 @@ const VOLTIX_PRICES = {
           label: "Валюта",
           note: "12500 V-Bucks",
           delivery: "5–15 мин",
-          image: "vbucks12500.png"
+          image: "assets/vbucks12500.png"
         }
       ],
 
@@ -112,17 +112,17 @@ const VOLTIX_PRICES = {
 
       products: [
 
-        { brand: "Discord", title: "Nitro Basic", name: "Discord Nitro Basic", price: "179 ₽", note: "1 месяц", delivery: "5–15 мин", image: "dslogo.png"},
+        { brand: "Discord", title: "Nitro Basic", name: "Discord Nitro Basic", price: "179 ₽", note: "1 месяц", delivery: "5–15 мин", image: "assets/dslogo.png"},
 
-        { brand: "Discord", title: "Nitro Basic", name: "Discord Nitro Basic", price: "1249 ₽", note: "12 месяцев", delivery: "5–15 мин", image: "dslogo.png" },
+        { brand: "Discord", title: "Nitro Basic", name: "Discord Nitro Basic", price: "1249 ₽", note: "12 месяцев", delivery: "5–15 мин", image: "assets/dslogo.png" },
 
-        { brand: "Discord", title: "Nitro Full", name: "Discord Nitro Full", price: "299 ₽", note: "1 месяц", delivery: "5–15 минут", image: "dsfulllogo.png" },
+        { brand: "Discord", title: "Nitro Full", name: "Discord Nitro Full", price: "299 ₽", note: "1 месяц", delivery: "5–15 минут", image: "assets/dsfulllogo.png" },
 
-        { brand: "Discord", title: "Nitro Full", name: "Discord Nitro Full", price: "2849 ₽", note: "12 месяцев", delivery: "5–15 мин", image: "dsfulllogo.png" },
+        { brand: "Discord", title: "Nitro Full", name: "Discord Nitro Full", price: "2849 ₽", note: "12 месяцев", delivery: "5–15 мин", image: "assets/dsfulllogo.png" },
 
-        { brand: "ChatGPT", title: "Plus", name: "ChatGPT Plus", price: "2099 ₽", note: "1 месяц", delivery: "до 30 минут", image: "chatgpt-logo-free.png" },
+        { brand: "ChatGPT", title: "Plus", name: "ChatGPT Plus", price: "2099 ₽", note: "1 месяц", delivery: "до 30 минут", image: "assets/chatgpt-logo-free.png" },
 
-        { brand: "ChatGPT", title: "Go", name: "ChatGPT Go", price: "649 ₽", note: "1 месяц", delivery: "до 30 минут", image: "chatgpt-logo-free.png" },
+        { brand: "ChatGPT", title: "Go", name: "ChatGPT Go", price: "649 ₽", note: "1 месяц", delivery: "до 30 минут", image: "assets/chatgpt-logo-free.png" },
 
       ],
 
@@ -131,6 +131,7 @@ const VOLTIX_PRICES = {
   ],
 
 };
+
 
 
 
