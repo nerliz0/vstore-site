@@ -2,8 +2,8 @@
  * Vstore — настройки сайта
  */
 const VOLTIX_CONFIG = {
-  telegram: "https://t.me/MenagerVoltixStore",
-  telegramHandle: "@MenagerVoltixStore",
+  telegram: "https://t.me/MenagerVstore",
+  telegramHandle: "@MenagerVstore",
   responseTime: "< 1 часа",
   orderPrefix: "Хочу заказать",
   trustLine: "Заказы обрабатываются вручную · мгновенная замена при проблеме",
