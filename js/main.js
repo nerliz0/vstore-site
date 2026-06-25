@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  // ---- Конфигурация и ссылки ----
+  // --- Конфигурация и ссылки (оставляем как есть) ---
   var touchDevice = window.matchMedia('(hover: none)').matches;
 
   function buildOrderUrl(productName, note) {
@@ -35,7 +35,7 @@
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // ---- Карточки товаров (оставляем без изменений) ----
+  // --- Карточки товаров (без изменений) ---
   function getDisplayParts(product) {
     var brand = product.brand || '';
     var title = product.title || product.name || '';
@@ -86,6 +86,7 @@
 
     var card = document.createElement('article');
     card.className = 'product-card';
+    card.classList.add('reveal-item');
     card.setAttribute('tabindex', '0');
 
     var preview = document.createElement('div');
@@ -193,50 +194,53 @@
     }
   }
 
-  // ---- Анимация появления (IntersectionObserver) ----
-  var observer = null;
+  // --- САМОЕ ВАЖНОЕ: проверка видимости через скролл (без IntersectionObserver) ---
+  var revealTargets = [];
 
-  function initReveal() {
-    // Если уже есть observer, отключаем
-    if (observer) observer.disconnect();
-
-    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var targets = document.querySelectorAll('.reveal-group:not(.reveal-group--hero), .reveal');
-
-    if (prefersReduced) {
-      targets.forEach(function(el) { el.classList.add('is-visible'); });
-      return;
-    }
-
-    // Создаём observer
-    observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.15,
-      rootMargin: '0px 0px -35% 0px'
+  function collectRevealTargets() {
+    revealTargets = [];
+    var groups = document.querySelectorAll('.reveal-group:not(.reveal-group--hero), .reveal');
+    groups.forEach(function(el) {
+      revealTargets.push(el);
     });
+  }
 
-    // Проверяем, какие элементы уже видны сейчас, и добавляем класс сразу
-    targets.forEach(function(target) {
-      var rect = target.getBoundingClientRect();
-      var windowHeight = window.innerHeight;
-      // Условие: элемент хотя бы частично виден (с учётом rootMargin)
-      var visibleTop = 0 - 0.35 * windowHeight; // верхняя граница с учётом отрицательного отступа
-      var visibleBottom = windowHeight + 0.35 * windowHeight;
-      if (rect.bottom > visibleTop && rect.top < visibleBottom) {
-        target.classList.add('is-visible');
-      } else {
-        observer.observe(target);
+  function checkVisibility() {
+    if (revealTargets.length === 0) return;
+    var windowHeight = window.innerHeight;
+    var margin = 0.35; // 35% от высоты экрана
+    var offset = windowHeight * margin;
+
+    revealTargets.forEach(function(el) {
+      if (el.classList.contains('is-visible')) return;
+      var rect = el.getBoundingClientRect();
+      // Элемент считается видимым, если его верхняя граница ниже -offset и нижняя граница выше windowHeight + offset
+      if (rect.bottom > -offset && rect.top < windowHeight + offset) {
+        el.classList.add('is-visible');
       }
     });
   }
 
-  // ---- Параллакс ----
+  function initScrollReveal() {
+    collectRevealTargets();
+    // Сразу проверяем при загрузке
+    checkVisibility();
+    // При скролле
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          checkVisibility();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    // При изменении размера окна
+    window.addEventListener('resize', checkVisibility, { passive: true });
+  }
+
+  // --- Параллакс ---
   function initParallax() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var orb1 = document.querySelector('.bg-glow__orb--1');
@@ -258,7 +262,7 @@
     updateParallax();
   }
 
-  // ---- Герой (появляется сразу) ----
+  // --- Герой ---
   function initHero() {
     var hero = document.querySelector('.reveal-group--hero');
     if (hero) {
@@ -270,18 +274,17 @@
     }
   }
 
-  // ---- Запуск после полной загрузки страницы ----
+  // --- Запуск ---
   function start() {
     renderPrices();
     initHero();
     initParallax();
-    // Запускаем анимацию появления с задержкой, чтобы все элементы отрисовались
-    setTimeout(initReveal, 100);
-    // И ещё раз через 300 мс, на всякий случай
-    setTimeout(initReveal, 300);
+    // Запускаем скролл-ревил после того, как каталог отрисован
+    setTimeout(initScrollReveal, 200);
+    // И ещё раз через 500 мс, чтобы перехватить все элементы
+    setTimeout(initScrollReveal, 500);
   }
 
-  // Если страница уже загружена, запускаем сразу, иначе ждём load
   if (document.readyState === 'complete') {
     start();
   } else {
