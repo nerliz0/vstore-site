@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Каталог Vstore — цифровые товары, игры, подписки, подарочные карты и пополнение." />
+  <title>Каталог — Vstore</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/catalog.css" />
+</head>
+
+<body>
+  <div class="bg-glow" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
+    <div class="bg-glow__orb bg-glow__orb--1"></div>
+    <div class="bg-glow__orb bg-glow__orb--2"></div>
+    <div class="bg-glow__orb bg-glow__orb--3"></div>
+    <div class="bg-particles">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="bg-flow-lines">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="bg-geometry">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <header class="header">
+    <a href="index.html" class="header__logo" aria-label="Vstore — на главную">
+      <img src="assets/brand/logo.svg" alt="Vstore" width="160" height="48" />
+    </a>
+    <nav class="header__nav">
+      <a href="catalog.html" class="header__link">Каталог</a>
+      <a href="faq.html" class="header__link">FAQ</a>
+      <a href="https://t.me/MenagerVstore" class="header__link header__link--cta" target="_blank" rel="noopener">Telegram</a>
+    </nav>
+  </header>
+
+  <main class="catalog-page">
+    <section class="catalog-shell section scene">
+      <div class="container catalog-shell__inner">
+        <section class="catalog-hero catalog-hero--image" aria-label="Каталог Vstore">
+          <img src="assets/catalog/catalog-hero.png" alt="Каталог Vstore. Цифровые товары: игры, подписки и подарочные карты." />
+          <div class="catalog-hero__sparkles" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </section>
+
+        <section class="catalog-tools" aria-label="Поиск и фильтры каталога">
+          <label class="catalog-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="catalog-search" type="search" placeholder="Найти Fortnite..." autocomplete="off" />
+          </label>
+
+          <div class="catalog-filters" role="tablist" aria-label="Категории товаров">
+            <button class="catalog-filter is-active" type="button" data-catalog-filter="all">Все</button>
+            <button class="catalog-filter" type="button" data-catalog-filter="games">Игры</button>
+            <button class="catalog-filter" type="button" data-catalog-filter="subs">Подписки</button>
+            <button class="catalog-filter" type="button" data-catalog-filter="cards">Карты</button>
+            <button class="catalog-filter" type="button" data-catalog-filter="topup">Пополнение</button>
+          </div>
+        </section>
+
+        <section class="catalog-results" aria-label="Категории каталога">
+          <div class="catalog-results__grid" data-catalog-grid>
+            <a class="catalog-card" href="product.html?item=fortnite" data-catalog-card data-category="games" data-title="Fortnite">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/fort.jpg" alt="Fortnite" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Fortnite</span>
+                <span class="catalog-card__items">Crew <em></em> V-Bucks <em></em> Battle Pass</span>
+                <span class="catalog-card__price">от 299 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=pubg-battlegrounds" data-catalog-card data-category="games" data-title="PUBG Battlegrounds">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/pubg-battlegrounds-16v1j.jpg" alt="PUBG Battlegrounds" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">PUBG Battlegrounds</span>
+                <span class="catalog-card__items">UC <em></em> Prime <em></em> Пополнение</span>
+                <span class="catalog-card__price">от 90 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=minecraft" data-catalog-card data-category="games" data-title="Minecraft">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/minecraft.jpg" alt="Minecraft" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Minecraft</span>
+                <span class="catalog-card__items">Java <em></em> Bedrock <em></em> Minecoins</span>
+                <span class="catalog-card__price">от 470 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=discord" data-catalog-card data-category="subs" data-title="Discord">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/ds.png" alt="Discord" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Discord</span>
+                <span class="catalog-card__items">Nitro <em></em> Nitro Basic <em></em> Gift</span>
+                <span class="catalog-card__price">от 179 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=riot-games" data-catalog-card data-category="games" data-title="Riot Games">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/rout.jpg" alt="Riot Games" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Riot Games</span>
+                <span class="catalog-card__items">RP <em></em> VP <em></em> Пополнение</span>
+                <span class="catalog-card__price">от 250 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=battlefield-6" data-catalog-card data-category="games" data-title="Battlefield 6">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/battla.jpg" alt="Battlefield 6" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Battlefield 6</span>
+                <span class="catalog-card__items">Edition <em></em> Key <em></em> Gift</span>
+                <span class="catalog-card__price">от 790 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=valorant" data-catalog-card data-category="games" data-title="Valorant">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/valorant.jpg" alt="Valorant" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Valorant</span>
+                <span class="catalog-card__items">Points <em></em> Battle Pass <em></em> Gift</span>
+                <span class="catalog-card__price">от 350 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=xbox-game-pass" data-catalog-card data-category="subs" data-title="Xbox Game Pass">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/xbox.png" alt="Xbox Game Pass" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Xbox Game Pass</span>
+                <span class="catalog-card__items">Game Pass <em></em> Ultimate <em></em> Gift</span>
+                <span class="catalog-card__price">от 3500 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=telegram-premium" data-catalog-card data-category="subs" data-title="Telegram Premium">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/telegram-premium.jpg" alt="Telegram Premium" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Telegram Premium</span>
+                <span class="catalog-card__items">Premium <em></em> Gift <em></em> Аккаунт</span>
+                <span class="catalog-card__price">от 1100 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=app-store" data-catalog-card data-category="cards" data-title="App Store">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/app-store.png" alt="App Store" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">App Store</span>
+                <span class="catalog-card__items">Gift Card <em></em> Balance <em></em> Region</span>
+                <span class="catalog-card__price">от 23 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=psn" data-catalog-card data-category="cards" data-title="PSN">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/psn.jpg" alt="PSN" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">PSN</span>
+                <span class="catalog-card__items">Gift Card <em></em> Plus <em></em> Wallet</span>
+                <span class="catalog-card__price">от 470 ₽</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="catalog-card" href="product.html?item=steam" data-catalog-card data-category="cards" data-title="Steam">
+              <span class="catalog-card__media">
+                <img src="assets/catalog/steam.jpg" alt="Steam" loading="lazy" />
+              </span>
+              <span class="catalog-card__body">
+                <span class="catalog-card__title">Steam</span>
+                <span class="catalog-card__items">Gift <em></em> Wallet <em></em> Keys</span>
+                <span class="catalog-card__price">по запросу</span>
+                <span class="catalog-card__action">Открыть <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+          </div>
+
+          <div class="catalog-empty is-hidden" data-catalog-empty>
+            <h2>Ничего не найдено</h2>
+            <p>Попробуйте изменить запрос или категорию.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/catalog.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Страница товара Vstore: цифровые товары, игры, подписки и подарочные карты." />
+  <title>Товар — Vstore</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/product.css" />
+</head>
+
+<body>
+  <div class="bg-glow" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
+    <div class="bg-glow__orb bg-glow__orb--1"></div>
+    <div class="bg-glow__orb bg-glow__orb--2"></div>
+    <div class="bg-glow__orb bg-glow__orb--3"></div>
+    <div class="bg-particles">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <header class="header">
+    <a href="index.html" class="header__logo" aria-label="Vstore — на главную">
+      <img src="assets/brand/logo.svg" alt="Vstore" width="160" height="48" />
+    </a>
+    <nav class="header__nav">
+      <a href="catalog.html" class="header__link">Каталог</a>
+      <a href="faq.html" class="header__link">FAQ</a>
+      <a href="https://t.me/MenagerVstore" class="header__link header__link--cta" target="_blank" rel="noopener">Telegram</a>
+    </nav>
+  </header>
+
+  <main class="product-page">
+    <section class="product-shell section scene">
+      <div class="container product-shell__inner">
+        <nav class="product-crumbs" aria-label="Навигация">
+          <a href="index.html">Vstore</a>
+          <span>/</span>
+          <a href="catalog.html">Каталог</a>
+          <span>/</span>
+          <span data-product-title>Товар</span>
+        </nav>
+
+        <article class="product-panel">
+          <div class="product-media">
+            <img data-product-image src="assets/catalog/fort.jpg" alt="" />
+          </div>
+
+          <div class="product-content">
+            <p class="product-eyebrow" data-product-category>Категория</p>
+            <h1 data-product-title>Товар</h1>
+            <p class="product-description" data-product-description></p>
+
+            <div class="product-tags" data-product-tags></div>
+
+            <div class="product-price-summary">
+              <span>Минимальная цена</span>
+              <strong data-product-price>по запросу</strong>
+            </div>
+
+            <div class="product-trust" aria-label="Доверие к товару">
+              <span class="product-trust__stars">★★★★★</span>
+              <span>Выдано более 200 заказов</span>
+              <span>Ответ 5–15 минут</span>
+            </div>
+
+            <div class="product-actions">
+              <a class="btn product-primary" data-product-order href="https://t.me/MenagerVstore" target="_blank" rel="noopener">Купить в Telegram</a>
+              <a class="product-secondary" href="catalog.html">Вернуться в каталог</a>
+            </div>
+          </div>
+        </article>
+
+        <section class="product-prices" aria-labelledby="product-prices-title">
+          <div class="product-prices__head">
+            <p class="section__eyebrow">Актуальные позиции</p>
+            <h2 id="product-prices-title">Прайс</h2>
+          </div>
+          <div class="product-prices__layout">
+            <div class="product-price-groups" data-product-prices></div>
+            <aside class="product-order is-empty" data-product-order-panel>
+              <div class="product-order__top">
+                <div class="product-order__icon">
+                  <img data-order-image src="assets/catalog/fort.jpg" alt="" />
+                </div>
+                <div class="product-order__head">
+                  <p class="product-order__eyebrow">Ваш заказ</p>
+                  <strong data-order-product>Товар не выбран</strong>
+                  <span>Выберите позицию справа</span>
+                </div>
+              </div>
+              <div class="product-order__details">
+                <div>
+                  <span>Позиция</span>
+                  <strong data-order-name>Выберите позицию из прайса</strong>
+                </div>
+                <div>
+                  <span>Цена</span>
+                  <strong data-order-price>—</strong>
+                </div>
+                <div>
+                  <span>Выдача</span>
+                  <strong>Ручная</strong>
+                </div>
+                <div>
+                  <span>Ответ</span>
+                  <strong>5–15 минут</strong>
+                </div>
+              </div>
+              <div class="product-order__benefits">
+                <span>✓ Ручная выдача</span>
+                <span>✓ Ответ 5–15 минут</span>
+              </div>
+              <a class="btn product-order__button" data-order-link href="https://t.me/MenagerVstore" target="_blank" rel="noopener">Купить в Telegram</a>
+              <button class="product-order__clear" type="button" data-order-clear>Очистить выбор</button>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+</body>
+
+</html>
