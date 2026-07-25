@@ -178,7 +178,9 @@
     tab.addEventListener("click", function () {
       activeCategory = tab.getAttribute("data-faq-tab") || "all";
       tabs.forEach(function (item) {
-        item.classList.toggle("is-active", item === tab);
+        var isActive = item === tab;
+        item.classList.toggle("is-active", isActive);
+        item.setAttribute("aria-pressed", String(isActive));
       });
       applyFilters();
     });

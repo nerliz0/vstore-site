@@ -3,14 +3,15 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#08080d" />
   <meta name="description" content="Vstore — цифровые товары, игровые сервисы и подписки с ручной выдачей через Telegram." />
   <title>Vstore — Digital Marketplace</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=20260725-4" />
 </head>
 
 <body>
@@ -46,24 +47,24 @@
     <nav class="header__nav">
       <a href="catalog.html" class="header__link">Каталог</a>
       <a href="faq.html" class="header__link">FAQ</a>
-      <a href="https://t.me/MenagerVstore" class="header__link header__link--cta" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://t.me/MenagerVstore" class="header__link header__link--cta" data-telegram>Telegram</a>
     </nav>
   </header>
 
   <main>
     <section class="hero section scene" id="hero">
-      <div class="container hero__inner reveal-group reveal-group--hero">
-        <img class="hero__logo reveal-item" src="assets/brand/logo.svg" alt="Vstore" width="320" height="80" />
-        <p class="hero__eyebrow reveal-item">Digital Marketplace</p>
-        <h1 class="hero__title reveal-item">Сервис цифровых<br>товаров и подписок</h1>
-        <p class="hero__subtitle reveal-item">Игровые сервисы и подписки —<br>с выдачей и поддержкой через Telegram.</p>
+      <div class="container hero__inner">
+        <img class="hero__logo" src="assets/brand/logo.svg" alt="Vstore" width="320" height="80" />
+        <p class="hero__eyebrow">Digital Marketplace</p>
+        <h1 class="hero__title">Сервис цифровых <br>товаров и подписок</h1>
+        <p class="hero__subtitle">Игровые сервисы и подписки — <br>с выдачей и поддержкой через Telegram.</p>
 
-        <div class="hero__actions reveal-item">
+        <div class="hero__actions">
           <a href="#" class="btn btn--hero" data-telegram>Написать в Telegram</a>
-          <a href="#prices" class="btn btn--ghost">Смотреть каталог</a>
+          <a href="catalog.html" class="btn btn--ghost">Смотреть каталог</a>
         </div>
 
-        <div class="hero__stats reveal-item" aria-label="Показатели Vstore">
+        <div class="hero__stats" aria-label="Показатели Vstore">
           <div class="hero__stat">
             <img class="hero__stat-icon" src="assets/stats/stat-orders.png" alt="" width="36" height="36" />
             <strong class="hero__stat-value">1500+</strong>
@@ -86,7 +87,7 @@
           </div>
         </div>
 
-        <div class="hero__products-line reveal-item" aria-label="Популярные товары">
+        <div class="hero__products-line" aria-label="Популярные товары">
           <div class="hero__products-track">
             <span>Fortnite Crew</span><span>Discord Nitro</span><span>ChatGPT Plus</span><span>Spotify Premium</span><span>Telegram Premium</span><span>Steam Gift</span>
             <span>Fortnite Crew</span><span>Discord Nitro</span><span>ChatGPT Plus</span><span>Spotify Premium</span><span>Telegram Premium</span><span>Steam Gift</span>
@@ -103,25 +104,25 @@
         <div class="how__steps">
           <article class="how__step reveal-item">
             <span class="how__num">01</span>
-            <div class="how__icon"><img src="assets/how/how-cart.png" alt="" /></div>
+            <div class="how__icon"><img src="assets/how/how-cart.png" alt="" width="350" height="335" loading="lazy" decoding="async" /></div>
             <h3 class="how__step-title">Выберите товар</h3>
             <p class="how__step-text">Найдите нужный продукт в каталоге.</p>
           </article>
           <article class="how__step reveal-item">
             <span class="how__num">02</span>
-            <div class="how__icon"><img src="assets/how/how-chat.png" alt="" /></div>
+            <div class="how__icon"><img src="assets/how/how-chat.png" alt="" width="335" height="325" loading="lazy" decoding="async" /></div>
             <h3 class="how__step-title">Напишите в Telegram</h3>
             <p class="how__step-text">Откроется Telegram с готовым сообщением.</p>
           </article>
           <article class="how__step reveal-item">
             <span class="how__num">03</span>
-            <div class="how__icon"><img src="assets/how/how-card.png" alt="" /></div>
+            <div class="how__icon"><img src="assets/how/how-card.png" alt="" width="330" height="285" loading="lazy" decoding="async" /></div>
             <h3 class="how__step-title">Оплатите заказ</h3>
             <p class="how__step-text">Менеджер подтвердит наличие и стоимость.</p>
           </article>
           <article class="how__step reveal-item">
             <span class="how__num">04</span>
-            <div class="how__icon how__icon--bolt"><img src="assets/how/how-bolt.png" alt="" /></div>
+            <div class="how__icon how__icon--bolt"><img src="assets/how/how-bolt.png" alt="" width="255" height="360" loading="lazy" decoding="async" /></div>
             <h3 class="how__step-title">Получите товар</h3>
             <p class="how__step-text">Выдача в указанный срок.</p>
           </article>
@@ -136,14 +137,14 @@
           <p class="section__eyebrow reveal-item">Отзывы клиентов</p>
           <h2 class="reviews__title reveal-item">Что о нас говорят клиенты</h2>
           <p class="reviews__text reveal-item">После каждого заказа мы просим покупателей оставить честный отзыв. Все сообщения публикуются в Telegram без изменений.</p>
-          <a href="https://t.me/Vstoreviews" class="btn reviews__btn reveal-item" target="_blank" rel="noopener">Посмотреть все отзывы в Telegram →</a>
+          <a href="https://t.me/Vstoreviews" class="btn reviews__btn reveal-item" data-reviews>Посмотреть все отзывы в Telegram →</a>
           <span class="about__line about__line--bottom reveal-item" aria-hidden="true"></span>
         </div>
         <div class="reviews__visual reveal-item" aria-hidden="true">
           <div class="reviews__halo"></div>
           <div class="reviews__phone-stack">
-            <figure class="reviews__phone reviews__phone--back"><img src="assets/reviews/pravo (2) (1).png" alt="" /></figure>
-            <figure class="reviews__phone reviews__phone--front"><img src="assets/reviews/pravo (1) (1).png" alt="" /></figure>
+            <figure class="reviews__phone reviews__phone--back"><img src="assets/reviews/pravo-2.avif" alt="" width="1086" height="1448" loading="lazy" decoding="async" /></figure>
+            <figure class="reviews__phone reviews__phone--front"><img src="assets/reviews/pravo-1.avif" alt="" width="1086" height="1448" loading="lazy" decoding="async" /></figure>
           </div>
         </div>
       </div>
@@ -158,8 +159,8 @@
           </div>
 
           <div class="catalog-preview__grid">
-            <a class="catalog-product reveal-item" href="catalog.html">
-              <figure class="catalog-product__media"><img src="assets/catalog/creww.png" alt="Fortnite Crew" /></figure>
+            <a class="catalog-product reveal-item" href="catalog.html" data-featured-product="fortnite">
+              <figure class="catalog-product__media"><img src="assets/catalog/creww.avif" alt="Fortnite Crew" width="1562" height="1007" loading="lazy" decoding="async" /></figure>
               <div class="catalog-product__body">
                 <h3>Fortnite Crew</h3>
                 <p>от 299 ₽</p>
@@ -167,8 +168,8 @@
               </div>
             </a>
 
-            <a class="catalog-product reveal-item" href="catalog.html">
-              <figure class="catalog-product__media"><img src="assets/catalog/nitrooo.png" alt="Discord Nitro" /></figure>
+            <a class="catalog-product reveal-item" href="catalog.html" data-featured-product="discord">
+              <figure class="catalog-product__media"><img src="assets/catalog/nitrooo.avif" alt="Discord Nitro" width="1536" height="1024" loading="lazy" decoding="async" /></figure>
               <div class="catalog-product__body">
                 <h3>Discord Nitro</h3>
                 <p>от 179 ₽</p>
@@ -176,8 +177,8 @@
               </div>
             </a>
 
-            <a class="catalog-product reveal-item" href="catalog.html">
-              <figure class="catalog-product__media"><img src="assets/catalog/psss.png" alt="PlayStation Gift Card" /></figure>
+            <a class="catalog-product reveal-item" href="catalog.html" data-featured-product="psn">
+              <figure class="catalog-product__media"><img src="assets/catalog/psss.avif" alt="PlayStation Gift Card" width="1536" height="1024" loading="lazy" decoding="async" /></figure>
               <div class="catalog-product__body">
                 <h3>PlayStation Gift Card</h3>
                 <p>от 539 ₽</p>
@@ -189,7 +190,7 @@
               <div class="catalog-product__media catalog-product__media--all" aria-hidden="true"><span>+</span></div>
               <div class="catalog-product__body">
                 <h3>Весь каталог</h3>
-                <small>Fortnite • Discord • Steam • Spotify<br>и ещё 70+ товаров</small>
+                <small>Игры • подписки • карты • пополнения<br>все доступные позиции</small>
                 <span class="catalog-product__action">Открыть <i aria-hidden="true">→</i></span>
               </div>
             </a>
@@ -207,25 +208,25 @@
           <p class="brand-final__lead reveal-item">Покупка цифровых товаров, игровых сервисов и подписок без лишних сложностей.</p>
 
           <div class="brand-final__links reveal-item" aria-label="Полезные ссылки Vstore">
-            <a class="brand-final__link" href="https://t.me/Vstore3" target="_blank" rel="noopener">
-              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-channel.png" alt="" /></span>
+            <a class="brand-final__link" href="https://t.me/Vstore3" data-channel>
+              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-channel.png" alt="" width="380" height="360" loading="lazy" decoding="async" /></span>
               <span><strong>Telegram Channel</strong><small>Новости • скидки • новинки</small></span>
             </a>
-            <a class="brand-final__link" href="https://t.me/Vstoreviews" target="_blank" rel="noopener">
-              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-reviews.png" alt="" /></span>
+            <a class="brand-final__link" href="https://t.me/Vstoreviews" data-reviews>
+              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-reviews.png" alt="" width="320" height="350" loading="lazy" decoding="async" /></span>
               <span><strong>Reviews</strong><small>Отзывы покупателей</small></span>
             </a>
             <span class="brand-final__link brand-final__link--disabled">
-              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-support.png" alt="" /></span>
+              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-support.png" alt="" width="340" height="340" loading="lazy" decoding="async" /></span>
               <span><strong>Support</strong><small>В разработке</small></span>
             </span>
-            <a class="brand-final__link" href="https://t.me/MenagerVstore" target="_blank" rel="noopener">
-              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-order.png" alt="" /></span>
+            <a class="brand-final__link" href="https://t.me/MenagerVstore" data-telegram>
+              <span class="brand-final__icon" aria-hidden="true"><img src="assets/footer/final-icon-order.png" alt="" width="340" height="360" loading="lazy" decoding="async" /></span>
               <span><strong>Заказать</strong><small>@MenagerVstore</small></span>
             </a>
           </div>
 
-          <a href="https://t.me/MenagerVstore" class="btn btn--hero brand-final__cta reveal-item" target="_blank" rel="noopener">Написать в Telegram</a>
+          <a href="https://t.me/MenagerVstore" class="btn btn--hero brand-final__cta reveal-item" data-telegram>Написать в Telegram</a>
           <a href="faq.html" class="brand-final__faq reveal-item">Есть вопросы? FAQ →</a>
           <p class="brand-final__copy reveal-item">© 2026 VStore</p>
           <span class="about__line about__line--bottom reveal-item" aria-hidden="true"></span>
@@ -233,15 +234,15 @@
 
         <div class="brand-final__visual reveal-item" aria-hidden="true">
           <div class="brand-final__logo-glow"></div>
-          <img src="assets/brand/logo3d.png" alt="" />
+          <img src="assets/brand/logo3d.avif" alt="" width="1024" height="1024" loading="lazy" decoding="async" />
         </div>
       </div>
     </section>
   </main>
 
-  <script src="js/config.js"></script>
-  <script src="js/prices.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/config.js?v=20260725-4"></script>
+  <script src="js/products-data.js?v=20260725-4"></script>
+  <script src="js/main.js?v=20260725-4"></script>
 </body>
 
 </html>

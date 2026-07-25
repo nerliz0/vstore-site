@@ -1,7 +1,8 @@
 /* FAQ page */
 .faq-page {
   min-height: 100vh;
-  padding-top: var(--header-h);
+  min-height: 100dvh;
+  padding-top: var(--header-offset);
 }
 
 .faq-doc {
@@ -92,6 +93,11 @@
 
 .faq-doc__search input::placeholder {
   color: var(--text-dim);
+}
+
+.faq-doc__search:focus-within {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
 }
 
 .faq-doc__tabs {
@@ -223,6 +229,12 @@
   outline: none;
 }
 
+.faq-doc__item summary:focus-visible,
+.faq-doc__tab:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: -2px;
+}
+
 .faq-doc__item summary::-webkit-details-marker {
   display: none;
 }
@@ -311,6 +323,10 @@
   font-size: 0.95rem;
 }
 
+.faq-doc__empty[hidden] {
+  display: none;
+}
+
 .faq-doc__empty strong {
   color: var(--text);
   font-size: 1.05rem;
@@ -349,15 +365,15 @@
 
 @media (max-width: 640px) {
   .faq-doc {
-    padding-block: 3.5rem 4.5rem;
+    padding-block: 1.5rem calc(3.5rem + var(--safe-bottom));
   }
 
   .faq-doc__inner {
-    width: min(100% - 2rem, 420px);
+    width: min(100% - 1.1rem, 420px);
   }
 
   .faq-doc__title {
-    font-size: 4.25rem;
+    font-size: 3.6rem;
   }
 
   .faq-doc__lead {
@@ -375,13 +391,36 @@
   }
 
   .faq-doc__tabs {
+    flex-wrap: nowrap;
     gap: 0.45rem;
+    margin-inline: -0.55rem;
+    padding: 0 0.55rem 0.25rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .faq-doc__tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .faq-doc__tab {
-    min-height: 2.25rem;
-    padding-inline: 0.78rem;
+    flex: 0 0 auto;
+    min-height: 42px;
+    padding-inline: 0.85rem;
     font-size: 0.8rem;
+    scroll-snap-align: start;
+  }
+
+  .faq-doc__search {
+    min-height: 48px;
+    border-radius: 12px;
+  }
+
+  .faq-doc__search input {
+    font-size: 16px;
   }
 
   .faq-doc__cta {
@@ -391,5 +430,34 @@
 
   .faq-doc__cta .btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 760px), (hover: none) and (pointer: coarse) {
+  .faq-doc__panel,
+  .faq-doc__item:not(.is-hidden) {
+    animation: none;
+  }
+
+  .faq-doc__answer,
+  .faq-doc__item,
+  .faq-doc__item summary::before,
+  .faq-doc__item summary::after {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .faq-doc__tabs {
+    flex-wrap: wrap;
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .faq-doc__tab {
+    min-height: 40px;
+    scroll-snap-align: none;
   }
 }
