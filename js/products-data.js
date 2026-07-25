@@ -8,7 +8,7 @@
       category: "Игры",
       filters: ["games", "topup"],
       image: "assets/catalog/fort.jpg",
-      featuredImage: "assets/catalog/creww.avif",
+      featuredImage: "assets/catalog/fort.jpg",
       featuredTitle: "Fortnite Crew",
       items: ["Crew", "V-Bucks", "Battle Pass"],
       priceFrom: "от 299 ₽",
