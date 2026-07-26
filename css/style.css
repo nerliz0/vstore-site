@@ -2842,3 +2842,283 @@ a {
 .is-mobile-webview .bg-glow {
   display: none !important;
 }
+
+/* Compact mobile compositions keep the content aligned in iOS and Telegram webviews. */
+@media (max-width: 640px) {
+  .hero__products-line {
+    width: calc(100% + 1.25rem);
+    margin-right: -0.625rem;
+    margin-left: -0.625rem;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .hero__products-track,
+  html.is-telegram-webview .hero__products-track {
+    width: max-content;
+    min-width: max-content;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    line-height: 1;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: productLine 18s linear infinite !important;
+  }
+
+  .hero__products-track span:nth-child(n + 7) {
+    display: inline;
+  }
+
+  .how {
+    padding-block: 3.25rem;
+  }
+
+  .how__head,
+  .how__steps {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .how__head {
+    padding-inline: 0.15rem;
+  }
+
+  .how__steps {
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+
+  .how__steps::before {
+    display: none;
+  }
+
+  .how__step {
+    grid-template-columns: 5.6rem minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "visual title"
+      "visual text";
+    min-height: 7.25rem;
+    column-gap: 0.95rem;
+    row-gap: 0.25rem;
+    padding: 0.8rem 0.9rem;
+    overflow: visible;
+    border: 1px solid rgba(167, 139, 250, 0.14);
+    border-radius: 8px;
+    background:
+      linear-gradient(115deg, rgba(139, 92, 246, 0.1), transparent 42%),
+      rgba(255, 255, 255, 0.022);
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
+  }
+
+  .how__step:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -0.63rem;
+    left: 3.15rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-color: rgba(167, 139, 250, 0.48);
+    transform: rotate(135deg);
+  }
+
+  .how__num {
+    top: 0.55rem;
+    left: 0.55rem;
+    width: 2.15rem;
+    height: 1.4rem;
+    font-size: 0.62rem;
+    background: rgba(13, 11, 27, 0.82);
+  }
+
+  .how__icon {
+    grid-area: visual;
+    align-self: center;
+    width: 5.4rem;
+    height: 5.4rem;
+  }
+
+  .how__icon::before {
+    inset: 0.55rem;
+  }
+
+  .how__icon img,
+  .how__icon--bolt img {
+    width: 4.15rem;
+    max-height: 4.25rem;
+  }
+
+  .how__step-title {
+    grid-area: title;
+    align-self: end;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .how__step-text {
+    grid-area: text;
+    align-self: start;
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #92929d;
+  }
+
+  .reviews {
+    padding-block: 3.25rem 2.25rem;
+  }
+
+  .reviews__layout {
+    width: min(100% - 1.25rem, 420px);
+    gap: 0;
+    overflow: hidden;
+    border-block: 1px solid rgba(167, 139, 250, 0.16);
+    background:
+      radial-gradient(circle at 75% 72%, rgba(139, 92, 246, 0.17), transparent 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 58%);
+  }
+
+  .reviews__content {
+    width: 100%;
+    max-width: none;
+    padding: 1.55rem 1.1rem 1.2rem;
+  }
+
+  .reviews__content .about__line {
+    width: 3.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .reviews__title {
+    max-width: 18rem;
+    margin-bottom: 1rem;
+    font-size: 2.25rem;
+    line-height: 1.02;
+  }
+
+  .reviews__text {
+    max-width: 22rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .reviews__btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    width: 100%;
+    max-width: none;
+    min-height: 3.6rem;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    line-height: 1.35;
+  }
+
+  .reviews__btn-arrow {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgba(196, 181, 253, 0.26);
+    border-radius: 50%;
+    color: #c4b5fd;
+  }
+
+  .reviews__content .about__line--bottom {
+    display: none;
+  }
+
+  .reviews__visual {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 23rem;
+    margin-top: -0.2rem;
+    overflow: hidden;
+  }
+
+  .reviews__visual::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 1.1rem;
+    left: 1.1rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.38), transparent);
+  }
+
+  .reviews__phone-stack {
+    position: relative;
+    width: 100%;
+    height: 23rem;
+  }
+
+  .reviews__phone.reviews__phone--back {
+    position: absolute;
+    display: block;
+    inset: 4.8rem auto auto -1.6rem;
+    width: min(62vw, 14.5rem);
+    opacity: 0.48;
+    transform: rotate(-7deg);
+    filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.35));
+  }
+
+  .reviews__phone.reviews__phone--front {
+    position: absolute;
+    inset: 1.25rem -0.75rem auto auto;
+    width: min(70vw, 16.25rem);
+    margin: 0;
+    transform: rotate(4deg);
+    filter:
+      drop-shadow(0 22px 34px rgba(0, 0, 0, 0.48))
+      drop-shadow(0 0 24px rgba(139, 92, 246, 0.15));
+  }
+
+  .reviews__phone img {
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .how__step {
+    grid-template-columns: 5rem minmax(0, 1fr);
+    column-gap: 0.75rem;
+    padding-inline: 0.65rem;
+  }
+
+  .how__icon {
+    width: 4.85rem;
+    height: 4.85rem;
+  }
+
+  .how__icon img,
+  .how__icon--bolt img {
+    width: 3.8rem;
+    max-height: 3.9rem;
+  }
+
+  .how__step-title {
+    font-size: 0.94rem;
+  }
+
+  .how__step-text {
+    font-size: 0.78rem;
+  }
+
+  .reviews__title {
+    font-size: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 640px) {
+  .hero__products-track,
+  html.is-telegram-webview .hero__products-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
