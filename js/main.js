@@ -80,6 +80,42 @@
     });
   }
 
+  function normalizePath(pathname) {
+    return pathname.replace(/\/(?:index\.html)?$/, "/");
+  }
+
+  function initCurrentPageScroll() {
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest("a[href]");
+      if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+
+      var linkUrl;
+      try {
+        linkUrl = new URL(link.getAttribute("href"), window.location.href);
+      } catch (error) {
+        return;
+      }
+
+      var sameOrigin = linkUrl.origin === window.location.origin;
+      var samePath = normalizePath(linkUrl.pathname) === normalizePath(window.location.pathname);
+      var sameSearch = linkUrl.search === window.location.search || linkUrl.search === "";
+      if (!sameOrigin || !samePath || !sameSearch) return;
+
+      event.preventDefault();
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: reduceMotion ? "auto" : "smooth"
+      });
+
+      if (linkUrl.hash && window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", linkUrl.pathname + linkUrl.search);
+      }
+    });
+  }
+
   function initParallax() {
     if (
       isTelegramWebView ||
@@ -128,6 +164,7 @@
     applyConfiguredLinks();
     hydrateFeaturedProducts();
     initScrollReveal();
+    initCurrentPageScroll();
     initParallax();
   }
 
