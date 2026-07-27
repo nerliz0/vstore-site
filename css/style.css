@@ -1686,16 +1686,13 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.82) saturate(0.92) contrast(1.04);
   transition: transform 0.68s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.catalog-product:nth-child(2) .catalog-product__media img {
-  filter: brightness(0.76) saturate(0.82) contrast(1.03);
-}
-
-.catalog-product:nth-child(3) .catalog-product__media img {
-  filter: brightness(0.7) saturate(0.78) contrast(1.02);
+.catalog-product__media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .catalog-product:hover .catalog-product__media img {

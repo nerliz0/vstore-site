@@ -60,6 +60,7 @@
       }
 
       var image = card.querySelector("img");
+      var mobileSource = card.querySelector("source[media]");
       var title = card.querySelector("h3");
       var price = card.querySelector("p");
       var displayTitle = product.featuredTitle || product.title;
@@ -67,6 +68,9 @@
       if (image) {
         image.src = product.featuredImage || product.image;
         image.alt = displayTitle;
+      }
+      if (mobileSource && product.featuredMobileImage) {
+        mobileSource.srcset = product.featuredMobileImage;
       }
       if (title) title.textContent = displayTitle;
       if (price) price.textContent = product.priceFrom;

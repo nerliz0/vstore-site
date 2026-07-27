@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20260726-3" />
+  <link rel="stylesheet" href="css/style.css?v=20260727-1" />
 </head>
 
 <body>
@@ -163,7 +163,12 @@
 
           <div class="catalog-preview__grid">
             <a class="catalog-product reveal-item" href="catalog.html" data-featured-product="fortnite">
-              <figure class="catalog-product__media"><img src="assets/catalog/fort.jpg" alt="Fortnite Crew" width="2560" height="1440" loading="lazy" decoding="async" /></figure>
+              <figure class="catalog-product__media">
+                <picture>
+                  <source media="(max-width: 640px)" srcset="assets/catalog/featured-fortnite-mobile.avif" />
+                  <img src="assets/catalog/featured-fortnite-desktop.avif" alt="Fortnite Crew" width="1474" height="1067" loading="lazy" decoding="async" />
+                </picture>
+              </figure>
               <div class="catalog-product__body">
                 <h3>Fortnite Crew</h3>
                 <p>от 299 ₽</p>
@@ -172,7 +177,12 @@
             </a>
 
             <a class="catalog-product reveal-item" href="catalog.html" data-featured-product="discord">
-              <figure class="catalog-product__media"><img src="assets/catalog/nitrooo.avif" alt="Discord Nitro" width="1536" height="1024" loading="lazy" decoding="async" /></figure>
+              <figure class="catalog-product__media">
+                <picture>
+                  <source media="(max-width: 640px)" srcset="assets/catalog/featured-discord-mobile.avif" />
+                  <img src="assets/catalog/featured-discord-desktop.avif" alt="Discord Nitro" width="1474" height="1067" loading="lazy" decoding="async" />
+                </picture>
+              </figure>
               <div class="catalog-product__body">
                 <h3>Discord Nitro</h3>
                 <p>от 179 ₽</p>
@@ -181,7 +191,12 @@
             </a>
 
             <a class="catalog-product reveal-item" href="catalog.html" data-featured-product="psn">
-              <figure class="catalog-product__media"><img src="assets/catalog/psss.avif" alt="PlayStation Gift Card" width="1536" height="1024" loading="lazy" decoding="async" /></figure>
+              <figure class="catalog-product__media">
+                <picture>
+                  <source media="(max-width: 640px)" srcset="assets/catalog/featured-playstation-mobile.avif" />
+                  <img src="assets/catalog/featured-playstation-desktop.avif" alt="PlayStation Gift Card" width="1474" height="1067" loading="lazy" decoding="async" />
+                </picture>
+              </figure>
               <div class="catalog-product__body">
                 <h3>PlayStation Gift Card</h3>
                 <p>от 539 ₽</p>
@@ -244,8 +259,8 @@
   </main>
 
   <script src="js/config.js?v=20260726-1"></script>
-  <script src="js/products-data.js?v=20260726-1"></script>
-  <script src="js/main.js?v=20260726-2"></script>
+  <script src="js/products-data.js?v=20260727-1"></script>
+  <script src="js/main.js?v=20260727-1"></script>
 </body>
 
 </html>
