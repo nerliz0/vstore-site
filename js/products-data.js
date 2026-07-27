@@ -252,7 +252,7 @@
       category: "Карты",
       filters: ["cards", "topup"],
       image: "assets/catalog/psn.jpg",
-      featuredImage: "assets/catalog/featured-playstation-desktop.jpg",
+      featuredImage: "assets/catalog/featured-playstation-desktop.jpg?v=20260727-3",
       featuredMobileImage: "assets/catalog/featured-playstation-mobile.jpg",
       featuredTitle: "PlayStation Gift Card",
       items: ["Gift Card", "Plus", "Wallet"],
