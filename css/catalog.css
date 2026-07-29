@@ -375,6 +375,10 @@
     background 0.38s ease;
 }
 
+.catalog-card[hidden] {
+  display: none !important;
+}
+
 .catalog-card::after {
   content: "";
   position: absolute;

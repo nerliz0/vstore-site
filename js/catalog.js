@@ -11,7 +11,36 @@
   var activeFilter = "all";
 
   function normalize(value) {
-    return String(value || "").toLocaleLowerCase("ru-RU").trim();
+    return String(value || "")
+      .toLocaleLowerCase("ru-RU")
+      .replace(/ё/g, "е")
+      .replace(/[^\p{L}\p{N}]+/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function getProductSearchText(product) {
+    var values = [
+      product.title,
+      product.featuredTitle,
+      product.category,
+      product.slug,
+      product.description
+    ]
+      .concat(product.items || [])
+      .concat(product.aliases || [])
+      .concat(product.filters || []);
+
+    if (Array.isArray(product.prices)) {
+      product.prices.forEach(function (group) {
+        values.push(group.title);
+        (group.rows || []).forEach(function (row) {
+          values.push(row[0]);
+        });
+      });
+    }
+
+    return normalize(values.join(" "));
   }
 
   function createItems(items) {
@@ -44,7 +73,7 @@
     card.href = "product.html?item=" + encodeURIComponent(product.slug);
     card.dataset.catalogCard = "";
     card.dataset.categories = product.filters.join(" ");
-    card.dataset.search = normalize([product.title].concat(product.items).join(" "));
+    card.dataset.search = getProductSearchText(product);
 
     media.className = "catalog-card__media";
     image.src = product.image;
