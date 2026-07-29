@@ -2152,7 +2152,10 @@ a {
     align-items: center;
     min-height: 44px;
     padding: 0 0.38rem;
-    font-size: 0.74rem;
+    font-size: 0.78rem;
+    font-weight: 850;
+    color: rgba(244, 244, 245, 0.78);
+    text-shadow: 0 0 16px rgba(167, 139, 250, 0.12);
     white-space: nowrap;
   }
 
@@ -2162,6 +2165,9 @@ a {
     padding-inline: 0.38rem;
     border: 0;
     background: none;
+    color: var(--accent-light);
+    font-weight: 900;
+    text-shadow: 0 0 18px rgba(167, 139, 250, 0.2);
   }
 
   .section--catalog {
@@ -2560,7 +2566,7 @@ a {
   .header__link,
   .header__link:not(.header__link--cta) {
     padding-inline: 0.26rem;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
   }
 
   .header__link--cta {
@@ -2608,7 +2614,6 @@ a {
 
 .is-telegram-webview .hero__logo,
 .is-telegram-webview .hero__products-track,
-.is-telegram-webview .reviews__phone,
 .is-telegram-webview .reviews__halo,
 .is-telegram-webview .brand-final__visual img {
   animation: none !important;
@@ -2725,7 +2730,6 @@ a {
   .hero__logo,
   .hero__products-track,
   .how__icon img,
-  .reviews__phone,
   .brand-final__visual img {
     animation: none !important;
     transform: none;
@@ -2759,7 +2763,6 @@ a {
 
   .about-card,
   .catalog-product,
-  .reviews__phone,
   .brand-final__link {
     transition: none;
     will-change: auto;
@@ -3116,14 +3119,17 @@ a {
   .reviews__phone.reviews__phone--back {
     position: absolute;
     display: block;
-    inset: 4.15rem auto auto 7%;
-    width: min(43vw, 10.6rem);
-    opacity: 0.42;
-    transform: rotate(-8deg);
+    inset: 4.05rem auto auto 5%;
+    width: min(47vw, 11.45rem);
+    opacity: 0.92;
+    transform: rotate(-7deg);
+    animation-delay: -2.4s;
     filter:
-      saturate(0.86)
-      brightness(0.72)
-      drop-shadow(0 16px 28px rgba(0, 0, 0, 0.38));
+      saturate(1)
+      brightness(0.94)
+      contrast(1.04)
+      drop-shadow(0 18px 32px rgba(0, 0, 0, 0.46))
+      drop-shadow(0 0 20px rgba(139, 92, 246, 0.14));
   }
 
   .reviews__phone.reviews__phone--front {
@@ -3182,8 +3188,8 @@ a {
   }
 
   .reviews__phone.reviews__phone--back {
-    left: 4%;
-    width: min(42vw, 9.5rem);
+    left: 3%;
+    width: min(46vw, 10.2rem);
   }
 
   .reviews__phone.reviews__phone--front {
