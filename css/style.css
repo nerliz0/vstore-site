@@ -3080,8 +3080,8 @@ a {
     position: relative;
     display: block;
     width: 100%;
-    min-height: 23rem;
-    margin-top: -0.2rem;
+    min-height: 18.75rem;
+    margin-top: -0.05rem;
     overflow: hidden;
   }
 
@@ -3095,31 +3095,47 @@ a {
     background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.38), transparent);
   }
 
+  .reviews__visual::after {
+    content: "";
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.85rem;
+    left: 0.6rem;
+    height: 32%;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 56% 100%, rgba(139, 92, 246, 0.22), transparent 68%);
+    opacity: 0.78;
+  }
+
   .reviews__phone-stack {
     position: relative;
     width: 100%;
-    height: 23rem;
+    height: 18.75rem;
   }
 
   .reviews__phone.reviews__phone--back {
     position: absolute;
     display: block;
-    inset: 4.8rem auto auto -1.6rem;
-    width: min(62vw, 14.5rem);
-    opacity: 0.48;
-    transform: rotate(-7deg);
-    filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.35));
+    inset: 4.15rem auto auto 7%;
+    width: min(43vw, 10.6rem);
+    opacity: 0.42;
+    transform: rotate(-8deg);
+    filter:
+      saturate(0.86)
+      brightness(0.72)
+      drop-shadow(0 16px 28px rgba(0, 0, 0, 0.38));
   }
 
   .reviews__phone.reviews__phone--front {
     position: absolute;
-    inset: 1.25rem -0.75rem auto auto;
-    width: min(70vw, 16.25rem);
+    inset: 1.05rem 10% auto auto;
+    z-index: 2;
+    width: min(54vw, 13.45rem);
     margin: 0;
-    transform: rotate(4deg);
+    transform: rotate(3deg);
     filter:
-      drop-shadow(0 22px 34px rgba(0, 0, 0, 0.48))
-      drop-shadow(0 0 24px rgba(139, 92, 246, 0.15));
+      drop-shadow(0 20px 34px rgba(0, 0, 0, 0.52))
+      drop-shadow(0 0 28px rgba(139, 92, 246, 0.2));
   }
 
   .reviews__phone img {
@@ -3155,6 +3171,24 @@ a {
 
   .reviews__title {
     font-size: 2rem;
+  }
+
+  .reviews__visual {
+    min-height: 17.4rem;
+  }
+
+  .reviews__phone-stack {
+    height: 17.4rem;
+  }
+
+  .reviews__phone.reviews__phone--back {
+    left: 4%;
+    width: min(42vw, 9.5rem);
+  }
+
+  .reviews__phone.reviews__phone--front {
+    right: 7%;
+    width: min(56vw, 12.4rem);
   }
 }
 
