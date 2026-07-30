@@ -38,6 +38,22 @@
     return tag;
   }
 
+  function createBenefit(benefit, index) {
+    var item = document.createElement("article");
+    var icon = document.createElement("span");
+    var copy = document.createElement("span");
+
+    item.className = "product-benefit";
+    icon.className = "product-benefit__icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = benefit.icon || ["✓", "↯", "◇", "◎"][index % 4];
+    copy.textContent = benefit.label || benefit;
+
+    item.appendChild(icon);
+    item.appendChild(copy);
+    return item;
+  }
+
   function createDetailItem(text, index) {
     var item = document.createElement("article");
     var marker = document.createElement("span");
@@ -189,6 +205,15 @@
   setText("[data-product-description]", product.description);
   setText("[data-product-guarantee]", product.guarantee || "Гарантия после выдачи");
 
+  var panel = document.querySelector("[data-product-panel]");
+  if (product.accent) document.documentElement.style.setProperty("--product-accent", product.accent);
+  if (product.accentRgb) document.documentElement.style.setProperty("--product-accent-rgb", product.accentRgb);
+  if (panel) {
+    panel.dataset.productWatermark = product.watermark || product.title;
+    if (product.accent) panel.style.setProperty("--product-accent", product.accent);
+    if (product.accentRgb) panel.style.setProperty("--product-accent-rgb", product.accentRgb);
+  }
+
   var image = document.querySelector("[data-product-image]");
   if (image) {
     image.src = product.image;
@@ -208,6 +233,19 @@
   if (tags) {
     product.items.forEach(function (item) {
       tags.appendChild(createTag(item));
+    });
+  }
+
+  var benefits = document.querySelector("[data-product-benefits]");
+  if (benefits) {
+    var productBenefits = product.benefits || [
+      { icon: "✓", label: "Ручная проверка" },
+      { icon: "↯", label: "Ответ 5-15 минут" },
+      { icon: "◇", label: "Оформление через Telegram" },
+      { icon: "◎", label: product.guarantee || "Гарантия после выдачи" }
+    ];
+    productBenefits.forEach(function (benefit, index) {
+      benefits.appendChild(createBenefit(benefit, index));
     });
   }
 

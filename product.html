@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=20260730-1" />
-  <link rel="stylesheet" href="css/product.css?v=20260730-4" />
+  <link rel="stylesheet" href="css/product.css?v=20260731-1" />
 </head>
 
 <body>
@@ -59,15 +59,13 @@
           <span data-product-title>Товар</span>
         </nav>
 
-        <article class="product-panel">
-          <div class="product-media">
-            <img data-product-image src="assets/catalog/featured-fortnite-desktop.jpg" alt="" />
-          </div>
-
+        <article class="product-panel" data-product-panel data-product-watermark="Vstore">
+          <div class="product-panel__shine" aria-hidden="true"></div>
           <div class="product-content">
             <p class="product-eyebrow" data-product-category>Категория</p>
             <h1 data-product-title>Товар</h1>
             <p class="product-description" data-product-description></p>
+            <div class="product-benefits" data-product-benefits aria-label="Преимущества товара"></div>
 
             <section class="product-info-card" aria-label="Описание товара">
               <div class="product-info-card__head">
@@ -136,9 +134,9 @@
   </main>
 
   <script src="js/config.js?v=20260726-1"></script>
-  <script src="js/products-data.js?v=20260730-2"></script>
+  <script src="js/products-data.js?v=20260731-1"></script>
   <script src="js/main.js?v=20260727-1"></script>
-  <script src="js/product.js?v=20260730-3"></script>
+  <script src="js/product.js?v=20260731-1"></script>
 </body>
 
 </html>

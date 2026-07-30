@@ -7,7 +7,7 @@
       title: "Fortnite",
       category: "Игры",
       filters: ["games", "topup"],
-      image: "assets/catalog/featured-fortnite-desktop.jpg",
+      image: "assets/catalog/i.webp",
       featuredImage: "assets/catalog/featured-fortnite-desktop.jpg",
       featuredMobileImage: "assets/catalog/featured-fortnite-mobile.jpg",
       featuredTitle: "Fortnite Crew",
@@ -15,6 +15,15 @@
       items: ["Crew", "V-Bucks", "Battle Pass"],
       priceFrom: "от 299 ₽",
       description: "Раздел с популярными товарами Fortnite. Менеджер подскажет актуальные позиции, наличие и удобный способ выдачи.",
+      accent: "#8b5cf6",
+      accentRgb: "139, 92, 246",
+      watermark: "FORTNITE",
+      benefits: [
+        { icon: "✓", label: "Официальное оформление" },
+        { icon: "↯", label: "Активация вручную" },
+        { icon: "◇", label: "Без скрытых списаний" },
+        { icon: "◎", label: "Гарантия на срок" }
+      ],
       details: [
         "Оформление подписки Fortnite «Отряд» (Crew) на ваш аккаунт.",
         "Покупка осуществляется официально с личной банковской карты Турции. Нет риска блокировок или списаний.",
@@ -42,6 +51,15 @@
       items: ["UC", "Prime", "Пополнение"],
       priceFrom: "от 90 ₽",
       description: "Пополнения и игровые товары PUBG с ручной проверкой перед выдачей.",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      watermark: "PUBG",
+      benefits: [
+        { icon: "✓", label: "Коды и пополнение" },
+        { icon: "↯", label: "Безопасная выдача" },
+        { icon: "◇", label: "Под любой регион" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
       details: [
         "Подарочная карта (код) или оформление подписки для PUBG.",
         "Подходит для любого региона. Нет необходимости передавать данные от аккаунта, пополнение происходит безопасно.",
@@ -83,6 +101,15 @@
       items: ["Java", "Bedrock", "Minecoins"],
       priceFrom: "от 470 ₽",
       description: "Цифровые товары Minecraft: версии игры, внутриигровые покупки и подарочные варианты.",
+      accent: "#22c55e",
+      accentRgb: "34, 197, 94",
+      watermark: "MINECRAFT",
+      benefits: [
+        { icon: "✓", label: "Код для активации" },
+        { icon: "↯", label: "Без передачи аккаунта" },
+        { icon: "◇", label: "Без VPN и карт" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
       details: [
         "Подарочная карта (код) для игры Minecraft.",
         "Подходит для любого региона. Не нужно добавлять карты, использовать VPN или передавать аккаунт.",
@@ -114,6 +141,15 @@
       items: ["Nitro", "Nitro Basic", "Gift"],
       priceFrom: "от 179 ₽",
       description: "Discord Nitro и подарочные варианты. Перед оформлением менеджер уточнит способ активации.",
+      accent: "#5865f2",
+      accentRgb: "88, 101, 242",
+      watermark: "DISCORD",
+      benefits: [
+        { icon: "✓", label: "Nitro Full и Basic" },
+        { icon: "↯", label: "QR-вход по желанию" },
+        { icon: "◇", label: "Оплата картой TR" },
+        { icon: "◎", label: "Гарантия на срок" }
+      ],
       details: [
         "Оформление подписки Discord Nitro Full или Basic на ваш аккаунт.",
         "Покупка осуществляется безопасно с личной банковской карты Турции.",
@@ -141,6 +177,15 @@
       items: ["RP", "VP", "Пополнение"],
       priceFrom: "от 250 ₽",
       description: "Пополнения для сервисов Riot Games. Доступность зависит от региона и текущих способов оплаты.",
+      accent: "#ef4444",
+      accentRgb: "239, 68, 68",
+      watermark: "RIOT",
+      benefits: [
+        { icon: "✓", label: "Код пополнения" },
+        { icon: "↯", label: "Без входа в аккаунт" },
+        { icon: "◇", label: "League, TFT и другое" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
       details: [
         "Подарочная карта (код) пополнения баланса Riot Games: League of Legends, TFT и другие игры.",
         "Подходит для любого региона. Без передачи данных от вашего аккаунта.",
@@ -171,6 +216,15 @@
       items: ["Edition", "Key", "Gift"],
       priceFrom: "от 790 ₽",
       description: "Раздел Battlefield с внутриигровой валютой, ключами, подарочными вариантами и доступными изданиями по запросу.",
+      accent: "#f97316",
+      accentRgb: "249, 115, 22",
+      watermark: "BATTLEFIELD",
+      benefits: [
+        { icon: "✓", label: "Коды валюты" },
+        { icon: "↯", label: "EA, Steam, консоли" },
+        { icon: "◇", label: "Без передачи аккаунта" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
       details: [
         "Подарочная карта (код) игровой валюты для серии игр Battlefield.",
         "Подходит для любого региона. Безопасное получение без передачи данных от вашего аккаунта.",
@@ -199,6 +253,15 @@
       items: ["Points", "Battle Pass", "Gift"],
       priceFrom: "от 350 ₽",
       description: "Valorant Points и другие позиции для аккаунта. Перед оплатой менеджер проверит регион.",
+      accent: "#ff4655",
+      accentRgb: "255, 70, 85",
+      watermark: "VALORANT",
+      benefits: [
+        { icon: "✓", label: "Valorant Points" },
+        { icon: "↯", label: "Код для магазина" },
+        { icon: "◇", label: "Без входа в аккаунт" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
       details: [
         "Подарочная карта (код) пополнения Valorant Points (VP).",
         "Подходит для любого региона. Без передачи данных от вашего аккаунта.",
@@ -229,6 +292,15 @@
       items: ["Game Pass", "Ultimate", "Gift"],
       priceFrom: "от 3500 ₽",
       description: "Подписки Xbox Game Pass и подарочные варианты. Подходит для игровых аккаунтов с нужным регионом.",
+      accent: "#22c55e",
+      accentRgb: "34, 197, 94",
+      watermark: "XBOX",
+      benefits: [
+        { icon: "✓", label: "Game Pass Ultimate" },
+        { icon: "↯", label: "Код или оформление" },
+        { icon: "◇", label: "Подарочные карты" },
+        { icon: "◎", label: "Гарантия по формату" }
+      ],
       details: [
         "Подарочная карта (код) или оформление подписки Xbox Game Pass.",
         "Подарочные карты подходят для любого региона. Для кодов не требуется передача аккаунта.",
@@ -252,6 +324,15 @@
       items: ["Premium", "Gift", "Аккаунт"],
       priceFrom: "от 1100 ₽",
       description: "Telegram Premium для личного аккаунта или подарком. Менеджер уточнит удобный формат оформления.",
+      accent: "#38bdf8",
+      accentRgb: "56, 189, 248",
+      watermark: "TELEGRAM",
+      benefits: [
+        { icon: "✓", label: "Официальный Gift" },
+        { icon: "↯", label: "Без входа в аккаунт" },
+        { icon: "◇", label: "3, 6 или 12 месяцев" },
+        { icon: "◎", label: "Гарантия на срок" }
+      ],
       details: [
         "Подписка Telegram Premium на 3, 6 или 12 месяцев.",
         "Оформляется официально в виде подарка (Gift). Нет необходимости передавать данные для входа на аккаунт.",
@@ -279,6 +360,15 @@
       items: ["Gift Card", "Balance", "Region"],
       priceFrom: "от 23 ₽",
       description: "Подарочные карты App Store. Важно заранее выбрать правильный регион аккаунта.",
+      accent: "#60a5fa",
+      accentRgb: "96, 165, 250",
+      watermark: "APP STORE",
+      benefits: [
+        { icon: "✓", label: "Код пополнения" },
+        { icon: "↯", label: "Турецкий регион" },
+        { icon: "◇", label: "Без передачи аккаунта" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
       details: [
         "Подарочная карта (код) пополнения баланса App Store (Apple ID).",
         "Внимание: подходит только для аккаунтов турецкого региона. Без передачи данных от вашего аккаунта.",
@@ -329,6 +419,15 @@
       items: ["Gift Card", "Plus", "Wallet"],
       priceFrom: "от 470 ₽",
       description: "Подарочные карты и позиции PlayStation. Регион аккаунта нужно проверить до оплаты.",
+      accent: "#3b82f6",
+      accentRgb: "59, 130, 246",
+      watermark: "PLAYSTATION",
+      benefits: [
+        { icon: "✓", label: "Пополнение PSN" },
+        { icon: "↯", label: "Турецкий регион" },
+        { icon: "◇", label: "Код без аккаунта" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
       details: [
         "Подарочная карта (код) пополнения кошелька PlayStation Network.",
         "Внимание: подходит только для аккаунтов турецкого региона. Без передачи данных от вашего аккаунта.",
@@ -363,6 +462,15 @@
       items: ["Gift", "Wallet", "Keys"],
       priceFrom: "по запросу",
       description: "Steam Gift, пополнение кошелька и ключи. Менеджер уточнит регион и доступность позиции.",
+      accent: "#64748b",
+      accentRgb: "100, 116, 139",
+      watermark: "STEAM",
+      benefits: [
+        { icon: "✓", label: "Gift и Wallet" },
+        { icon: "↯", label: "Проверка региона" },
+        { icon: "◇", label: "Ключи по запросу" },
+        { icon: "◎", label: "Гарантия по формату" }
+      ],
       details: [
         "Steam Gift, пополнение кошелька и ключи для игр.",
         "Перед покупкой менеджер уточнит регион аккаунта и доступный способ выдачи.",
