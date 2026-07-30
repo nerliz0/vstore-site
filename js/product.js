@@ -187,7 +187,6 @@
   setText("[data-product-title]", product.title);
   setText("[data-product-category]", product.category);
   setText("[data-product-description]", product.description);
-  setText("[data-product-price]", product.priceFrom || "по запросу");
   setText("[data-product-guarantee]", product.guarantee || "Гарантия после выдачи");
 
   var image = document.querySelector("[data-product-image]");
