@@ -38,6 +38,22 @@
     return tag;
   }
 
+  function createDetailItem(text, index) {
+    var item = document.createElement("article");
+    var marker = document.createElement("span");
+    var copy = document.createElement("p");
+
+    item.className = "product-info-item";
+    marker.className = "product-info-item__marker";
+    marker.setAttribute("aria-hidden", "true");
+    marker.textContent = String(index + 1).padStart(2, "0");
+    copy.textContent = text;
+
+    item.appendChild(marker);
+    item.appendChild(copy);
+    return item;
+  }
+
   function createPriceGroup(group) {
     var block = document.createElement("section");
     var title = document.createElement("h3");
@@ -172,6 +188,7 @@
   setText("[data-product-category]", product.category);
   setText("[data-product-description]", product.description);
   setText("[data-product-price]", product.priceFrom || "по запросу");
+  setText("[data-product-guarantee]", product.guarantee || "Гарантия после выдачи");
 
   var image = document.querySelector("[data-product-image]");
   if (image) {
@@ -192,6 +209,13 @@
   if (tags) {
     product.items.forEach(function (item) {
       tags.appendChild(createTag(item));
+    });
+  }
+
+  var details = document.querySelector("[data-product-details]");
+  if (details) {
+    (product.details || [product.description]).forEach(function (detail, index) {
+      details.appendChild(createDetailItem(detail, index));
     });
   }
 
