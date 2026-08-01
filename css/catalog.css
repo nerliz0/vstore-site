@@ -431,7 +431,7 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  filter: saturate(0.86) brightness(0.82) contrast(1.08);
+  filter: saturate(0.96) brightness(0.94) contrast(1.04);
   transform: scale(1);
   transition:
     transform 0.72s cubic-bezier(0.16, 1, 0.3, 1),
@@ -440,7 +440,7 @@
 
 .catalog-card:hover .catalog-card__media img,
 .catalog-card:focus-visible .catalog-card__media img {
-  filter: saturate(1) brightness(0.95) contrast(1.08);
+  filter: saturate(1.02) brightness(1) contrast(1.04);
   transform: scale(1.045);
 }
 
