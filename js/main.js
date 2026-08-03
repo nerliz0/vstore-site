@@ -23,6 +23,7 @@
   function applyConfiguredLinks() {
     var links = {
       telegram: config.telegram,
+      support: config.support,
       channel: config.channel,
       reviews: config.reviews
     };
@@ -45,6 +46,115 @@
     if (responseTime && config.responseTime) {
       responseTime.textContent = config.responseTime;
     }
+  }
+
+  function initSupportWidget() {
+    if (document.querySelector("[data-support-widget]")) return;
+
+    var supportUrl = config.support || "https://t.me/VstoreSupportBot";
+    var supportHandle = config.supportHandle || "@VstoreSupportBot";
+    var widget = document.createElement("div");
+    widget.className = "support-widget";
+    widget.setAttribute("data-support-widget", "");
+    widget.innerHTML =
+      '<button class="support-widget__trigger" type="button" aria-label="Открыть поддержку" aria-haspopup="dialog" aria-expanded="false" data-support-open>' +
+        '<img src="assets/footer/final-icon-support.png" alt="" width="340" height="340" decoding="async" />' +
+        '<span class="support-widget__status" aria-hidden="true"></span>' +
+      '</button>' +
+      '<div class="support-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="support-modal-title" data-support-modal>' +
+        '<button class="support-modal__backdrop" type="button" tabindex="-1" aria-hidden="true" data-support-close></button>' +
+        '<div class="support-modal__dialog">' +
+          '<button class="support-modal__close" type="button" aria-label="Закрыть" data-support-close>×</button>' +
+          '<div class="support-modal__brand" aria-hidden="true">' +
+            '<img src="assets/footer/final-icon-support.png" alt="" width="340" height="340" decoding="async" />' +
+          '</div>' +
+          '<p class="support-modal__eyebrow">Vstore Support</p>' +
+          '<h2 id="support-modal-title">Нужна помощь?</h2>' +
+          '<p class="support-modal__lead">Выберите удобный способ быстро найти ответ.</p>' +
+          '<div class="support-modal__choices">' +
+            '<a class="support-modal__choice" href="faq.html" data-support-faq>' +
+              '<span class="support-modal__choice-icon" aria-hidden="true">?</span>' +
+              '<span><strong>Ознакомиться с FAQ</strong><small>Оплата, заказы, гарантии и аккаунты</small></span>' +
+              '<i aria-hidden="true">→</i>' +
+            '</a>' +
+            '<a class="support-modal__choice support-modal__choice--primary" href="' + supportUrl + '" target="_blank" rel="noopener noreferrer">' +
+              '<span class="support-modal__choice-icon" aria-hidden="true">•••</span>' +
+              '<span><strong>Написать в поддержку</strong><small>' + supportHandle + '</small></span>' +
+              '<i aria-hidden="true">→</i>' +
+            '</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(widget);
+
+    var trigger = widget.querySelector("[data-support-open]");
+    var modal = widget.querySelector("[data-support-modal]");
+    var closeButtons = widget.querySelectorAll("[data-support-close]");
+    var faqLink = widget.querySelector("[data-support-faq]");
+    var lastFocused = null;
+
+    function getFocusableElements() {
+      return Array.prototype.slice.call(modal.querySelectorAll(".support-modal__close, a[href]"));
+    }
+
+    function openModal() {
+      lastFocused = document.activeElement;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      trigger.setAttribute("aria-expanded", "true");
+      document.body.classList.add("support-modal-open");
+
+      var focusable = getFocusableElements();
+      if (focusable.length) focusable[0].focus();
+    }
+
+    function closeModal(restoreFocus) {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      trigger.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("support-modal-open");
+
+      if (restoreFocus !== false && lastFocused && typeof lastFocused.focus === "function") {
+        lastFocused.focus();
+      }
+    }
+
+    trigger.addEventListener("click", openModal);
+    closeButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        closeModal(true);
+      });
+    });
+    if (faqLink) {
+      faqLink.addEventListener("click", function () {
+        closeModal(false);
+      });
+    }
+
+    document.addEventListener("keydown", function (event) {
+      if (!modal.classList.contains("is-open")) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeModal(true);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      var focusable = getFocusableElements();
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
   }
 
   function hydrateFeaturedProducts() {
@@ -167,6 +277,7 @@
 
     applyConfiguredLinks();
     hydrateFeaturedProducts();
+    initSupportWidget();
     initScrollReveal();
     initCurrentPageScroll();
     initParallax();
