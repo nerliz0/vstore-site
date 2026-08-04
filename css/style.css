@@ -3598,3 +3598,78 @@ body.support-modal-open {
     transition: none;
   }
 }
+
+/* First-screen entrance. Without the JS class the hero stays fully readable. */
+body.hero-intro-pending .header,
+body.hero-intro-pending .hero__logo,
+body.hero-intro-pending .hero__eyebrow,
+body.hero-intro-pending .hero__title,
+body.hero-intro-pending .hero__subtitle,
+body.hero-intro-pending .hero__actions,
+body.hero-intro-pending .hero__stats,
+body.hero-intro-pending .hero__products-line {
+  opacity: 0;
+  translate: 0 26px;
+  transition:
+    opacity 0.72s ease,
+    translate 0.88s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.hero-intro-pending .header {
+  translate: 0 -14px;
+}
+
+body.hero-intro-pending.hero-intro-active .header,
+body.hero-intro-pending.hero-intro-active .hero__logo,
+body.hero-intro-pending.hero-intro-active .hero__eyebrow,
+body.hero-intro-pending.hero-intro-active .hero__title,
+body.hero-intro-pending.hero-intro-active .hero__subtitle,
+body.hero-intro-pending.hero-intro-active .hero__actions,
+body.hero-intro-pending.hero-intro-active .hero__stats,
+body.hero-intro-pending.hero-intro-active .hero__products-line {
+  opacity: 1;
+  translate: 0 0;
+}
+
+body.hero-intro-pending .hero__logo {
+  transition-delay: 70ms;
+}
+
+body.hero-intro-pending .hero__eyebrow {
+  transition-delay: 150ms;
+}
+
+body.hero-intro-pending .hero__title {
+  transition-delay: 230ms;
+}
+
+body.hero-intro-pending .hero__subtitle {
+  transition-delay: 320ms;
+}
+
+body.hero-intro-pending .hero__actions {
+  transition-delay: 410ms;
+}
+
+body.hero-intro-pending .hero__stats {
+  transition-delay: 500ms;
+}
+
+body.hero-intro-pending .hero__products-line {
+  transition-delay: 590ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.hero-intro-pending .header,
+  body.hero-intro-pending .hero__logo,
+  body.hero-intro-pending .hero__eyebrow,
+  body.hero-intro-pending .hero__title,
+  body.hero-intro-pending .hero__subtitle,
+  body.hero-intro-pending .hero__actions,
+  body.hero-intro-pending .hero__stats,
+  body.hero-intro-pending .hero__products-line {
+    opacity: 1 !important;
+    translate: none !important;
+    transition: none !important;
+  }
+}

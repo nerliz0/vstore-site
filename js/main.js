@@ -268,6 +268,23 @@
     window.setTimeout(requestCheck, 1000);
   }
 
+  function initHeroIntro() {
+    var hero = document.querySelector(".hero__inner");
+    if (!hero || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    document.body.classList.add("hero-intro-pending");
+
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        document.body.classList.add("hero-intro-active");
+      });
+    });
+
+    window.setTimeout(function () {
+      document.body.classList.remove("hero-intro-pending", "hero-intro-active");
+    }, 1900);
+  }
+
   function normalizePath(pathname) {
     return pathname.replace(/\/(?:index\.html)?$/, "/");
   }
@@ -351,6 +368,7 @@
 
     applyConfiguredLinks();
     hydrateFeaturedProducts();
+    initHeroIntro();
     initSupportWidget();
     initScrollReveal();
     initCurrentPageScroll();
