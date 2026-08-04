@@ -188,10 +188,84 @@
   }
 
   function initScrollReveal() {
-    var targets = document.querySelectorAll(".reveal-group, .reveal");
-    targets.forEach(function (target) {
+    var targets = Array.prototype.slice.call(document.querySelectorAll(".reveal-group, .reveal"));
+    if (!targets.length) return;
+
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      targets.forEach(function (target) {
+        target.classList.add("is-visible");
+      });
+      return;
+    }
+
+    var observer = null;
+    var ticking = false;
+
+    function reveal(target) {
+      if (target.classList.contains("is-visible")) return;
       target.classList.add("is-visible");
+      if (observer) observer.unobserve(target);
+      window.setTimeout(function () {
+        target.classList.remove("is-reveal-pending");
+      }, 1100);
+    }
+
+    function isInsideRevealZone(target) {
+      var rect = target.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      // Content restored above the viewport must stay readable after back/forward navigation.
+      if (rect.bottom <= 0) return true;
+      return rect.top <= viewportHeight * 0.78 && rect.bottom >= 0;
+    }
+
+    function checkVisibility() {
+      targets.forEach(function (target) {
+        if (isInsideRevealZone(target)) reveal(target);
+      });
+      ticking = false;
+    }
+
+    targets.forEach(function (target) {
+      if (isInsideRevealZone(target)) {
+        target.classList.add("is-visible");
+      } else {
+        target.classList.add("is-reveal-pending");
+      }
     });
+
+    if ("IntersectionObserver" in window) {
+      try {
+        observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) reveal(entry.target);
+          });
+        }, {
+          root: null,
+          rootMargin: "0px 0px -22% 0px",
+          threshold: 0.01
+        });
+
+        targets.forEach(function (target) {
+          if (!target.classList.contains("is-visible")) observer.observe(target);
+        });
+      } catch (error) {
+        observer = null;
+      }
+    }
+
+    function requestCheck() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(checkVisibility);
+    }
+
+    window.addEventListener("scroll", requestCheck, { passive: true });
+    window.addEventListener("resize", requestCheck, { passive: true });
+    window.addEventListener("pageshow", requestCheck, { passive: true });
+    window.setTimeout(requestCheck, 250);
+    window.setTimeout(requestCheck, 1000);
   }
 
   function normalizePath(pathname) {

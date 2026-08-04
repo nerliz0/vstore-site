@@ -2059,32 +2059,47 @@ a {
   }
 }
 
-/* Content must never depend on JavaScript to become readable. */
+/* Scroll reveal stays readable by default; JS only marks off-screen sections as pending. */
 .reveal-item {
   opacity: 1;
   transform: none;
-  transition: none;
-  will-change: auto;
+  transition:
+    opacity 0.72s ease,
+    transform 0.82s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .catalog-product.reveal-item {
   transform: translateY(0) scale(1);
   transition:
+    opacity 0.72s ease,
     transform 0.82s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.5s ease,
     box-shadow 0.5s ease;
-  will-change: transform;
+}
+
+.reveal.is-reveal-pending {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) scale(0.985);
+}
+
+.reveal-group.is-reveal-pending .reveal-item,
+.reveal.is-reveal-pending .reveal-item {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  will-change: opacity, transform;
 }
 
 .reveal-group.is-visible>.reveal-item,
 .reveal-group.is-visible .reveal-item {
   opacity: 1;
   transform: none;
+  will-change: auto;
 }
 
 .reveal.is-visible .reveal-item {
   opacity: 1;
   transform: none;
+  will-change: auto;
 }
 
 .catalog-product.reveal-item:hover {
@@ -2095,12 +2110,34 @@ a {
 .reveal {
   opacity: 1;
   transform: none;
-  transition: none;
+  transition:
+    opacity 0.72s ease,
+    transform 0.82s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+.reveal.is-reveal-pending.is-visible .reveal-item:nth-child(2),
+.reveal-group.is-reveal-pending.is-visible .reveal-item:nth-child(2) {
+  transition-delay: 70ms;
+}
+
+.reveal.is-reveal-pending.is-visible .reveal-item:nth-child(3),
+.reveal-group.is-reveal-pending.is-visible .reveal-item:nth-child(3) {
+  transition-delay: 140ms;
+}
+
+.reveal.is-reveal-pending.is-visible .reveal-item:nth-child(4),
+.reveal-group.is-reveal-pending.is-visible .reveal-item:nth-child(4) {
+  transition-delay: 210ms;
+}
+
+.reveal.is-reveal-pending.is-visible .reveal-item:nth-child(5),
+.reveal-group.is-reveal-pending.is-visible .reveal-item:nth-child(5) {
+  transition-delay: 280ms;
 }
 
 @media (max-width: 1120px) {
@@ -2674,6 +2711,16 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
+  .reveal,
+  .reveal-item,
+  .reveal.is-reveal-pending,
+  .reveal-group.is-reveal-pending .reveal-item,
+  .reveal.is-reveal-pending .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 
   .hero__services-track {
     transition: none !important;
