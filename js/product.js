@@ -10,6 +10,7 @@
   });
   var fallbackProduct = products[0];
   var orderPanel = document.querySelector("[data-product-order-panel]");
+  var priceLayout = document.querySelector(".product-prices__layout");
   var orderImage = document.querySelector("[data-order-image]");
   var prices = document.querySelector("[data-product-prices]");
   var pricesEmpty = document.querySelector("[data-product-prices-empty]");
@@ -196,6 +197,7 @@
     card.setAttribute("aria-pressed", "true");
 
     if (orderPanel) orderPanel.classList.remove("is-empty");
+    if (priceLayout) priceLayout.classList.add("has-order");
 
     setText("[data-order-product]", product.title);
     setText("[data-order-name]", optionName);
@@ -227,6 +229,7 @@
     }
 
     if (orderPanel) orderPanel.classList.add("is-empty");
+    if (priceLayout) priceLayout.classList.remove("has-order");
 
     setText("[data-order-product]", product.title);
     setText("[data-order-name]", "Выберите позицию из прайса");
