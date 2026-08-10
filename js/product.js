@@ -11,7 +11,13 @@
   var fallbackProduct = products[0];
   var orderPanel = document.querySelector("[data-product-order-panel]");
   var orderImage = document.querySelector("[data-order-image]");
+  var prices = document.querySelector("[data-product-prices]");
+  var pricesEmpty = document.querySelector("[data-product-prices-empty]");
+  var regionPicker = document.querySelector("[data-product-regions]");
+  var regionList = document.querySelector("[data-product-region-list]");
+  var regionStatus = document.querySelector("[data-product-region-status]");
   var selectedPriceCard = null;
+  var selectedRegion = null;
 
   if (!product) {
     product = fallbackProduct;
@@ -107,6 +113,63 @@
     return block;
   }
 
+  function createRegionButton(region) {
+    var button = document.createElement("button");
+    var code = document.createElement("span");
+    var copy = document.createElement("span");
+    var name = document.createElement("strong");
+    var currency = document.createElement("small");
+
+    button.className = "product-region";
+    button.type = "button";
+    button.setAttribute("aria-pressed", "false");
+    button.dataset.regionCode = region.code;
+    code.className = "product-region__code";
+    code.textContent = region.code;
+    copy.className = "product-region__copy";
+    name.textContent = region.name;
+    currency.textContent = "Номиналы в " + region.currency;
+    copy.appendChild(name);
+    copy.appendChild(currency);
+    button.appendChild(code);
+    button.appendChild(copy);
+    button.addEventListener("click", function () {
+      selectRegion(region, button);
+    });
+
+    return button;
+  }
+
+  function renderPriceGroups(groups) {
+    if (!prices) return;
+    prices.replaceChildren();
+    (groups || []).forEach(function (group) {
+      prices.appendChild(createPriceGroup(group));
+    });
+  }
+
+  function selectRegion(region, button) {
+    selectedRegion = region;
+
+    if (regionList) {
+      regionList.querySelectorAll(".product-region").forEach(function (item) {
+        var isActive = item === button;
+        item.classList.toggle("is-selected", isActive);
+        item.setAttribute("aria-pressed", String(isActive));
+      });
+    }
+
+    clearSelection();
+    renderPriceGroups(region.prices);
+    if (prices) prices.hidden = false;
+    if (pricesEmpty) pricesEmpty.hidden = true;
+    if (regionStatus) regionStatus.textContent = "Выбран регион: " + region.name;
+
+    var orderRegionRow = document.querySelector("[data-order-region-row]");
+    if (orderRegionRow) orderRegionRow.hidden = false;
+    setText("[data-order-region]", region.name + " (" + region.code + ")");
+  }
+
   function buildTelegramLink(optionName, optionPrice) {
     var managerUrl = config.telegram || "https://t.me/MenagerVstore";
     var text = [
@@ -114,9 +177,10 @@
       "",
       config.orderPrefix || "Хочу купить:",
       product.title,
+      selectedRegion ? "Регион: " + selectedRegion.name + " (" + selectedRegion.code + ")" : "",
       optionName,
       optionPrice
-    ].join("\n");
+    ].filter(Boolean).join("\n");
 
     return managerUrl.replace(/\/?$/, "") + "?text=" + encodeURIComponent(text);
   }
@@ -256,11 +320,17 @@
     });
   }
 
-  var prices = document.querySelector("[data-product-prices]");
-  if (prices) {
-    product.prices.forEach(function (group) {
-      prices.appendChild(createPriceGroup(group));
-    });
+  if (Array.isArray(product.regions) && product.regions.length) {
+    if (regionPicker) regionPicker.hidden = false;
+    if (prices) prices.hidden = true;
+    if (pricesEmpty) pricesEmpty.hidden = false;
+    if (regionList) {
+      product.regions.forEach(function (region) {
+        regionList.appendChild(createRegionButton(region));
+      });
+    }
+  } else {
+    renderPriceGroups(product.prices);
   }
 
   var order = document.querySelector("[data-product-order]");

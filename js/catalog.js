@@ -40,6 +40,18 @@
       });
     }
 
+    if (Array.isArray(product.regions)) {
+      product.regions.forEach(function (region) {
+        values.push(region.code, region.name, region.currency);
+        (region.prices || []).forEach(function (group) {
+          values.push(group.title);
+          (group.rows || []).forEach(function (row) {
+            values.push(row[0]);
+          });
+        });
+      });
+    }
+
     return normalize(values.join(" "));
   }
 

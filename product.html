@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=20260804-3" />
-  <link rel="stylesheet" href="css/product.css?v=20260731-1" />
+  <link rel="stylesheet" href="css/product.css?v=20260810-1" />
 </head>
 
 <body>
@@ -89,8 +89,27 @@
             <p class="section__eyebrow">Актуальные позиции</p>
             <h2 id="product-prices-title">Прайс</h2>
           </div>
+          <section class="product-regions" data-product-regions hidden aria-labelledby="product-regions-title">
+            <div class="product-regions__head">
+              <div>
+                <span class="product-regions__step">Шаг 1</span>
+                <h3 id="product-regions-title">Выберите регион</h3>
+              </div>
+              <p data-product-region-status>Цены и валюта зависят от региона аккаунта</p>
+            </div>
+            <div class="product-region-list" data-product-region-list></div>
+          </section>
           <div class="product-prices__layout">
-            <div class="product-price-groups" data-product-prices></div>
+            <div class="product-price-stage">
+              <div class="product-prices-empty" data-product-prices-empty hidden>
+                <span aria-hidden="true">01</span>
+                <div>
+                  <strong>Сначала выберите регион</strong>
+                  <p>После выбора здесь появятся доступные номиналы и тарифы.</p>
+                </div>
+              </div>
+              <div class="product-price-groups" data-product-prices aria-live="polite"></div>
+            </div>
             <aside class="product-order is-empty" data-product-order-panel>
               <div class="product-order__top">
                 <div class="product-order__icon">
@@ -110,6 +129,10 @@
                 <div>
                   <span>Цена</span>
                   <strong data-order-price>—</strong>
+                </div>
+                <div data-order-region-row hidden>
+                  <span>Регион</span>
+                  <strong data-order-region>—</strong>
                 </div>
                 <div>
                   <span>Выдача</span>
@@ -134,9 +157,9 @@
   </main>
 
   <script src="js/config.js?v=20260804-1"></script>
-  <script src="js/products-data.js?v=20260801-1"></script>
+  <script src="js/products-data.js?v=20260810-1"></script>
   <script src="js/main.js?v=20260804-3"></script>
-  <script src="js/product.js?v=20260731-1"></script>
+  <script src="js/product.js?v=20260810-1"></script>
 </body>
 
 </html>
