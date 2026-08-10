@@ -19,6 +19,8 @@
   var regionStatus = document.querySelector("[data-product-region-status]");
   var selectedPriceCard = null;
   var selectedRegion = null;
+  var selectedOptionName = "";
+  var selectedOptionPrice = "";
 
   if (!product) {
     product = fallbackProduct;
@@ -193,6 +195,8 @@
     }
 
     selectedPriceCard = card;
+    selectedOptionName = optionName;
+    selectedOptionPrice = optionPrice;
     card.classList.add("is-selected");
     card.setAttribute("aria-pressed", "true");
 
@@ -227,6 +231,8 @@
       selectedPriceCard.setAttribute("aria-pressed", "false");
       selectedPriceCard = null;
     }
+    selectedOptionName = "";
+    selectedOptionPrice = "";
 
     if (orderPanel) orderPanel.classList.add("is-empty");
     if (priceLayout) priceLayout.classList.remove("has-order");
@@ -343,6 +349,22 @@
 
   var clear = document.querySelector("[data-order-clear]");
   if (clear) clear.addEventListener("click", clearSelection);
+
+  var addCart = document.querySelector("[data-add-cart]");
+  if (addCart) {
+    addCart.addEventListener("click", function () {
+      if (!selectedOptionName || !selectedOptionPrice || !window.VSTORE_CART) return;
+      window.VSTORE_CART.add({
+        slug: product.slug,
+        title: product.title,
+        image: product.image,
+        regionCode: selectedRegion ? selectedRegion.code : "",
+        regionName: selectedRegion ? selectedRegion.name : "",
+        optionName: selectedOptionName,
+        priceLabel: selectedOptionPrice
+      });
+    });
+  }
 
   updateMetadata();
 })();
