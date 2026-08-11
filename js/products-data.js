@@ -249,10 +249,10 @@
       category: "Игры",
       filters: ["games", "topup"],
       image: "assets/catalog/valorant-vstore-224x165.png",
-      aliases: ["Валорант", "Валик", "ВП", "Valorant Points", "VP", "Riot"],
-      items: ["Points", "Battle Pass", "Gift"],
-      priceFrom: "от 350 ₽",
-      description: "Valorant Points и другие позиции для аккаунта. Перед оплатой менеджер проверит регион.",
+      aliases: ["Валорант", "Валик", "ВП", "Valorant Points", "VP", "Riot", "Турция", "США"],
+      items: ["Турция", "США", "VP"],
+      priceFrom: "от 210 ₽",
+      description: "Valorant Points для разных регионов аккаунта. Перед оплатой менеджер проверит подходящий способ активации.",
       accent: "#8b5cf6",
       accentRgb: "139, 92, 246",
       watermark: "VALORANT",
@@ -268,16 +268,46 @@
         "Чтобы купить, получите код -> зайдите в игру Valorant -> перейдите в магазин и активируйте код."
       ],
       guarantee: "24-часовая гарантия",
-      prices: [
+      regions: [
         {
-          title: "Valorant Points",
-          rows: [
-            ["375 VP", "350 ₽"],
-            ["825 VP", "520 ₽"],
-            ["1700 VP", "950 ₽"],
-            ["2925 VP", "1590 ₽"],
-            ["4325 VP", "2250 ₽"],
-            ["8900 VP", "4450 ₽"]
+          code: "TR",
+          name: "Турция",
+          currency: "TRY",
+          prices: [
+            {
+              title: "Valorant Points Турция",
+              rows: [
+                ["825 VP", "410 ₽"],
+                ["1700 VP", "804 ₽"],
+                ["2925 VP", "1360 ₽"],
+                ["4325 VP", "1970 ₽"],
+                ["8900 VP", "3920 ₽"]
+              ]
+            }
+          ]
+        },
+        {
+          code: "US",
+          name: "США",
+          currency: "USD",
+          prices: [
+            {
+              title: "Valorant Points США",
+              rows: [
+                ["240 VP", "210 ₽"],
+                ["325 VP", "290 ₽"],
+                ["475 VP", "375 ₽"],
+                ["1000 VP", "740 ₽"],
+                ["1520 VP", "1100 ₽"],
+                ["1750 VP", "1370 ₽"],
+                ["2050 VP", "1470 ₽"],
+                ["2575 VP", "1830 ₽"],
+                ["3650 VP", "2555 ₽"],
+                ["5350 VP", "3650 ₽"],
+                ["8700 VP", "5830 ₽"],
+                ["11000 VP", "7290 ₽"]
+              ]
+            }
           ]
         }
       ]
@@ -288,8 +318,8 @@
       category: "Подписки",
       filters: ["subs"],
       image: "assets/catalog/xbox-game-pass-vstore-224x165.png",
-      aliases: ["Иксбокс", "Хбокс", "Гейм пасс", "Геймпасс", "Xbox Ultimate", "Gamepass"],
-      items: ["Турция", "США", "Подписки"],
+      aliases: ["Иксбокс", "Хбокс", "Гейм пасс", "Геймпасс", "Xbox Ultimate", "Gamepass", "Индия", "India"],
+      items: ["Турция", "США", "Индия"],
       priceFrom: "от 770 ₽",
       description: "Подписки Xbox Game Pass для разных регионов. Выберите страну аккаунта, срок и подходящий тариф.",
       accent: "#8b5cf6",
@@ -335,6 +365,21 @@
                 ["Premium · 3 месяца", "3360 ₽"],
                 ["Ultimate · 3 месяца", "5310 ₽"],
                 ["Essential · 12 месяцев", "5994 ₽"]
+              ]
+            }
+          ]
+        },
+        {
+          code: "IN",
+          name: "Индия",
+          currency: "INR",
+          prices: [
+            {
+              title: "Xbox Game Pass Индия",
+              rows: [
+                ["Essential · 6 месяцев", "1580 ₽"],
+                ["Premium · 3 месяца", "2443 ₽"],
+                ["Essential · 12 месяцев", "3150 ₽"]
               ]
             }
           ]
