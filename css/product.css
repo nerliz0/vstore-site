@@ -391,6 +391,96 @@
   display: none;
 }
 
+.product-repeat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  margin: -0.2rem 0 1rem;
+  padding: 0.9rem 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(196, 181, 253, 0.24);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(139, 92, 246, 0.24), transparent 54%),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(255, 255, 255, 0.026)),
+    rgba(8, 8, 13, 0.36);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: product-repeat-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes product-repeat-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-repeat__copy {
+  min-width: 0;
+}
+
+.product-repeat__copy span {
+  display: block;
+  color: var(--accent-light);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.product-repeat__copy strong {
+  display: block;
+  margin-top: 0.28rem;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.2;
+}
+
+.product-repeat__copy p {
+  margin-top: 0.22rem;
+  color: rgba(244, 244, 245, 0.56);
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.product-repeat__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 0 1rem;
+  border: 1px solid rgba(196, 181, 253, 0.34);
+  border-radius: 10px;
+  color: #fff;
+  background: rgba(139, 92, 246, 0.24);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.product-repeat__button:hover,
+.product-repeat__button:focus-visible {
+  border-color: rgba(221, 214, 254, 0.62);
+  background: rgba(139, 92, 246, 0.36);
+  transform: translateY(-1px);
+}
+
 .product-regions {
   margin-bottom: 1rem;
   padding: 1rem;

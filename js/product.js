@@ -21,6 +21,7 @@
   var selectedRegion = null;
   var selectedOptionName = "";
   var selectedOptionPrice = "";
+  var recentRepeatItem = null;
 
   if (!product) {
     product = fallbackProduct;
@@ -188,6 +189,65 @@
     return managerUrl.replace(/\/?$/, "") + "?text=" + encodeURIComponent(text);
   }
 
+  function addCurrentSelectionToCart() {
+    if (!selectedOptionName || !selectedOptionPrice || !window.VSTORE_CART) return false;
+    return window.VSTORE_CART.add({
+      slug: product.slug,
+      title: product.title,
+      image: product.image,
+      regionCode: selectedRegion ? selectedRegion.code : "",
+      regionName: selectedRegion ? selectedRegion.name : "",
+      optionName: selectedOptionName,
+      priceLabel: selectedOptionPrice
+    });
+  }
+
+  function addRepeatItemToCart() {
+    if (!recentRepeatItem || !window.VSTORE_CART) return false;
+    return window.VSTORE_CART.add(recentRepeatItem);
+  }
+
+  function createRepeatHint(item) {
+    var hint = document.createElement("aside");
+    var copy = document.createElement("div");
+    var eyebrow = document.createElement("span");
+    var title = document.createElement("strong");
+    var meta = document.createElement("p");
+    var button = document.createElement("button");
+
+    hint.className = "product-repeat";
+    hint.setAttribute("aria-label", "Быстрый повтор заказа");
+    copy.className = "product-repeat__copy";
+    eyebrow.textContent = "Вы брали недавно";
+    title.textContent = item.optionName || "Позиция из каталога";
+    meta.textContent = [
+      item.regionName,
+      item.priceLabel
+    ].filter(Boolean).join(" · ");
+    button.className = "product-repeat__button";
+    button.type = "button";
+    button.textContent = "Повторить";
+    button.addEventListener("click", addRepeatItemToCart);
+
+    copy.appendChild(eyebrow);
+    copy.appendChild(title);
+    copy.appendChild(meta);
+    hint.appendChild(copy);
+    hint.appendChild(button);
+    return hint;
+  }
+
+  function initRepeatHint() {
+    if (!window.VSTORE_CART || typeof window.VSTORE_CART.getRecent !== "function") return;
+    recentRepeatItem = window.VSTORE_CART.getRecent(product.slug);
+    if (!recentRepeatItem) return;
+
+    var pricesHead = document.querySelector(".product-prices__head");
+    if (pricesHead) {
+      pricesHead.insertAdjacentElement("afterend", createRepeatHint(recentRepeatItem));
+    }
+  }
+
   function selectPrice(card, optionName, optionPrice) {
     if (selectedPriceCard) {
       selectedPriceCard.classList.remove("is-selected");
@@ -350,21 +410,22 @@
   var clear = document.querySelector("[data-order-clear]");
   if (clear) clear.addEventListener("click", clearSelection);
 
+  var actions = document.querySelector(".product-actions");
+  if (actions && window.VSTORE_FAVORITES && typeof window.VSTORE_FAVORITES.createToggle === "function") {
+    actions.appendChild(window.VSTORE_FAVORITES.createToggle(product, {
+      inline: true,
+      label: true
+    }));
+    window.VSTORE_FAVORITES.refresh();
+  }
+
   var addCart = document.querySelector("[data-add-cart]");
   if (addCart) {
     addCart.addEventListener("click", function () {
-      if (!selectedOptionName || !selectedOptionPrice || !window.VSTORE_CART) return;
-      window.VSTORE_CART.add({
-        slug: product.slug,
-        title: product.title,
-        image: product.image,
-        regionCode: selectedRegion ? selectedRegion.code : "",
-        regionName: selectedRegion ? selectedRegion.name : "",
-        optionName: selectedOptionName,
-        priceLabel: selectedOptionPrice
-      });
+      addCurrentSelectionToCart();
     });
   }
 
+  initRepeatHint();
   updateMetadata();
 })();

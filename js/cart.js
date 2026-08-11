@@ -2,6 +2,7 @@
   "use strict";
 
   var STORAGE_KEY = "vstore-cart-v1";
+  var RECENT_KEY = "vstore-cart-recent-v1";
   var MAX_UNIQUE_ITEMS = 30;
   var MAX_QUANTITY = 99;
   var config = window.VSTORE_CONFIG || {};
@@ -62,6 +63,27 @@
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch (error) {
       // The cart remains available for the current page if storage is blocked.
+    }
+  }
+
+  function saveRecentItem(item) {
+    try {
+      window.localStorage.setItem(RECENT_KEY, JSON.stringify(Object.assign({}, item, {
+        addedAt: Date.now()
+      })));
+    } catch (error) {
+      // Recent order hints are optional; the cart itself still works.
+    }
+  }
+
+  function getRecentItem(slug) {
+    try {
+      var item = JSON.parse(window.localStorage.getItem(RECENT_KEY) || "null");
+      if (!item || typeof item !== "object") return null;
+      if (slug && item.slug !== slug) return null;
+      return Object.assign({}, item);
+    } catch (error) {
+      return null;
     }
   }
 
@@ -128,6 +150,7 @@
       items.push(normalized);
     }
 
+    saveRecentItem(normalized);
     notifyChange();
     openCart();
     return true;
@@ -403,7 +426,8 @@
       });
     },
     getCount: getCount,
-    getTotal: getTotal
+    getTotal: getTotal,
+    getRecent: getRecentItem
   };
 
   if (document.readyState === "loading") {

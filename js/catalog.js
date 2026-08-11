@@ -80,6 +80,7 @@
     var price = document.createElement("span");
     var action = document.createElement("span");
     var arrow = document.createElement("i");
+    var favorite = null;
 
     card.className = "catalog-card";
     card.href = "product.html?item=" + encodeURIComponent(product.slug);
@@ -93,6 +94,10 @@
     image.loading = "lazy";
     image.decoding = "async";
     media.appendChild(image);
+    if (window.VSTORE_FAVORITES && typeof window.VSTORE_FAVORITES.createToggle === "function") {
+      favorite = window.VSTORE_FAVORITES.createToggle(product);
+      media.appendChild(favorite);
+    }
 
     body.className = "catalog-card__body";
     title.className = "catalog-card__title";
@@ -184,6 +189,9 @@
   }
 
   renderCatalog();
+  if (window.VSTORE_FAVORITES && typeof window.VSTORE_FAVORITES.refresh === "function") {
+    window.VSTORE_FAVORITES.refresh();
+  }
 
   filters.forEach(function (filter) {
     filter.addEventListener("click", function () {
