@@ -313,6 +313,53 @@
       ]
     },
     {
+      slug: "league-of-legends",
+      title: "League of Legends",
+      category: "Игры",
+      filters: ["games", "topup"],
+      image: "assets/catalog/lol.png",
+      aliases: ["Лига легенд", "Лига", "Лол", "LOL", "League", "League of Legends", "RP", "Riot Points", "EU", "Европа"],
+      items: ["EU", "RP", "Riot Points"],
+      priceFrom: "от 899 ₽",
+      description: "Riot Points для League of Legends EU. Перед оплатой менеджер проверит регион аккаунта и актуальный способ активации.",
+      accent: "#8b5cf6",
+      accentRgb: "139, 92, 246",
+      watermark: "LEAGUE",
+      benefits: [
+        { icon: "✓", label: "Регион EU" },
+        { icon: "↯", label: "Riot Points" },
+        { icon: "◇", label: "Безопасная выдача" },
+        { icon: "◎", label: "24 часа гарантии" }
+      ],
+      details: [
+        "Пополнение Riot Points для League of Legends на аккаунт региона EU.",
+        "Перед оплатой менеджер проверит регион аккаунта и подскажет удобный способ выдачи.",
+        "Чтобы купить, выберите нужный номинал RP -> добавьте в корзину -> отправьте готовый заказ в Telegram."
+      ],
+      guarantee: "24-часовая гарантия",
+      regions: [
+        {
+          code: "EU",
+          name: "Европа",
+          currency: "RP",
+          prices: [
+            {
+              title: "League of Legends RP EU",
+              rows: [
+                ["1240 RP", "899 ₽"],
+                ["2540 RP", "1749 ₽"],
+                ["2575 RP", "2249 ₽"],
+                ["4500 RP", "2999 ₽"],
+                ["6500 RP", "4970 ₽"],
+                ["13500 RP", "9399 ₽"],
+                ["11000 RP", "9890 ₽"]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       slug: "xbox-game-pass",
       title: "Xbox Game Pass",
       category: "Подписки",
@@ -388,27 +435,27 @@
     },
     {
       slug: "telegram-premium",
-      title: "Telegram Premium",
+      title: "Telegram",
       category: "Подписки",
-      filters: ["subs"],
+      filters: ["subs", "topup"],
       image: "assets/catalog/telegram-vstore-224x165.png",
-      aliases: ["Телеграм", "Телега", "Тг премиум", "ТГ", "Telegram", "Premium"],
-      items: ["Premium", "Gift", "Аккаунт"],
-      priceFrom: "от 1100 ₽",
-      description: "Telegram Premium для личного аккаунта или подарком. Менеджер уточнит удобный формат оформления.",
+      aliases: ["Телеграм", "Телега", "Тг премиум", "ТГ", "Telegram", "Premium", "Stars", "Звезды", "Звёзды"],
+      items: ["Premium", "Stars", "Gift"],
+      priceFrom: "от 75 ₽",
+      description: "Telegram Premium и Telegram Stars. Менеджер уточнит удобный формат оформления и выдачи.",
       accent: "#8b5cf6",
       accentRgb: "139, 92, 246",
       watermark: "TELEGRAM",
       benefits: [
-        { icon: "✓", label: "Официальный Gift" },
+        { icon: "✓", label: "Premium и Stars" },
         { icon: "↯", label: "Без входа в аккаунт" },
-        { icon: "◇", label: "3, 6 или 12 месяцев" },
+        { icon: "◇", label: "Оформление Gift" },
         { icon: "◎", label: "Гарантия на срок" }
       ],
       details: [
-        "Подписка Telegram Premium на 3, 6 или 12 месяцев.",
-        "Оформляется официально в виде подарка (Gift). Нет необходимости передавать данные для входа на аккаунт.",
-        "Чтобы купить, оплатите заказ -> отправьте ваш юзернейм @username -> примите подарок в сообщениях от Telegram."
+        "Подписка Telegram Premium на 3, 6 или 12 месяцев и Telegram Stars выбранным номиналом.",
+        "Оформляется официально в виде подарка или пополнения. Нет необходимости передавать данные для входа на аккаунт.",
+        "Чтобы купить, оплатите заказ -> отправьте ваш юзернейм @username -> примите подарок или пополнение в Telegram."
       ],
       guarantee: "Гарантия на весь срок подписки",
       prices: [
@@ -418,6 +465,23 @@
             ["3 Months", "1100 ₽"],
             ["6 Months", "1470 ₽"],
             ["12 Months", "2600 ₽"]
+          ]
+        },
+        {
+          title: "Telegram Stars",
+          rows: [
+            ["50 ⭐", "75 ₽"],
+            ["100 ⭐", "145 ₽"],
+            ["200 ⭐", "295 ₽"],
+            ["250 ⭐", "380 ₽"],
+            ["500 ⭐", "750 ₽"],
+            ["750 ⭐", "1125 ₽"],
+            ["1000 ⭐", "1490 ₽"],
+            ["1500 ⭐", "2240 ₽"],
+            ["2000 ⭐", "3000 ₽"],
+            ["3000 ⭐", "4480 ₽"],
+            ["5000 ⭐", "7450 ₽"],
+            ["10000 ⭐", "14900 ₽"]
           ]
         }
       ]
