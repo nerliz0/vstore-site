@@ -1247,11 +1247,12 @@ body.is-steam-product .product-prices {
   display: grid;
   grid-template-columns: minmax(150px, 0.82fr) 104px minmax(220px, 1.15fr) minmax(210px, 0.82fr);
   gap: 0.58rem;
-  align-items: stretch;
+  align-items: start;
 }
 
 .steam-topup__field,
 .steam-topup__currency {
+  height: var(--steam-field-height);
   min-height: var(--steam-field-height);
   border: 1px solid rgba(167, 139, 250, 0.16);
   border-radius: 12px;
@@ -1355,6 +1356,7 @@ body.is-steam-product .product-prices {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: var(--steam-field-height);
   min-height: var(--steam-field-height);
   padding-inline: 1rem;
   border: 1px solid rgba(196, 181, 253, 0.32);
@@ -1447,6 +1449,11 @@ body.steam-login-modal-open {
   overflow: hidden;
 }
 
+body.steam-login-modal-open .header {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .steam-login-modal {
   position: fixed;
   inset: 0;
@@ -1468,9 +1475,11 @@ body.steam-login-modal-open {
   position: absolute;
   inset: 0;
   border: 0;
-  background: rgba(4, 4, 8, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background:
+    radial-gradient(circle at 70% 18%, rgba(139, 92, 246, 0.12), transparent 26rem),
+    rgba(4, 4, 8, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   cursor: pointer;
 }
 
@@ -1540,6 +1549,23 @@ body.steam-login-modal-open {
   font-size: 0.96rem;
   font-weight: 620;
   line-height: 1.55;
+}
+
+.steam-login-modal__lead a {
+  color: rgba(196, 181, 253, 0.96);
+  font-weight: 820;
+  text-decoration: underline;
+  text-decoration-color: rgba(196, 181, 253, 0.45);
+  text-underline-offset: 0.18em;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.steam-login-modal__lead a:hover,
+.steam-login-modal__lead a:focus-visible {
+  color: #fff;
+  text-decoration-color: rgba(221, 214, 254, 0.78);
 }
 
 .steam-login-modal__image {

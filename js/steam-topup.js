@@ -6,6 +6,8 @@
   var MIN_AMOUNT = 300;
   var QUICK_AMOUNTS = [500, 1000, 1500, 2000];
   var LOGIN_HELP_IMAGE = "assets/catalog/62f7ed6d-ac6b-42cd-a75f-c5caf8019699.png";
+  var STEAM_SERVICE_ICON = "assets/catalog/service-icons/steam.svg";
+  var TELEGRAM_SERVICE_ICON = "assets/catalog/service-icons/telegram.svg";
   var products = window.VSTORE_PRODUCTS || [];
   var steamProduct = products.find(function (product) {
     return product.slug === "steam";
@@ -45,10 +47,8 @@
         '<div class="steam-topup__services" aria-label="Пополнение сервисов">' +
           '<p>Пополнение сервисов</p>' +
           '<div class="steam-topup__service-list">' +
-            '<span class="steam-topup__service is-active"><img src="' + steamProduct.image + '" alt="" width="224" height="165" loading="lazy" decoding="async" /><strong>Steam</strong></span>' +
-            '<span class="steam-topup__service"><img src="assets/catalog/playstation-vstore-224x165.png" alt="" width="224" height="165" loading="lazy" decoding="async" /><strong>PlayStation</strong></span>' +
-            '<span class="steam-topup__service"><img src="assets/catalog/telegram-vstore-224x165.png" alt="" width="224" height="165" loading="lazy" decoding="async" /><strong>Telegram</strong></span>' +
-            '<span class="steam-topup__service"><img src="assets/catalog/apple-app-store-vstore-224x165.png" alt="" width="224" height="165" loading="lazy" decoding="async" /><strong>Apple</strong></span>' +
+            '<span class="steam-topup__service is-active"><img src="' + STEAM_SERVICE_ICON + '" alt="" width="24" height="24" loading="lazy" decoding="async" /><strong>Steam</strong></span>' +
+            '<span class="steam-topup__service"><img src="' + TELEGRAM_SERVICE_ICON + '" alt="" width="24" height="24" loading="lazy" decoding="async" /><strong>Telegram</strong></span>' +
           '</div>' +
         '</div>' +
         '<div class="steam-topup__form">' +
@@ -82,7 +82,7 @@
         '<div class="steam-login-modal__dialog">' +
           '<button class="steam-login-modal__close" type="button" aria-label="Закрыть" data-steam-help-close>×</button>' +
           '<h2 id="steam-login-modal-title">Как узнать свой логин Steam?</h2>' +
-          '<p class="steam-login-modal__lead">Логин Steam — это то, что вы вводите для входа в аккаунт. Его можно посмотреть на странице аккаунта Steam.</p>' +
+          '<p class="steam-login-modal__lead">Логин Steam — это то, что вы вводите для входа в аккаунт. Его можно посмотреть на <a href="https://store.steampowered.com/account/" target="_blank" rel="noopener noreferrer">странице аккаунта Steam</a>.</p>' +
           '<img class="steam-login-modal__image" src="' + LOGIN_HELP_IMAGE + '" alt="Пример страницы аккаунта Steam с логином Vstore Account" width="1672" height="941" loading="lazy" decoding="async" />' +
           '<p class="steam-login-modal__warning">Будьте внимательны: если указать неправильный логин, пополнение может уйти другому пользователю.</p>' +
           '<button class="steam-login-modal__ok" type="button" data-steam-help-close>Понятно</button>' +
