@@ -23,7 +23,8 @@
     return [
       text(item.slug, "product"),
       text(item.regionCode),
-      text(item.optionName)
+      text(item.optionName),
+      text(item.note)
     ].join("|");
   }
 
@@ -37,6 +38,7 @@
       regionCode: text(item.regionCode).slice(0, 12),
       regionName: text(item.regionName).slice(0, 80),
       optionName: text(item.optionName, "Позиция из каталога").slice(0, 180),
+      note: text(item.note).slice(0, 220),
       priceLabel: text(item.priceLabel, "0 ₽").slice(0, 40),
       priceValue: Number(item.priceValue) || parsePrice(item.priceLabel),
       quantity: Math.min(MAX_QUANTITY, Math.max(1, Number(item.quantity) || 1))
@@ -113,6 +115,9 @@
         lines.push("Регион: " + item.regionName + (item.regionCode ? " (" + item.regionCode + ")" : ""));
       }
       lines.push("Позиция: " + item.optionName);
+      if (item.note) {
+        lines.push("Данные: " + item.note);
+      }
       lines.push("Количество: " + item.quantity);
       lines.push("Стоимость: " + formatPrice(item.priceValue * item.quantity));
       lines.push("");
@@ -142,6 +147,7 @@
       existing.title = normalized.title;
       existing.image = normalized.image;
       existing.regionName = normalized.regionName;
+      existing.note = normalized.note;
       existing.priceLabel = normalized.priceLabel;
       existing.priceValue = normalized.priceValue;
       existing.quantity = Math.min(MAX_QUANTITY, existing.quantity + normalized.quantity);
@@ -215,7 +221,11 @@
     heading.appendChild(remove);
 
     meta.className = "cart-item__meta";
-    meta.textContent = (item.regionName ? item.regionName + " · " : "") + item.optionName;
+    meta.textContent = [
+      item.regionName,
+      item.optionName,
+      item.note
+    ].filter(Boolean).join(" · ");
 
     controls.className = "cart-item__controls";
     stepper.className = "cart-stepper";
