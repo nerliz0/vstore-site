@@ -5,6 +5,7 @@
   var COMMISSION_PERCENT = 4;
   var MIN_AMOUNT = 300;
   var QUICK_AMOUNTS = [500, 1000, 1500, 2000];
+  var LOGIN_HELP_IMAGE = "assets/catalog/62f7ed6d-ac6b-42cd-a75f-c5caf8019699.png";
   var products = window.VSTORE_PRODUCTS || [];
   var steamProduct = products.find(function (product) {
     return product.slug === "steam";
@@ -64,7 +65,7 @@
               '<span>Логин Steam</span>' +
               '<input data-steam-login type="text" placeholder="Логин Steam" autocomplete="off" />' +
             '</label>' +
-            '<button class="steam-topup__help" type="button" data-steam-help>Как узнать логин?</button>' +
+            '<button class="steam-topup__help" type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-help>Как узнать логин?</button>' +
           '</div>' +
           '<button class="steam-topup__button" type="button" data-steam-add>Купить за 520 ₽</button>' +
         '</div>' +
@@ -75,6 +76,17 @@
         '</div>' +
         '<p class="steam-topup__status" id="steam-topup-status" data-steam-status aria-live="polite"></p>' +
         '<p class="steam-topup__summary-line">Минимум ' + formatPrice(MIN_AMOUNT) + ' · комиссия ' + COMMISSION_PERCENT + '% · пример: 500 ₽ × 1.04 = 520 ₽ · итог может отличаться на ±5 ₽ после проверки.</p>' +
+      '</div>' +
+      '<div class="steam-login-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="steam-login-modal-title" data-steam-login-modal>' +
+        '<button class="steam-login-modal__backdrop" type="button" tabindex="-1" aria-hidden="true" data-steam-help-close></button>' +
+        '<div class="steam-login-modal__dialog">' +
+          '<button class="steam-login-modal__close" type="button" aria-label="Закрыть" data-steam-help-close>×</button>' +
+          '<h2 id="steam-login-modal-title">Как узнать свой логин Steam?</h2>' +
+          '<p class="steam-login-modal__lead">Логин Steam — это то, что вы вводите для входа в аккаунт. Его можно посмотреть на странице аккаунта Steam.</p>' +
+          '<img class="steam-login-modal__image" src="' + LOGIN_HELP_IMAGE + '" alt="Пример страницы аккаунта Steam с логином Vstore Account" width="1672" height="941" loading="lazy" decoding="async" />' +
+          '<p class="steam-login-modal__warning">Будьте внимательны: если указать неправильный логин, пополнение может уйти другому пользователю.</p>' +
+          '<button class="steam-login-modal__ok" type="button" data-steam-help-close>Понятно</button>' +
+        '</div>' +
       '</div>';
   }
 
@@ -94,7 +106,19 @@
     var loginInput = root.querySelector("[data-steam-login]");
     var addButton = root.querySelector("[data-steam-add]");
     var helpButton = root.querySelector("[data-steam-help]");
+    var helpModal = root.querySelector("[data-steam-login-modal]");
+    var helpCloseButtons = root.querySelectorAll("[data-steam-help-close]");
     var status = root.querySelector("[data-steam-status]");
+    var helpLastFocus = null;
+
+    function focusElement(element) {
+      if (!element || typeof element.focus !== "function") return;
+      try {
+        element.focus({ preventScroll: true });
+      } catch (error) {
+        element.focus();
+      }
+    }
 
     function update() {
       var amount = parseAmount(amountInput);
@@ -125,9 +149,38 @@
       });
     });
 
-    if (helpButton) {
-      helpButton.addEventListener("click", function () {
-        status.textContent = "Логин можно посмотреть в Steam: профиль -> аккаунт. Нужен именно логин, не никнейм.";
+    function openHelpModal() {
+      if (!helpModal) return;
+      helpLastFocus = document.activeElement;
+      helpModal.classList.add("is-open");
+      helpModal.setAttribute("aria-hidden", "false");
+      helpButton.setAttribute("aria-expanded", "true");
+      document.body.classList.add("steam-login-modal-open");
+
+      var closeButton = helpModal.querySelector(".steam-login-modal__close");
+      focusElement(closeButton);
+    }
+
+    function closeHelpModal() {
+      if (!helpModal) return;
+      helpModal.classList.remove("is-open");
+      helpModal.setAttribute("aria-hidden", "true");
+      helpButton.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("steam-login-modal-open");
+      if (helpLastFocus && typeof helpLastFocus.focus === "function") {
+        focusElement(helpLastFocus);
+      }
+      helpLastFocus = null;
+    }
+
+    if (helpButton && helpModal) {
+      helpButton.addEventListener("click", openHelpModal);
+      helpCloseButtons.forEach(function (button) {
+        button.addEventListener("click", closeHelpModal);
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape" || !helpModal.classList.contains("is-open")) return;
+        closeHelpModal();
       });
     }
 
