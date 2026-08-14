@@ -52,13 +52,22 @@
           '</div>' +
         '</div>' +
         '<div class="steam-topup__form">' +
-          '<label class="steam-topup__field">' +
-            '<span>Получите</span>' +
-            '<input data-steam-amount type="number" min="' + MIN_AMOUNT + '" step="1" inputmode="numeric" value="500" aria-describedby="steam-topup-status" />' +
-          '</label>' +
-          '<div class="steam-topup__currency" aria-label="Регион и валюта">' +
-            '<strong>RU, ₽</strong>' +
-            '<span aria-hidden="true">⌄</span>' +
+          '<div class="steam-topup__amount-block">' +
+            '<div class="steam-topup__amount-row">' +
+              '<label class="steam-topup__field">' +
+                '<span>Получите</span>' +
+                '<input data-steam-amount type="number" min="' + MIN_AMOUNT + '" step="1" inputmode="numeric" value="500" aria-describedby="steam-topup-status" />' +
+              '</label>' +
+              '<div class="steam-topup__currency" aria-label="Регион и валюта">' +
+                '<strong>RU, ₽</strong>' +
+                '<span aria-hidden="true">⌄</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="steam-topup__quick" aria-label="Быстрые суммы">' +
+              QUICK_AMOUNTS.map(function (amount) {
+                return '<button type="button" data-steam-quick="' + amount + '">' + formatNumber(amount) + ' ₽</button>';
+              }).join("") +
+            '</div>' +
           '</div>' +
           '<div class="steam-topup__login-block">' +
             '<label class="steam-topup__field steam-topup__field--login">' +
@@ -69,13 +78,8 @@
           '</div>' +
           '<button class="steam-topup__button" type="button" data-steam-add>Купить за 520 ₽</button>' +
         '</div>' +
-        '<div class="steam-topup__quick" aria-label="Быстрые суммы">' +
-          QUICK_AMOUNTS.map(function (amount) {
-            return '<button type="button" data-steam-quick="' + amount + '">' + formatNumber(amount) + ' ₽</button>';
-          }).join("") +
-        '</div>' +
         '<p class="steam-topup__status" id="steam-topup-status" data-steam-status aria-live="polite"></p>' +
-        '<p class="steam-topup__summary-line">Минимум ' + formatPrice(MIN_AMOUNT) + ' · комиссия ' + COMMISSION_PERCENT + '% · пример: 500 ₽ × 1.04 = 520 ₽ · итог может отличаться на ±5 ₽ после проверки.</p>' +
+        '<p class="steam-topup__summary-line">Минимум ' + formatPrice(MIN_AMOUNT) + ' · комиссия ' + COMMISSION_PERCENT + '% · <button type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-commission>Как рассчитывается комиссия?</button></p>' +
       '</div>' +
       '<div class="steam-login-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="steam-login-modal-title" data-steam-login-modal>' +
         '<button class="steam-login-modal__backdrop" type="button" tabindex="-1" aria-hidden="true" data-steam-help-close></button>' +
@@ -85,6 +89,23 @@
           '<p class="steam-login-modal__lead">Логин Steam — это то, что вы вводите для входа в аккаунт. Его можно посмотреть на <a href="https://store.steampowered.com/account/" target="_blank" rel="noopener noreferrer">странице аккаунта Steam</a>.</p>' +
           '<img class="steam-login-modal__image" src="' + LOGIN_HELP_IMAGE + '" alt="Пример страницы аккаунта Steam с логином Vstore Account" width="1672" height="941" loading="lazy" decoding="async" />' +
           '<p class="steam-login-modal__warning">Будьте внимательны: если указать неправильный логин, пополнение может уйти другому пользователю.</p>' +
+          '<button class="steam-login-modal__ok" type="button" data-steam-help-close>Понятно</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="steam-login-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="steam-commission-modal-title" data-steam-commission-modal>' +
+        '<button class="steam-login-modal__backdrop" type="button" tabindex="-1" aria-hidden="true" data-steam-help-close></button>' +
+        '<div class="steam-login-modal__dialog steam-login-modal__dialog--compact">' +
+          '<button class="steam-login-modal__close" type="button" aria-label="Закрыть" data-steam-help-close>×</button>' +
+          '<h2 id="steam-commission-modal-title">Как считается комиссия?</h2>' +
+          '<p class="steam-login-modal__lead">Сумма пополнения умножается на курс сайта 1.04. Например: 500 ₽ × 1.04 = 520 ₽ к оплате.</p>' +
+          '<div class="steam-commission-example" aria-label="Пример расчета комиссии">' +
+            '<span>500 ₽</span>' +
+            '<i>×</i>' +
+            '<span>1.04</span>' +
+            '<i>=</i>' +
+            '<strong>520 ₽</strong>' +
+          '</div>' +
+          '<p class="steam-login-modal__warning">Итог может отличаться примерно на 5 ₽ в плюс или минус из-за округления и финальной проверки перед выдачей.</p>' +
           '<button class="steam-login-modal__ok" type="button" data-steam-help-close>Понятно</button>' +
         '</div>' +
       '</div>';
@@ -106,7 +127,9 @@
     var loginInput = root.querySelector("[data-steam-login]");
     var addButton = root.querySelector("[data-steam-add]");
     var helpButton = root.querySelector("[data-steam-help]");
+    var commissionButton = root.querySelector("[data-steam-commission]");
     var helpModal = root.querySelector("[data-steam-login-modal]");
+    var commissionModal = root.querySelector("[data-steam-commission-modal]");
     var helpCloseButtons = root.querySelectorAll("[data-steam-help-close]");
     var status = root.querySelector("[data-steam-status]");
     var helpLastFocus = null;
@@ -149,23 +172,25 @@
       });
     });
 
-    function openHelpModal() {
-      if (!helpModal) return;
+    function openModal(modal, trigger) {
+      if (!modal) return;
       helpLastFocus = document.activeElement;
-      helpModal.classList.add("is-open");
-      helpModal.setAttribute("aria-hidden", "false");
-      helpButton.setAttribute("aria-expanded", "true");
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      if (trigger) trigger.setAttribute("aria-expanded", "true");
       document.body.classList.add("steam-login-modal-open");
 
-      var closeButton = helpModal.querySelector(".steam-login-modal__close");
+      var closeButton = modal.querySelector(".steam-login-modal__close");
       focusElement(closeButton);
     }
 
-    function closeHelpModal() {
-      if (!helpModal) return;
-      helpModal.classList.remove("is-open");
-      helpModal.setAttribute("aria-hidden", "true");
-      helpButton.setAttribute("aria-expanded", "false");
+    function closeOpenModal() {
+      var openedModal = root.querySelector(".steam-login-modal.is-open");
+      if (!openedModal) return;
+      openedModal.classList.remove("is-open");
+      openedModal.setAttribute("aria-hidden", "true");
+      if (helpButton) helpButton.setAttribute("aria-expanded", "false");
+      if (commissionButton) commissionButton.setAttribute("aria-expanded", "false");
       document.body.classList.remove("steam-login-modal-open");
       if (helpLastFocus && typeof helpLastFocus.focus === "function") {
         focusElement(helpLastFocus);
@@ -174,13 +199,24 @@
     }
 
     if (helpButton && helpModal) {
-      helpButton.addEventListener("click", openHelpModal);
+      helpButton.addEventListener("click", function () {
+        openModal(helpModal, helpButton);
+      });
+    }
+
+    if (commissionButton && commissionModal) {
+      commissionButton.addEventListener("click", function () {
+        openModal(commissionModal, commissionButton);
+      });
+    }
+
+    if ((helpButton && helpModal) || (commissionButton && commissionModal)) {
       helpCloseButtons.forEach(function (button) {
-        button.addEventListener("click", closeHelpModal);
+        button.addEventListener("click", closeOpenModal);
       });
       document.addEventListener("keydown", function (event) {
-        if (event.key !== "Escape" || !helpModal.classList.contains("is-open")) return;
-        closeHelpModal();
+        if (event.key !== "Escape" || !root.querySelector(".steam-login-modal.is-open")) return;
+        closeOpenModal();
       });
     }
 
