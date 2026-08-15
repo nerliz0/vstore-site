@@ -1,8 +1,11 @@
 (function () {
   "use strict";
 
-  var RATE = 1.04;
-  var COMMISSION_PERCENT = 4;
+  var COMMISSION_TIERS = [
+    { max: 1000, percent: 8 },
+    { max: 2000, percent: 6 },
+    { max: Infinity, percent: 4 }
+  ];
   var MIN_AMOUNT = 300;
   var QUICK_AMOUNTS = [500, 1000, 1500, 2000];
   var LOGIN_HELP_IMAGE = "assets/catalog/62f7ed6d-ac6b-42cd-a75f-c5caf8019699.png";
@@ -31,8 +34,16 @@
     return Math.floor(value);
   }
 
+  function getCommissionPercent(amount) {
+    var tier = COMMISSION_TIERS.find(function (item) {
+      return amount <= item.max;
+    });
+    return tier ? tier.percent : 4;
+  }
+
   function getTotal(amount) {
-    return Math.round(amount * RATE);
+    var percent = getCommissionPercent(amount);
+    return Math.round(amount * (1 + percent / 100));
   }
 
   function shouldShow(root) {
@@ -76,10 +87,10 @@
             '</label>' +
             '<button class="steam-topup__help" type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-help>Как узнать логин?</button>' +
           '</div>' +
-          '<button class="steam-topup__button" type="button" data-steam-add>Купить за 520 ₽</button>' +
+          '<button class="steam-topup__button" type="button" data-steam-add>Купить за 540 ₽</button>' +
         '</div>' +
         '<p class="steam-topup__status" id="steam-topup-status" data-steam-status aria-live="polite"></p>' +
-        '<p class="steam-topup__summary-line">Минимум ' + formatPrice(MIN_AMOUNT) + ' · комиссия ' + COMMISSION_PERCENT + '% · <button type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-commission>Как рассчитывается комиссия?</button></p>' +
+        '<p class="steam-topup__summary-line"><button type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-commission>Как рассчитывается комиссия?</button></p>' +
       '</div>' +
       '<div class="steam-login-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="steam-login-modal-title" data-steam-login-modal>' +
         '<button class="steam-login-modal__backdrop" type="button" tabindex="-1" aria-hidden="true" data-steam-help-close></button>' +
@@ -97,15 +108,15 @@
         '<div class="steam-login-modal__dialog steam-login-modal__dialog--compact">' +
           '<button class="steam-login-modal__close" type="button" aria-label="Закрыть" data-steam-help-close>×</button>' +
           '<h2 id="steam-commission-modal-title">Как считается комиссия?</h2>' +
-          '<p class="steam-login-modal__lead">Сумма пополнения умножается на курс сайта 1.04. Например: 500 ₽ × 1.04 = 520 ₽ к оплате.</p>' +
+          '<p class="steam-login-modal__lead">Комиссия зависит от суммы пополнения: от 300 до 1000 ₽ — 8%, от 1001 до 2000 ₽ — 6%, от 2001 ₽ и выше — 4%.</p>' +
           '<div class="steam-commission-example" aria-label="Пример расчета комиссии">' +
             '<span>500 ₽</span>' +
             '<i>×</i>' +
-            '<span>1.04</span>' +
+            '<span>1.08</span>' +
             '<i>=</i>' +
-            '<strong>520 ₽</strong>' +
+            '<strong>540 ₽</strong>' +
           '</div>' +
-          '<p class="steam-login-modal__warning">Итог может отличаться примерно на 5 ₽ в плюс или минус из-за округления и финальной проверки перед выдачей.</p>' +
+          '<p class="steam-login-modal__warning">Примеры: 1500 ₽ × 1.06 = 1590 ₽, 3000 ₽ × 1.04 = 3120 ₽. Итог может отличаться примерно на 5 ₽ в плюс или минус из-за округления и финальной проверки перед выдачей.</p>' +
           '<button class="steam-login-modal__ok" type="button" data-steam-help-close>Понятно</button>' +
         '</div>' +
       '</div>';
@@ -148,6 +159,7 @@
       var validAmount = amount >= MIN_AMOUNT;
       var calculatedAmount = validAmount ? amount : MIN_AMOUNT;
       var calculatedTotal = getTotal(calculatedAmount);
+      var commissionPercent = getCommissionPercent(calculatedAmount);
       var hasLogin = Boolean(String(loginInput.value || "").trim());
 
       addButton.textContent = validAmount ? "Купить за " + formatPrice(calculatedTotal) : "Минимум " + formatPrice(MIN_AMOUNT);
@@ -158,7 +170,7 @@
       } else if (!hasLogin) {
         status.textContent = "Укажите логин Steam, чтобы добавить пополнение в корзину.";
       } else {
-        status.textContent = "К оплате: " + formatPrice(calculatedTotal) + ". На баланс Steam: " + formatPrice(calculatedAmount) + ".";
+        status.textContent = "К оплате: " + formatPrice(calculatedTotal) + ". На баланс Steam: " + formatPrice(calculatedAmount) + ". Комиссия " + commissionPercent + "%.";
       }
     }
 
@@ -229,6 +241,7 @@
       }
 
       var totalValue = getTotal(amount);
+      var commissionPercent = getCommissionPercent(amount);
       var added = window.VSTORE_CART.add({
         slug: steamProduct.slug,
         title: steamProduct.title,
@@ -236,7 +249,7 @@
         regionCode: "RU",
         regionName: "Россия",
         optionName: "Пополнение Steam на " + formatPrice(amount),
-        note: "Логин Steam: " + login + " · Комиссия 4% · Курс 1.04",
+        note: "Логин Steam: " + login + " · Комиссия " + commissionPercent + "%",
         priceLabel: formatPrice(totalValue),
         priceValue: totalValue
       });
