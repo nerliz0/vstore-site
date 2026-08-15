@@ -85,12 +85,14 @@
               '<span>Логин Steam</span>' +
               '<input data-steam-login type="text" placeholder="Логин Steam" autocomplete="off" />' +
             '</label>' +
-            '<button class="steam-topup__help" type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-help>Как узнать логин?</button>' +
+            '<div class="steam-topup__links">' +
+              '<button class="steam-topup__help" type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-help>Как узнать логин?</button>' +
+              '<button class="steam-topup__help" type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-commission>Как рассчитывается комиссия?</button>' +
+            '</div>' +
           '</div>' +
           '<button class="steam-topup__button" type="button" data-steam-add>Купить за 540 ₽</button>' +
         '</div>' +
         '<p class="steam-topup__status" id="steam-topup-status" data-steam-status aria-live="polite"></p>' +
-        '<p class="steam-topup__summary-line"><button type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-commission>Как рассчитывается комиссия?</button></p>' +
       '</div>' +
       '<div class="steam-login-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="steam-login-modal-title" data-steam-login-modal>' +
         '<button class="steam-login-modal__backdrop" type="button" tabindex="-1" aria-hidden="true" data-steam-help-close></button>' +

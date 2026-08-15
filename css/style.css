@@ -1339,10 +1339,17 @@ body.is-steam-product .product-prices {
   min-width: 0;
 }
 
+.steam-topup__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.32rem 0.72rem;
+  margin-top: 0.32rem;
+}
+
 .steam-topup__help {
   display: inline-flex;
   width: max-content;
-  margin-top: 0.32rem;
   border: 0;
   color: rgba(196, 181, 253, 0.82);
   background: transparent;
@@ -1445,42 +1452,6 @@ body.is-steam-product .product-prices {
   font-size: 0.78rem;
   font-weight: 650;
   line-height: 1.4;
-}
-
-.steam-topup__summary-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.22rem;
-  margin-top: 0.28rem;
-  color: rgba(244, 244, 245, 0.48);
-  font-size: 0.72rem;
-  font-weight: 600;
-  line-height: 1.45;
-}
-
-.steam-topup__summary-line button {
-  display: inline-flex;
-  align-items: center;
-  border: 0;
-  padding: 0;
-  color: rgba(196, 181, 253, 0.84);
-  background: transparent;
-  cursor: pointer;
-  font: inherit;
-  font-weight: 760;
-  text-decoration: underline;
-  text-decoration-color: rgba(196, 181, 253, 0.42);
-  text-underline-offset: 0.16em;
-  transition:
-    color 0.2s ease,
-    text-decoration-color 0.2s ease;
-}
-
-.steam-topup__summary-line button:hover,
-.steam-topup__summary-line button:focus-visible {
-  color: #fff;
-  text-decoration-color: rgba(221, 214, 254, 0.74);
 }
 
 body.steam-login-modal-open {
@@ -4201,8 +4172,7 @@ body.steam-login-modal-open .header {
     width: 100%;
   }
 
-  .steam-topup__status,
-  .steam-topup__summary-line {
+  .steam-topup__status {
     font-size: 0.72rem;
   }
 
