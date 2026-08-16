@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  function startCatalog() {
   var products = window.VSTORE_PRODUCTS || [];
   var search = document.getElementById("catalog-search");
   var filters = Array.prototype.slice.call(document.querySelectorAll("[data-catalog-filter]"));
@@ -203,4 +204,9 @@
 
   bindCatalogHeroParallax();
   applyFilters();
+  }
+
+  Promise.resolve(window.VSTORE_PRODUCTS_READY || window.VSTORE_PRODUCTS)
+    .then(startCatalog)
+    .catch(startCatalog);
 })();

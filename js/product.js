@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  function startProduct() {
   var products = window.VSTORE_PRODUCTS || [];
   var config = window.VSTORE_CONFIG || {};
   var params = new URLSearchParams(window.location.search);
@@ -428,4 +429,9 @@
 
   initRepeatHint();
   updateMetadata();
+  }
+
+  Promise.resolve(window.VSTORE_PRODUCTS_READY || window.VSTORE_PRODUCTS)
+    .then(startProduct)
+    .catch(startProduct);
 })();

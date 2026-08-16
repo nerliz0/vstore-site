@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#08080d" />
+  <title>Админка — Vstore</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/admin.css?v=20260816-1" />
+</head>
+
+<body>
+  <main class="admin-shell">
+    <section class="admin-login" data-login-view>
+      <div class="admin-login__brand">
+        <img src="assets/brand/logo.svg" alt="Vstore" width="160" height="48" />
+        <span>Admin</span>
+      </div>
+      <h1>Вход в админку</h1>
+      <p>Редактирование товаров работает только для аккаунта, добавленного в Supabase admin_users.</p>
+      <form class="admin-form" data-login-form>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <label>
+          <span>Пароль</span>
+          <input type="password" name="password" autocomplete="current-password" required />
+        </label>
+        <button class="admin-button" type="submit">Войти</button>
+      </form>
+      <p class="admin-status" data-login-status></p>
+    </section>
+
+    <section class="admin-dashboard" data-admin-view hidden>
+      <header class="admin-header">
+        <a class="admin-logo" href="index.html" aria-label="Vstore — на главную">
+          <img src="assets/brand/logo.svg" alt="Vstore" width="160" height="48" />
+        </a>
+        <nav>
+          <a href="catalog.html">Каталог</a>
+          <button type="button" data-import-products>Импорт текущего каталога</button>
+          <button type="button" data-new-product>Новый товар</button>
+          <button type="button" data-sign-out>Выйти</button>
+        </nav>
+      </header>
+
+      <div class="admin-layout">
+        <aside class="admin-sidebar">
+          <div class="admin-sidebar__head">
+            <span>Товары</span>
+            <strong data-products-count>0</strong>
+          </div>
+          <div class="admin-products" data-products-list></div>
+        </aside>
+
+        <section class="admin-editor">
+          <form data-product-form>
+            <div class="admin-editor__top">
+              <div>
+                <p class="admin-eyebrow">Редактор товара</p>
+                <h1 data-editor-title>Выберите товар</h1>
+              </div>
+              <label class="admin-toggle">
+                <input type="checkbox" name="active" checked />
+                <span>Активен</span>
+              </label>
+            </div>
+
+            <div class="admin-grid">
+              <label>
+                <span>Slug</span>
+                <input name="slug" placeholder="fortnite" required />
+              </label>
+              <label>
+                <span>Название</span>
+                <input name="title" placeholder="Fortnite" required />
+              </label>
+              <label>
+                <span>Категория</span>
+                <input name="category" placeholder="Игры" />
+              </label>
+              <label>
+                <span>Цена от</span>
+                <input name="priceFrom" placeholder="от 299 ₽" />
+              </label>
+              <label>
+                <span>Картинка</span>
+                <input name="image" placeholder="assets/catalog/fortnite-vstore.png" />
+              </label>
+              <label>
+                <span>Featured-картинка</span>
+                <input name="featuredImage" placeholder="assets/catalog/fortnite-vstore.png" />
+              </label>
+              <label>
+                <span>Featured mobile</span>
+                <input name="featuredMobileImage" placeholder="assets/catalog/fortnite-vstore.png" />
+              </label>
+              <label>
+                <span>Featured title</span>
+                <input name="featuredTitle" placeholder="Fortnite Crew" />
+              </label>
+              <label>
+                <span>Фильтры</span>
+                <input name="filters" placeholder="games, topup" />
+              </label>
+              <label>
+                <span>Теги/items</span>
+                <input name="items" placeholder="Crew, V-Bucks, Battle Pass" />
+              </label>
+              <label>
+                <span>Aliases для поиска</span>
+                <input name="aliases" placeholder="Фортнайт, Fortnite, Вбаксы" />
+              </label>
+              <label>
+                <span>Сортировка</span>
+                <input name="sortOrder" type="number" inputmode="numeric" value="100" />
+              </label>
+            </div>
+
+            <label>
+              <span>Описание</span>
+              <textarea name="description" rows="3"></textarea>
+            </label>
+
+            <div class="admin-grid admin-grid--compact">
+              <label>
+                <span>Акцент</span>
+                <input name="accent" placeholder="#8b5cf6" />
+              </label>
+              <label>
+                <span>Accent RGB</span>
+                <input name="accentRgb" placeholder="139, 92, 246" />
+              </label>
+              <label>
+                <span>Watermark</span>
+                <input name="watermark" placeholder="FORTNITE" />
+              </label>
+              <label>
+                <span>Гарантия</span>
+                <input name="guarantee" placeholder="24-часовая гарантия" />
+              </label>
+            </div>
+
+            <div class="admin-json-grid">
+              <label>
+                <span>Benefits JSON</span>
+                <textarea name="benefits" rows="8" spellcheck="false"></textarea>
+              </label>
+              <label>
+                <span>Details JSON</span>
+                <textarea name="details" rows="8" spellcheck="false"></textarea>
+              </label>
+              <label>
+                <span>Prices JSON</span>
+                <textarea name="prices" rows="10" spellcheck="false"></textarea>
+              </label>
+              <label>
+                <span>Regions JSON</span>
+                <textarea name="regions" rows="10" spellcheck="false"></textarea>
+              </label>
+            </div>
+
+            <div class="admin-actions">
+              <button class="admin-button" type="submit">Сохранить</button>
+              <button class="admin-button admin-button--ghost" type="button" data-delete-product>Удалить</button>
+              <span data-save-status></span>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js?v=20260816-1"></script>
+  <script src="js/products-data.js?v=20260815-1"></script>
+  <script src="js/admin.js?v=20260816-1"></script>
+</body>
+
+</html>

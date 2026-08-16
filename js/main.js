@@ -367,7 +367,10 @@
     if (year) year.textContent = new Date().getFullYear();
 
     applyConfiguredLinks();
-    hydrateFeaturedProducts();
+    Promise.resolve(window.VSTORE_PRODUCTS_READY || products).then(function () {
+      products = window.VSTORE_PRODUCTS || products;
+      hydrateFeaturedProducts();
+    }).catch(hydrateFeaturedProducts);
     initHeroIntro();
     initSupportWidget();
     initScrollReveal();
