@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/admin.css?v=20260816-1" />
+  <link rel="stylesheet" href="css/admin.css?v=20260816-2" />
 </head>
 
 <body>
@@ -72,98 +72,147 @@
               </label>
             </div>
 
-            <div class="admin-grid">
-              <label>
-                <span>Slug</span>
-                <input name="slug" placeholder="fortnite" required />
-              </label>
-              <label>
-                <span>Название</span>
-                <input name="title" placeholder="Fortnite" required />
-              </label>
-              <label>
-                <span>Категория</span>
-                <input name="category" placeholder="Игры" />
-              </label>
-              <label>
-                <span>Цена от</span>
-                <input name="priceFrom" placeholder="от 299 ₽" />
-              </label>
-              <label>
-                <span>Картинка</span>
-                <input name="image" placeholder="assets/catalog/fortnite-vstore.png" />
-              </label>
-              <label>
-                <span>Featured-картинка</span>
-                <input name="featuredImage" placeholder="assets/catalog/fortnite-vstore.png" />
-              </label>
-              <label>
-                <span>Featured mobile</span>
-                <input name="featuredMobileImage" placeholder="assets/catalog/fortnite-vstore.png" />
-              </label>
-              <label>
-                <span>Featured title</span>
-                <input name="featuredTitle" placeholder="Fortnite Crew" />
-              </label>
-              <label>
-                <span>Фильтры</span>
-                <input name="filters" placeholder="games, topup" />
-              </label>
-              <label>
-                <span>Теги/items</span>
-                <input name="items" placeholder="Crew, V-Bucks, Battle Pass" />
-              </label>
-              <label>
-                <span>Aliases для поиска</span>
-                <input name="aliases" placeholder="Фортнайт, Fortnite, Вбаксы" />
-              </label>
-              <label>
-                <span>Сортировка</span>
-                <input name="sortOrder" type="number" inputmode="numeric" value="100" />
-              </label>
-            </div>
+            <div class="admin-editor-grid">
+              <div class="admin-editor-main">
+                <section class="admin-card">
+                  <div class="admin-card__head">
+                    <div>
+                      <p class="admin-eyebrow">Основное</p>
+                      <h2>Карточка товара</h2>
+                    </div>
+                  </div>
+                  <div class="admin-grid">
+                    <label>
+                      <span>Slug</span>
+                      <input name="slug" placeholder="fortnite" required />
+                    </label>
+                    <label>
+                      <span>Название</span>
+                      <input name="title" placeholder="Fortnite" required />
+                    </label>
+                    <label>
+                      <span>Категория</span>
+                      <input name="category" placeholder="Игры" />
+                    </label>
+                    <label>
+                      <span>Цена от</span>
+                      <input name="priceFrom" placeholder="от 299 ₽" />
+                    </label>
+                    <label>
+                      <span>Картинка</span>
+                      <input name="image" placeholder="assets/catalog/fortnite-vstore.png" />
+                    </label>
+                    <label>
+                      <span>Featured-картинка</span>
+                      <input name="featuredImage" placeholder="assets/catalog/fortnite-vstore.png" />
+                    </label>
+                    <label>
+                      <span>Featured mobile</span>
+                      <input name="featuredMobileImage" placeholder="assets/catalog/fortnite-vstore.png" />
+                    </label>
+                    <label>
+                      <span>Featured title</span>
+                      <input name="featuredTitle" placeholder="Fortnite Crew" />
+                    </label>
+                    <label>
+                      <span>Фильтры</span>
+                      <input name="filters" placeholder="games, topup" />
+                    </label>
+                    <label>
+                      <span>Теги/items</span>
+                      <input name="items" placeholder="Crew, V-Bucks, Battle Pass" />
+                    </label>
+                    <label>
+                      <span>Aliases для поиска</span>
+                      <input name="aliases" placeholder="Фортнайт, Fortnite, Вбаксы" />
+                    </label>
+                    <label>
+                      <span>Сортировка</span>
+                      <input name="sortOrder" type="number" inputmode="numeric" value="100" />
+                    </label>
+                  </div>
+                  <label>
+                    <span>Описание</span>
+                    <textarea name="description" rows="3"></textarea>
+                  </label>
+                  <div class="admin-grid admin-grid--compact">
+                    <label>
+                      <span>Акцент</span>
+                      <input name="accent" placeholder="#8b5cf6" />
+                    </label>
+                    <label>
+                      <span>Accent RGB</span>
+                      <input name="accentRgb" placeholder="139, 92, 246" />
+                    </label>
+                    <label>
+                      <span>Watermark</span>
+                      <input name="watermark" placeholder="FORTNITE" />
+                    </label>
+                    <label>
+                      <span>Гарантия</span>
+                      <input name="guarantee" placeholder="24-часовая гарантия" />
+                    </label>
+                  </div>
+                </section>
 
-            <label>
-              <span>Описание</span>
-              <textarea name="description" rows="3"></textarea>
-            </label>
+                <section class="admin-card">
+                  <div class="admin-card__head">
+                    <div>
+                      <p class="admin-eyebrow">Преимущества</p>
+                      <h2>Иконки и короткие плюсы</h2>
+                    </div>
+                    <button class="admin-mini-button" type="button" data-add-benefit>Добавить</button>
+                  </div>
+                  <div class="admin-stack" data-benefits-list></div>
+                </section>
 
-            <div class="admin-grid admin-grid--compact">
-              <label>
-                <span>Акцент</span>
-                <input name="accent" placeholder="#8b5cf6" />
-              </label>
-              <label>
-                <span>Accent RGB</span>
-                <input name="accentRgb" placeholder="139, 92, 246" />
-              </label>
-              <label>
-                <span>Watermark</span>
-                <input name="watermark" placeholder="FORTNITE" />
-              </label>
-              <label>
-                <span>Гарантия</span>
-                <input name="guarantee" placeholder="24-часовая гарантия" />
-              </label>
-            </div>
+                <section class="admin-card">
+                  <div class="admin-card__head">
+                    <div>
+                      <p class="admin-eyebrow">Описание</p>
+                      <h2>Пункты внутри товара</h2>
+                    </div>
+                    <button class="admin-mini-button" type="button" data-add-detail>Добавить</button>
+                  </div>
+                  <div class="admin-stack" data-details-list></div>
+                </section>
 
-            <div class="admin-json-grid">
-              <label>
-                <span>Benefits JSON</span>
-                <textarea name="benefits" rows="8" spellcheck="false"></textarea>
-              </label>
-              <label>
-                <span>Details JSON</span>
-                <textarea name="details" rows="8" spellcheck="false"></textarea>
-              </label>
-              <label>
-                <span>Prices JSON</span>
-                <textarea name="prices" rows="10" spellcheck="false"></textarea>
-              </label>
-              <label>
-                <span>Regions JSON</span>
-                <textarea name="regions" rows="10" spellcheck="false"></textarea>
-              </label>
+                <section class="admin-card">
+                  <div class="admin-card__head">
+                    <div>
+                      <p class="admin-eyebrow">Прайс</p>
+                      <h2>Группы и позиции без регионов</h2>
+                    </div>
+                    <button class="admin-mini-button" type="button" data-add-price-group>Добавить группу</button>
+                  </div>
+                  <div class="admin-stack" data-prices-list></div>
+                </section>
+
+                <section class="admin-card">
+                  <div class="admin-card__head">
+                    <div>
+                      <p class="admin-eyebrow">Регионы</p>
+                      <h2>Региональные прайсы</h2>
+                    </div>
+                    <button class="admin-mini-button" type="button" data-add-region>Добавить регион</button>
+                  </div>
+                  <div class="admin-stack" data-regions-list></div>
+                </section>
+              </div>
+
+              <aside class="admin-preview">
+                <p class="admin-eyebrow">Preview</p>
+                <div class="admin-preview__media">
+                  <img data-preview-image src="assets/catalog/fortnite-vstore.png" alt="" />
+                </div>
+                <div class="admin-preview__body">
+                  <span data-preview-category>Игры</span>
+                  <h2 data-preview-title>Товар</h2>
+                  <p data-preview-description>Описание товара появится здесь.</p>
+                  <div class="admin-preview__tags" data-preview-tags></div>
+                  <strong data-preview-price>по запросу</strong>
+                </div>
+              </aside>
             </div>
 
             <div class="admin-actions">
@@ -180,7 +229,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js?v=20260816-1"></script>
   <script src="js/products-data.js?v=20260815-1"></script>
-  <script src="js/admin.js?v=20260816-1"></script>
+  <script src="js/admin.js?v=20260816-2"></script>
 </body>
 
 </html>
