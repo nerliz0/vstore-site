@@ -8,6 +8,24 @@
   ];
   var MIN_AMOUNT = 300;
   var QUICK_AMOUNTS = [500, 1000, 1500, 2000];
+  var STAR_MIN_AMOUNT = 50;
+  var STAR_MAX_AMOUNT = 10000;
+  var STAR_STEP = 50;
+  var STAR_QUICK_AMOUNTS = [100, 500, 1000];
+  var STAR_PACKS = [
+    { amount: 50, price: 75 },
+    { amount: 100, price: 145 },
+    { amount: 200, price: 295 },
+    { amount: 250, price: 380 },
+    { amount: 500, price: 750 },
+    { amount: 750, price: 1125 },
+    { amount: 1000, price: 1490 },
+    { amount: 1500, price: 2240 },
+    { amount: 2000, price: 3000 },
+    { amount: 3000, price: 4480 },
+    { amount: 5000, price: 7450 },
+    { amount: 10000, price: 14900 }
+  ];
   var LOGIN_HELP_IMAGE = "assets/catalog/62f7ed6d-ac6b-42cd-a75f-c5caf8019699.png";
   var STEAM_SERVICE_ICON = "assets/catalog/service-icons/steam.svg";
   var TELEGRAM_SERVICE_ICON = "assets/catalog/service-icons/telegram.svg";
@@ -18,6 +36,13 @@
     slug: "steam",
     title: "Steam",
     image: "assets/catalog/steam-vstore-224x165.png"
+  };
+  var telegramProduct = products.find(function (product) {
+    return product.slug === "telegram-premium";
+  }) || {
+    slug: "telegram-premium",
+    title: "Telegram",
+    image: "assets/catalog/telegram-vstore-224x165.png"
   };
 
   function formatPrice(value) {
@@ -46,6 +71,56 @@
     return Math.round(amount * (1 + percent / 100));
   }
 
+  function formatStars(value) {
+    return formatNumber(value) + " ⭐";
+  }
+
+  function getStarOffer(amount) {
+    var target = Number(amount) || 0;
+    var dp = [{ price: 0, packs: [] }];
+    var index;
+
+    if (target < STAR_MIN_AMOUNT || target > STAR_MAX_AMOUNT || target % STAR_STEP !== 0) {
+      return null;
+    }
+
+    for (index = STAR_STEP; index <= target; index += STAR_STEP) {
+      dp[index] = null;
+      STAR_PACKS.forEach(function (pack) {
+        var previous = dp[index - pack.amount];
+        var nextPrice;
+        if (!previous) return;
+        nextPrice = previous.price + pack.price;
+        if (!dp[index] || nextPrice < dp[index].price) {
+          dp[index] = {
+            price: nextPrice,
+            packs: previous.packs.concat(pack.amount)
+          };
+        }
+      });
+    }
+
+    if (!dp[target]) return null;
+
+    return {
+      amount: target,
+      price: dp[target].price,
+      packs: dp[target].packs
+    };
+  }
+
+  function describeStarPacks(packs) {
+    var counts = {};
+    packs.forEach(function (amount) {
+      counts[amount] = (counts[amount] || 0) + 1;
+    });
+    return Object.keys(counts).map(Number).sort(function (a, b) {
+      return b - a;
+    }).map(function (amount) {
+      return counts[amount] > 1 ? formatStars(amount) + " × " + counts[amount] : formatStars(amount);
+    }).join(" + ");
+  }
+
   function shouldShow(root) {
     if (root.dataset.steamContext !== "product") return true;
     var params = new URLSearchParams(window.location.search);
@@ -58,39 +133,39 @@
         '<div class="steam-topup__services" aria-label="Пополнение сервисов">' +
           '<p>Пополнение сервисов</p>' +
           '<div class="steam-topup__service-list">' +
-            '<span class="steam-topup__service is-active"><img src="' + STEAM_SERVICE_ICON + '" alt="" width="24" height="24" loading="lazy" decoding="async" /><strong>Steam</strong></span>' +
-            '<span class="steam-topup__service"><img src="' + TELEGRAM_SERVICE_ICON + '" alt="" width="24" height="24" loading="lazy" decoding="async" /><strong>Telegram</strong></span>' +
+            '<button class="steam-topup__service is-active" type="button" data-topup-service="steam"><img src="' + STEAM_SERVICE_ICON + '" alt="" width="24" height="24" loading="lazy" decoding="async" /><strong>Steam</strong></button>' +
+            '<button class="steam-topup__service" type="button" data-topup-service="telegram"><img src="' + TELEGRAM_SERVICE_ICON + '" alt="" width="24" height="24" loading="lazy" decoding="async" /><strong>Telegram</strong></button>' +
           '</div>' +
         '</div>' +
         '<div class="steam-topup__form">' +
           '<div class="steam-topup__amount-block">' +
             '<div class="steam-topup__amount-row">' +
               '<label class="steam-topup__field">' +
-                '<span>Получите</span>' +
-                '<input data-steam-amount type="number" min="' + MIN_AMOUNT + '" step="1" inputmode="numeric" value="500" aria-describedby="steam-topup-status" />' +
+                '<span data-topup-amount-label>Получите</span>' +
+                '<input data-topup-amount type="number" min="' + MIN_AMOUNT + '" step="1" inputmode="numeric" value="500" aria-describedby="steam-topup-status" />' +
               '</label>' +
-              '<div class="steam-topup__currency" aria-label="Регион и валюта">' +
-                '<strong>RU, ₽</strong>' +
-                '<span aria-hidden="true">⌄</span>' +
+              '<div class="steam-topup__currency" aria-label="Регион и валюта" data-topup-currency>' +
+                '<strong data-topup-currency-label>RU, ₽</strong>' +
+                '<span aria-hidden="true" data-topup-currency-arrow>⌄</span>' +
               '</div>' +
             '</div>' +
-            '<div class="steam-topup__quick" aria-label="Быстрые суммы">' +
+            '<div class="steam-topup__quick" aria-label="Быстрые суммы" data-topup-quick>' +
               QUICK_AMOUNTS.map(function (amount) {
-                return '<button type="button" data-steam-quick="' + amount + '">' + formatNumber(amount) + ' ₽</button>';
+                return '<button type="button" data-topup-quick-value="' + amount + '">' + formatNumber(amount) + ' ₽</button>';
               }).join("") +
             '</div>' +
           '</div>' +
           '<div class="steam-topup__login-block">' +
             '<label class="steam-topup__field steam-topup__field--login">' +
-              '<span>Логин Steam</span>' +
-              '<input data-steam-login type="text" placeholder="Логин Steam" autocomplete="off" />' +
+              '<span data-topup-login-label>Логин Steam</span>' +
+              '<input data-topup-login type="text" placeholder="Логин Steam" autocomplete="off" />' +
             '</label>' +
-            '<div class="steam-topup__links">' +
+            '<div class="steam-topup__links" data-steam-links>' +
               '<button class="steam-topup__help" type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-help>Как узнать логин?</button>' +
               '<button class="steam-topup__help" type="button" aria-haspopup="dialog" aria-expanded="false" data-steam-commission>Как рассчитывается комиссия?</button>' +
             '</div>' +
           '</div>' +
-          '<button class="steam-topup__button" type="button" data-steam-add>Купить за 540 ₽</button>' +
+          '<button class="steam-topup__button" type="button" data-topup-add>Купить за 540 ₽</button>' +
         '</div>' +
         '<p class="steam-topup__status" id="steam-topup-status" data-steam-status aria-live="polite"></p>' +
       '</div>' +
@@ -136,9 +211,18 @@
       document.body.classList.add("is-steam-product");
     }
 
-    var amountInput = root.querySelector("[data-steam-amount]");
-    var loginInput = root.querySelector("[data-steam-login]");
-    var addButton = root.querySelector("[data-steam-add]");
+    var activeService = "steam";
+    var amountInput = root.querySelector("[data-topup-amount]");
+    var amountLabel = root.querySelector("[data-topup-amount-label]");
+    var currency = root.querySelector("[data-topup-currency]");
+    var currencyLabel = root.querySelector("[data-topup-currency-label]");
+    var currencyArrow = root.querySelector("[data-topup-currency-arrow]");
+    var loginInput = root.querySelector("[data-topup-login]");
+    var loginLabel = root.querySelector("[data-topup-login-label]");
+    var addButton = root.querySelector("[data-topup-add]");
+    var quickWrap = root.querySelector("[data-topup-quick]");
+    var serviceButtons = root.querySelectorAll("[data-topup-service]");
+    var steamLinks = root.querySelector("[data-steam-links]");
     var helpButton = root.querySelector("[data-steam-help]");
     var commissionButton = root.querySelector("[data-steam-commission]");
     var helpModal = root.querySelector("[data-steam-login-modal]");
@@ -156,7 +240,23 @@
       }
     }
 
-    function update() {
+    function renderQuickButtons() {
+      var amounts = activeService === "telegram" ? STAR_QUICK_AMOUNTS : QUICK_AMOUNTS;
+      if (!quickWrap) return;
+      quickWrap.innerHTML = amounts.map(function (amount) {
+        var label = activeService === "telegram" ? formatStars(amount) : formatNumber(amount) + " ₽";
+        return '<button type="button" data-topup-quick-value="' + amount + '">' + label + '</button>';
+      }).join("");
+
+      quickWrap.querySelectorAll("[data-topup-quick-value]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          amountInput.value = button.dataset.topupQuickValue;
+          update();
+        });
+      });
+    }
+
+    function updateSteam() {
       var amount = parseAmount(amountInput);
       var validAmount = amount >= MIN_AMOUNT;
       var calculatedAmount = validAmount ? amount : MIN_AMOUNT;
@@ -176,13 +276,78 @@
       }
     }
 
+    function updateTelegram() {
+      var amount = parseAmount(amountInput);
+      var offer = getStarOffer(amount);
+      var username = String(loginInput.value || "").trim();
+      var hasUsername = Boolean(username);
+
+      if (offer) {
+        addButton.textContent = "Купить за " + formatPrice(offer.price);
+      } else {
+        addButton.textContent = "Введите кратно " + formatStars(STAR_STEP);
+      }
+      addButton.disabled = !offer;
+
+      if (!offer) {
+        status.textContent = "Можно выбрать только кратные " + formatStars(STAR_STEP) + " значения от " + formatStars(STAR_MIN_AMOUNT) + " до " + formatStars(STAR_MAX_AMOUNT) + ".";
+      } else if (!hasUsername) {
+        status.textContent = "Укажите Telegram username, чтобы добавить звёзды в корзину.";
+      } else {
+        status.textContent = "К оплате: " + formatPrice(offer.price) + ". Звёзды: " + formatStars(offer.amount) + ". Номиналы: " + describeStarPacks(offer.packs) + ".";
+      }
+    }
+
+    function update() {
+      if (activeService === "telegram") updateTelegram();
+      else updateSteam();
+    }
+
+    function setService(service) {
+      activeService = service === "telegram" ? "telegram" : "steam";
+
+      serviceButtons.forEach(function (button) {
+        button.classList.toggle("is-active", button.dataset.topupService === activeService);
+      });
+
+      if (activeService === "telegram") {
+        if (amountLabel) amountLabel.textContent = "Звёзды";
+        if (currency) currency.setAttribute("aria-label", "Сервис");
+        if (currencyLabel) currencyLabel.textContent = "Telegram";
+        if (currencyArrow) currencyArrow.hidden = true;
+        if (loginLabel) loginLabel.textContent = "Username";
+        amountInput.min = String(STAR_MIN_AMOUNT);
+        amountInput.max = String(STAR_MAX_AMOUNT);
+        amountInput.step = String(STAR_STEP);
+        amountInput.value = "500";
+        loginInput.placeholder = "@username";
+        loginInput.value = "";
+        if (steamLinks) steamLinks.hidden = true;
+      } else {
+        if (amountLabel) amountLabel.textContent = "Получите";
+        if (currency) currency.setAttribute("aria-label", "Регион и валюта");
+        if (currencyLabel) currencyLabel.textContent = "RU, ₽";
+        if (currencyArrow) currencyArrow.hidden = false;
+        if (loginLabel) loginLabel.textContent = "Логин Steam";
+        amountInput.min = String(MIN_AMOUNT);
+        amountInput.removeAttribute("max");
+        amountInput.step = "1";
+        amountInput.value = "500";
+        loginInput.placeholder = "Логин Steam";
+        loginInput.value = "";
+        if (steamLinks) steamLinks.hidden = false;
+      }
+
+      renderQuickButtons();
+      update();
+    }
+
     amountInput.addEventListener("input", update);
     loginInput.addEventListener("input", update);
 
-    root.querySelectorAll("[data-steam-quick]").forEach(function (button) {
+    serviceButtons.forEach(function (button) {
       button.addEventListener("click", function () {
-        amountInput.value = button.dataset.steamQuick;
-        update();
+        setService(button.dataset.topupService);
       });
     });
 
@@ -237,14 +402,45 @@
     addButton.addEventListener("click", function () {
       var amount = parseAmount(amountInput);
       var login = String(loginInput.value || "").trim();
-      if (amount < MIN_AMOUNT || !login || !window.VSTORE_CART) {
+      var totalValue;
+      var commissionPercent;
+      var starOffer;
+      var username;
+      var added;
+
+      if (!window.VSTORE_CART) {
         update();
         return;
       }
 
-      var totalValue = getTotal(amount);
-      var commissionPercent = getCommissionPercent(amount);
-      var added = window.VSTORE_CART.add({
+      if (activeService === "telegram") {
+        starOffer = getStarOffer(amount);
+        username = login.replace(/^@+/, "");
+        if (!starOffer || !username) {
+          update();
+          return;
+        }
+
+        added = window.VSTORE_CART.add({
+          slug: telegramProduct.slug,
+          title: telegramProduct.title,
+          image: telegramProduct.image,
+          regionCode: "TG",
+          regionName: "Telegram Stars",
+          optionName: formatStars(starOffer.amount) + " Telegram Stars",
+          note: "Username: @" + username + " · Номиналы: " + describeStarPacks(starOffer.packs),
+          priceLabel: formatPrice(starOffer.price),
+          priceValue: starOffer.price
+        });
+      } else {
+        if (amount < MIN_AMOUNT || !login) {
+          update();
+          return;
+        }
+
+        totalValue = getTotal(amount);
+        commissionPercent = getCommissionPercent(amount);
+        added = window.VSTORE_CART.add({
         slug: steamProduct.slug,
         title: steamProduct.title,
         image: steamProduct.image,
@@ -255,6 +451,7 @@
         priceLabel: formatPrice(totalValue),
         priceValue: totalValue
       });
+      }
 
       if (added) {
         addButton.textContent = "Добавлено";
@@ -262,6 +459,7 @@
       }
     });
 
+    renderQuickButtons();
     update();
   }
 

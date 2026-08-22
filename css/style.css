@@ -1220,10 +1220,15 @@ body.is-steam-product .product-prices {
   display: inline-flex;
   align-items: center;
   gap: 0.38rem;
+  padding: 0;
+  border: 0;
   color: rgba(244, 244, 245, 0.58);
+  background: transparent;
+  cursor: pointer;
   font-size: clamp(1.12rem, 2vw, 1.42rem);
   font-weight: 900;
   line-height: 1;
+  font-family: inherit;
   transition:
     color 0.2s ease,
     transform 0.2s ease;
@@ -1231,6 +1236,12 @@ body.is-steam-product .product-prices {
 
 .steam-topup__service.is-active {
   color: #fff;
+}
+
+.steam-topup__service:hover,
+.steam-topup__service:focus-visible {
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .steam-topup__service img {
