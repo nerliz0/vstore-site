@@ -66,6 +66,8 @@
     }
   ];
 
+  window.VSTORE_DEFAULT_STEAM_KEYS = DEFAULT_GAMES;
+
   function normalize(value) {
     return String(value || "")
       .toLocaleLowerCase("ru-RU")
@@ -105,6 +107,50 @@
       title: "Steam",
       image: "assets/catalog/steam-vstore-224x165.png"
     };
+  }
+
+  function mapSteamKey(row) {
+    return {
+      id: row.id,
+      title: row.title || "",
+      region: row.region || "Global",
+      priceLabel: row.price_label || "",
+      priceValue: Number(row.price_value) || 0,
+      tags: Array.isArray(row.tags) ? row.tags : [],
+      aliases: Array.isArray(row.aliases) ? row.aliases : [],
+      cover: row.cover || ""
+    };
+  }
+
+  async function loadSteamGames() {
+    if (
+      !window.supabase ||
+      !window.VSTORE_SUPABASE_URL ||
+      !window.VSTORE_SUPABASE_ANON_KEY
+    ) {
+      return DEFAULT_GAMES;
+    }
+
+    try {
+      var client = window.supabase.createClient(
+        window.VSTORE_SUPABASE_URL,
+        window.VSTORE_SUPABASE_ANON_KEY
+      );
+      var result = await client
+        .from("steam_keys")
+        .select("*")
+        .eq("active", true)
+        .order("sort_order", { ascending: true })
+        .order("title", { ascending: true });
+
+      if (result.error) throw result.error;
+      return Array.isArray(result.data) && result.data.length
+        ? result.data.map(mapSteamKey)
+        : DEFAULT_GAMES;
+    } catch (error) {
+      console.warn("Vstore Steam keys fallback:", error);
+      return DEFAULT_GAMES;
+    }
   }
 
   function isSteamPage() {
@@ -229,7 +275,9 @@
     });
   }
 
-  function createMarkup(root, steamProduct) {
+  function createMarkup(root, steamProduct, gamesSource) {
+    var gamesSourceList = Array.isArray(gamesSource) && gamesSource.length ? gamesSource : DEFAULT_GAMES;
+
     root.innerHTML = '' +
       '<div class="steam-keys__panel">' +
         '<div class="steam-keys__head">' +
@@ -259,7 +307,7 @@
 
     function update() {
       var query = search ? search.value : "";
-      var games = DEFAULT_GAMES.filter(function (game) {
+      var games = gamesSourceList.filter(function (game) {
         return gameMatches(game, query, activeTag);
       });
       if (request) request.href = buildTelegramLink(null, query);
@@ -281,7 +329,7 @@
       search.addEventListener("input", update);
       search.addEventListener("keydown", function (event) {
         if (event.key !== "Enter") return;
-        var games = DEFAULT_GAMES.filter(function (game) {
+        var games = gamesSourceList.filter(function (game) {
           return gameMatches(game, search.value, activeTag);
         });
         if (!games.length) {
@@ -293,13 +341,13 @@
     update();
   }
 
-  function init() {
+  async function init() {
     var root = document.querySelector("[data-steam-keys]");
     if (!root || !isSteamPage()) return;
 
     document.body.classList.add("has-steam-keys");
     root.hidden = false;
-    createMarkup(root, getSteamProduct());
+    createMarkup(root, getSteamProduct(), await loadSteamGames());
   }
 
   Promise.resolve(window.VSTORE_PRODUCTS_READY || window.VSTORE_PRODUCTS)

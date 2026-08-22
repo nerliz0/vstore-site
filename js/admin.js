@@ -14,9 +14,86 @@
   var detailsList = document.querySelector("[data-details-list]");
   var pricesList = document.querySelector("[data-prices-list]");
   var regionsList = document.querySelector("[data-regions-list]");
+  var productsPanel = document.querySelector("[data-products-panel]");
+  var steamPanel = document.querySelector("[data-steam-panel]");
+  var steamList = document.querySelector("[data-steam-list]");
+  var steamCount = document.querySelector("[data-steam-count]");
+  var steamForm = document.querySelector("[data-steam-form]");
+  var steamEditorTitle = document.querySelector("[data-steam-editor-title]");
+  var steamStatus = document.querySelector("[data-steam-status]");
   var currentProduct = null;
+  var currentSteamKey = null;
   var products = [];
+  var steamKeys = [];
   var slugTouched = false;
+  var defaultSteamKeys = [
+    {
+      title: "Red Dead Redemption 2",
+      region: "RU/CIS",
+      priceLabel: "от 1490 ₽",
+      priceValue: 1490,
+      tags: ["RDR", "Rockstar"],
+      aliases: ["rdr", "rdr2", "red dead", "ред дед", "рдр", "рдр2"],
+      cover: "",
+      sortOrder: 10,
+      active: true
+    },
+    {
+      title: "GTA V",
+      region: "Global",
+      priceLabel: "от 990 ₽",
+      priceValue: 990,
+      tags: ["GTA", "Rockstar"],
+      aliases: ["gta", "gta 5", "gta v", "гта", "гта 5"],
+      cover: "",
+      sortOrder: 20,
+      active: true
+    },
+    {
+      title: "Counter-Strike 2",
+      region: "Global",
+      priceLabel: "от 750 ₽",
+      priceValue: 750,
+      tags: ["CS2"],
+      aliases: ["cs2", "counter strike", "кс", "кс2", "контра"],
+      cover: "",
+      sortOrder: 30,
+      active: true
+    },
+    {
+      title: "Elden Ring",
+      region: "Global",
+      priceLabel: "от 1990 ₽",
+      priceValue: 1990,
+      tags: ["Новинки"],
+      aliases: ["elden", "elden ring", "элден", "елден"],
+      cover: "",
+      sortOrder: 40,
+      active: true
+    },
+    {
+      title: "Hogwarts Legacy",
+      region: "Global",
+      priceLabel: "от 1590 ₽",
+      priceValue: 1590,
+      tags: ["Новинки"],
+      aliases: ["hogwarts", "хогвартс", "гарри поттер"],
+      cover: "",
+      sortOrder: 50,
+      active: true
+    },
+    {
+      title: "Cyberpunk 2077",
+      region: "RU/CIS",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["Новинки"],
+      aliases: ["cyberpunk", "cyber punk", "киберпанк"],
+      cover: "",
+      sortOrder: 60,
+      active: true
+    }
+  ];
 
   if (!window.supabase || !window.VSTORE_SUPABASE_URL || !window.VSTORE_SUPABASE_ANON_KEY) {
     if (loginStatus) loginStatus.textContent = "Supabase не подключен. Проверь js/supabase-config.js.";
@@ -119,6 +196,51 @@
       regions: row.regions || [],
       active: row.active !== false,
       sortOrder: row.sort_order || 100
+    };
+  }
+
+  function steamKeyToRow(item) {
+    return {
+      title: item.title || "",
+      region: item.region || "Global",
+      price_label: item.priceLabel || item.price_label || "",
+      price_value: Number(item.priceValue || item.price_value) || 0,
+      tags: item.tags || [],
+      aliases: item.aliases || [],
+      cover: item.cover || "",
+      active: item.active !== false,
+      sort_order: Number.isFinite(Number(item.sortOrder || item.sort_order))
+        ? Number(item.sortOrder || item.sort_order)
+        : 100
+    };
+  }
+
+  function rowToSteamKey(row) {
+    return {
+      id: row.id,
+      title: row.title || "",
+      region: row.region || "Global",
+      priceLabel: row.price_label || "",
+      priceValue: Number(row.price_value) || 0,
+      tags: row.tags || [],
+      aliases: row.aliases || [],
+      cover: row.cover || "",
+      active: row.active !== false,
+      sortOrder: row.sort_order || 100
+    };
+  }
+
+  function createEmptySteamKey() {
+    return {
+      title: "Новый Steam ключ",
+      region: "Global",
+      priceLabel: "по запросу",
+      priceValue: 0,
+      tags: [],
+      aliases: [],
+      cover: "",
+      active: true,
+      sortOrder: 100
     };
   }
 
@@ -381,6 +503,26 @@
     });
   }
 
+  function renderSteamList() {
+    if (!steamList) return;
+    steamList.replaceChildren();
+    if (steamCount) steamCount.textContent = String(steamKeys.length);
+
+    steamKeys.forEach(function (item) {
+      var button = document.createElement("button");
+      var title = createElement("strong", null, item.title);
+      var meta = createElement("span", null, (item.region || "Global") + " · " + (item.active ? "активен" : "скрыт"));
+
+      button.className = "admin-product";
+      button.type = "button";
+      if (currentSteamKey && currentSteamKey.id === item.id) button.classList.add("is-active");
+      button.appendChild(title);
+      button.appendChild(meta);
+      button.addEventListener("click", function () { fillSteamForm(item); });
+      steamList.appendChild(button);
+    });
+  }
+
   function clearBuilderLists() {
     benefitsList.replaceChildren();
     detailsList.replaceChildren();
@@ -423,6 +565,39 @@
 
     renderList();
     updatePreview();
+  }
+
+  function fillSteamForm(item) {
+    if (!steamForm) return;
+    currentSteamKey = item;
+    if (steamEditorTitle) steamEditorTitle.textContent = item.title || "Новый ключ";
+
+    steamForm.elements.keyTitle.value = item.title || "";
+    steamForm.elements.keyRegion.value = item.region || "";
+    steamForm.elements.keyPriceLabel.value = item.priceLabel || "";
+    steamForm.elements.keyPriceValue.value = item.priceValue || "";
+    steamForm.elements.keyTags.value = fromList(item.tags);
+    steamForm.elements.keyAliases.value = fromList(item.aliases);
+    steamForm.elements.keyCover.value = item.cover || "";
+    steamForm.elements.keySortOrder.value = item.sortOrder || 100;
+    steamForm.elements.keyActive.checked = item.active !== false;
+
+    renderSteamList();
+  }
+
+  function readSteamForm() {
+    return {
+      id: currentSteamKey ? currentSteamKey.id : null,
+      title: steamForm.elements.keyTitle.value.trim(),
+      region: steamForm.elements.keyRegion.value.trim() || "Global",
+      priceLabel: steamForm.elements.keyPriceLabel.value.trim(),
+      priceValue: Number(steamForm.elements.keyPriceValue.value) || 0,
+      tags: toList(steamForm.elements.keyTags.value),
+      aliases: toList(steamForm.elements.keyAliases.value),
+      cover: steamForm.elements.keyCover.value.trim(),
+      sortOrder: Number(steamForm.elements.keySortOrder.value) || 100,
+      active: steamForm.elements.keyActive.checked
+    };
   }
 
   function readForm() {
@@ -561,6 +736,97 @@
     await loadProducts();
   }
 
+  async function loadSteamKeys() {
+    if (!steamList) return;
+    setStatus(steamStatus, "Загружаю Steam ключи...");
+
+    try {
+      var result = await client
+        .from("steam_keys")
+        .select("*")
+        .order("sort_order", { ascending: true })
+        .order("title", { ascending: true });
+
+      if (result.error) throw result.error;
+      steamKeys = (result.data || []).map(rowToSteamKey);
+      renderSteamList();
+      if (steamKeys.length) fillSteamForm(steamKeys[0]);
+      else fillSteamForm(createEmptySteamKey());
+      setStatus(steamStatus, steamKeys.length ? "Готово" : "Таблица пустая. Можно импортировать текущие Steam ключи.");
+    } catch (error) {
+      steamKeys = [];
+      renderSteamList();
+      setStatus(steamStatus, "Ошибка Steam ключей: " + error.message + ". Проверь таблицу steam_keys в Supabase.");
+    }
+  }
+
+  async function saveSteamKey(event) {
+    event.preventDefault();
+    setStatus(steamStatus, "Сохраняю Steam ключ...");
+
+    try {
+      var item = readSteamForm();
+      if (!item.title) throw new Error("Нужно название игры.");
+
+      var row = steamKeyToRow(item);
+      var request = currentSteamKey && currentSteamKey.id
+        ? client.from("steam_keys").update(row).eq("id", currentSteamKey.id).select("*").single()
+        : client.from("steam_keys").insert(row).select("*").single();
+      var result = await request;
+
+      if (result.error) throw result.error;
+      setStatus(steamStatus, "Steam ключ сохранён");
+      await loadSteamKeys();
+      if (result.data) fillSteamForm(rowToSteamKey(result.data));
+    } catch (error) {
+      setStatus(steamStatus, "Ошибка: " + error.message);
+    }
+  }
+
+  async function deleteSteamKey() {
+    if (!currentSteamKey || !currentSteamKey.id) return;
+    if (!window.confirm("Удалить Steam ключ " + currentSteamKey.title + "?")) return;
+
+    setStatus(steamStatus, "Удаляю Steam ключ...");
+    var result = await client.from("steam_keys").delete().eq("id", currentSteamKey.id);
+    if (result.error) {
+      setStatus(steamStatus, "Ошибка: " + result.error.message);
+      return;
+    }
+
+    currentSteamKey = null;
+    await loadSteamKeys();
+  }
+
+  async function importStaticSteamKeys() {
+    setStatus(steamStatus, "Импортирую Steam ключи...");
+    var rows = defaultSteamKeys.map(function (item) {
+      return steamKeyToRow(item);
+    });
+    var result = await client
+      .from("steam_keys")
+      .upsert(rows, { onConflict: "title,region" })
+      .select("id");
+
+    if (result.error) {
+      setStatus(steamStatus, "Ошибка импорта: " + result.error.message);
+      return;
+    }
+
+    setStatus(steamStatus, "Steam ключи импортированы");
+    await loadSteamKeys();
+  }
+
+  function switchAdminTab(tab) {
+    var isSteam = tab === "steam";
+    if (productsPanel) productsPanel.hidden = isSteam;
+    if (steamPanel) steamPanel.hidden = !isSteam;
+    document.querySelectorAll("[data-admin-tab]").forEach(function (button) {
+      button.classList.toggle("is-active", button.dataset.adminTab === tab);
+    });
+    if (isSteam && !steamKeys.length) loadSteamKeys();
+  }
+
   async function init() {
     var sessionResult = await client.auth.getSession();
     if (sessionResult.data && sessionResult.data.session) {
@@ -603,6 +869,16 @@
     });
   }
 
+  if (steamForm) {
+    steamForm.addEventListener("submit", saveSteamKey);
+  }
+
+  document.querySelectorAll("[data-admin-tab]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      switchAdminTab(button.dataset.adminTab || "products");
+    });
+  });
+
   var signOut = document.querySelector("[data-sign-out]");
   if (signOut) {
     signOut.addEventListener("click", async function () {
@@ -623,11 +899,25 @@
   var importProducts = document.querySelector("[data-import-products]");
   if (importProducts) importProducts.addEventListener("click", importStaticProducts);
 
+  var importSteamKeys = document.querySelector("[data-import-steam-keys]");
+  if (importSteamKeys) importSteamKeys.addEventListener("click", importStaticSteamKeys);
+
   var deleteButton = document.querySelector("[data-delete-product]");
   if (deleteButton) deleteButton.addEventListener("click", deleteProduct);
 
+  var deleteSteamButton = document.querySelector("[data-delete-steam-key]");
+  if (deleteSteamButton) deleteSteamButton.addEventListener("click", deleteSteamKey);
+
   var addBenefit = document.querySelector("[data-add-benefit]");
   if (addBenefit) addBenefit.addEventListener("click", function () { appendBenefit({ icon: "✓", label: "" }); });
+
+  var newSteamKey = document.querySelector("[data-new-steam-key]");
+  if (newSteamKey) {
+    newSteamKey.addEventListener("click", function () {
+      fillSteamForm(createEmptySteamKey());
+      setStatus(steamStatus, "Новый Steam ключ.");
+    });
+  }
 
   var addDetail = document.querySelector("[data-add-detail]");
   if (addDetail) addDetail.addEventListener("click", function () { appendDetail(""); });
