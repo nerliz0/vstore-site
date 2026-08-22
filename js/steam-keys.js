@@ -156,7 +156,7 @@
     var hasPrice = Boolean(game.priceValue);
 
     card.className = "steam-key-card";
-    card.style.setProperty("--steam-key-accent", game.accent || "139, 92, 246");
+    card.style.setProperty("--steam-key-accent", "139, 92, 246");
     cover.className = "steam-key-card__cover";
     if (game.cover) {
       cover.style.backgroundImage = "linear-gradient(180deg, transparent, rgba(0,0,0,.42)), url('" + COVER_DIR + game.cover + "')";
@@ -168,7 +168,7 @@
     region.textContent = game.region || "Global";
     price.textContent = game.priceLabel || "Цена по запросу";
     button.type = "button";
-    button.textContent = hasPrice ? "Выбрать" : "Уточнить в Telegram";
+    button.textContent = hasPrice ? "Выбрать" : "Уточнить";
 
     button.addEventListener("click", function () {
       if (!hasPrice || !window.VSTORE_CART) {
@@ -248,11 +248,6 @@
             return '<button type="button" data-steam-keys-tag="' + escapeHtml(tag) + '">' + escapeHtml(tag) + '</button>';
           }).join("") +
         '</div>' +
-        '<article class="steam-keys__hint">' +
-          '<span aria-hidden="true">◇</span>' +
-          '<div><strong>Введите название игры, мы проверим наличие и цену</strong><p>Или выберите популярную позицию ниже.</p></div>' +
-          '<i aria-hidden="true">→</i>' +
-        '</article>' +
         '<div class="steam-keys__subhead">Популярные игры</div>' +
         '<div class="steam-keys__grid" data-steam-keys-list></div>' +
       '</div>';

@@ -387,22 +387,25 @@ body.has-steam-keys .product-prices {
 
 .steam-keys__panel {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   padding: 1.25rem;
-  border: 1px solid rgba(167, 139, 250, 0.18);
+  border: 1px solid var(--steam-border);
   border-radius: 20px;
   background:
-    radial-gradient(circle at 88% 0%, rgba(139, 92, 246, 0.22), transparent 42%),
-    linear-gradient(135deg, rgba(139, 92, 246, 0.07), rgba(255, 255, 255, 0.018)),
-    rgba(255, 255, 255, 0.022);
+    radial-gradient(circle at 92% 8%, rgba(167, 139, 250, 0.2), transparent 18rem),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.075), rgba(255, 255, 255, 0.018) 46%, rgba(10, 10, 16, 0.62)),
+    var(--steam-panel);
   box-shadow:
     0 24px 80px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.018);
 }
 
 .steam-keys__panel::before {
   content: "STEAM KEYS";
   position: absolute;
+  z-index: -1;
   right: 1.5rem;
   bottom: -0.34em;
   color: rgba(255, 255, 255, 0.028);
@@ -415,7 +418,6 @@ body.has-steam-keys .product-prices {
 .steam-keys__head,
 .steam-keys__search,
 .steam-keys__tags,
-.steam-keys__hint,
 .steam-keys__subhead,
 .steam-keys__grid {
   position: relative;
@@ -542,53 +544,6 @@ body.has-steam-keys .product-prices {
   transform: translateY(-1px);
 }
 
-.steam-keys__hint {
-  display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) 36px;
-  gap: 0.75rem;
-  align-items: center;
-  margin-top: 0.9rem;
-  padding: 0.82rem;
-  border: 1px solid rgba(167, 139, 250, 0.16);
-  border-radius: 14px;
-  background:
-    linear-gradient(135deg, rgba(139, 92, 246, 0.13), rgba(255, 255, 255, 0.02)),
-    rgba(255, 255, 255, 0.026);
-}
-
-.steam-keys__hint > span {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 1px solid rgba(196, 181, 253, 0.24);
-  border-radius: 12px;
-  color: var(--accent-light);
-  background: rgba(139, 92, 246, 0.16);
-  font-size: 1.1rem;
-  font-weight: 950;
-}
-
-.steam-keys__hint strong {
-  color: #fff;
-  font-size: 0.93rem;
-  font-weight: 920;
-}
-
-.steam-keys__hint p {
-  margin-top: 0.16rem;
-  color: rgba(244, 244, 245, 0.54);
-  font-size: 0.78rem;
-  font-weight: 760;
-}
-
-.steam-keys__hint i {
-  color: rgba(167, 139, 250, 0.45);
-  font-style: normal;
-  font-size: 1.7rem;
-  text-align: right;
-}
-
 .steam-keys__subhead {
   margin-top: 1.1rem;
   color: rgba(244, 244, 245, 0.82);
@@ -599,6 +554,7 @@ body.has-steam-keys .product-prices {
 .steam-keys__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-items: stretch;
   gap: 0.65rem;
   margin-top: 0.65rem;
 }
@@ -614,6 +570,9 @@ body.has-steam-keys .product-prices {
 }
 
 .steam-key-card {
+  display: grid;
+  grid-template-rows: 82px minmax(0, 1fr);
+  min-height: 300px;
   overflow: hidden;
   transition:
     transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
@@ -632,8 +591,9 @@ body.has-steam-keys .product-prices {
   min-height: 82px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 20% 15%, rgba(var(--steam-key-accent), 0.52), transparent 48%),
-    linear-gradient(135deg, rgba(var(--steam-key-accent), 0.52), rgba(8, 8, 13, 0.72));
+    radial-gradient(circle at 18% 12%, rgba(var(--steam-key-accent), 0.26), transparent 52%),
+    radial-gradient(circle at 100% 0%, rgba(196, 181, 253, 0.14), transparent 50%),
+    linear-gradient(135deg, rgba(30, 27, 46, 0.96), rgba(9, 9, 15, 0.78));
   background-size: cover;
   background-position: center;
 }
@@ -643,7 +603,7 @@ body.has-steam-keys .product-prices {
   position: absolute;
   right: 0.5rem;
   bottom: -0.08em;
-  color: rgba(255, 255, 255, 0.18);
+  color: rgba(196, 181, 253, 0.13);
   font-size: 3.1rem;
   font-weight: 950;
   line-height: 1;
@@ -658,12 +618,14 @@ body.has-steam-keys .product-prices {
 }
 
 .steam-key-card__body {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.34rem;
   padding: 0.74rem;
 }
 
 .steam-key-card h3 {
+  min-height: 2.1em;
   color: #fff;
   font-size: 0.86rem;
   font-weight: 930;
@@ -675,6 +637,10 @@ body.has-steam-keys .product-prices {
   color: rgba(244, 244, 245, 0.56);
   font-size: 0.72rem;
   font-weight: 760;
+}
+
+.steam-key-card p {
+  min-height: 1em;
 }
 
 .steam-key-card span {
@@ -689,6 +655,7 @@ body.has-steam-keys .product-prices {
 }
 
 .steam-key-card strong {
+  min-height: 1.1em;
   color: #fff;
   font-size: 0.85rem;
   font-weight: 950;
@@ -697,10 +664,11 @@ body.has-steam-keys .product-prices {
 .steam-key-card button,
 .steam-keys__empty a {
   display: inline-flex;
+  width: 100%;
   min-height: 34px;
   align-items: center;
   justify-content: center;
-  margin-top: 0.2rem;
+  margin-top: auto;
   padding: 0.44rem 0.65rem;
   border: 1px solid rgba(167, 139, 250, 0.22);
   border-radius: 9px;
@@ -1579,33 +1547,14 @@ body.has-steam-keys .product-prices {
     font-size: 0.72rem;
   }
 
-  .steam-keys__hint {
-    grid-template-columns: 36px minmax(0, 1fr);
-    gap: 0.6rem;
-    padding: 0.68rem;
-  }
-
-  .steam-keys__hint > span {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-  }
-
-  .steam-keys__hint i {
-    display: none;
-  }
-
-  .steam-keys__hint strong {
-    font-size: 0.82rem;
-  }
-
-  .steam-keys__hint p {
-    font-size: 0.7rem;
-  }
-
   .steam-keys__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
+  }
+
+  .steam-key-card {
+    grid-template-rows: 70px minmax(0, 1fr);
+    min-height: 252px;
   }
 
   .steam-key-card__cover {
