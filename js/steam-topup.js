@@ -184,16 +184,16 @@
         '<button class="steam-login-modal__backdrop" type="button" tabindex="-1" aria-hidden="true" data-steam-help-close></button>' +
         '<div class="steam-login-modal__dialog steam-login-modal__dialog--compact">' +
           '<button class="steam-login-modal__close" type="button" aria-label="Закрыть" data-steam-help-close>×</button>' +
-          '<h2 id="steam-commission-modal-title">Как считается комиссия?</h2>' +
-          '<p class="steam-login-modal__lead">Комиссия зависит от суммы пополнения: от 300 до 1000 ₽ — 8%, от 1001 до 2000 ₽ — 6%, от 2001 ₽ и выше — 4%.</p>' +
+          '<h2 id="steam-commission-modal-title" data-topup-info-title>Как считается комиссия?</h2>' +
+          '<p class="steam-login-modal__lead" data-topup-info-lead>Комиссия зависит от суммы пополнения: от 300 до 1000 ₽ — 8%, от 1001 до 2000 ₽ — 6%, от 2001 ₽ и выше — 4%.</p>' +
           '<div class="steam-commission-example" aria-label="Пример расчета комиссии">' +
-            '<span>500 ₽</span>' +
-            '<i>×</i>' +
-            '<span>1.08</span>' +
-            '<i>=</i>' +
-            '<strong>540 ₽</strong>' +
+            '<span data-topup-info-left>500 ₽</span>' +
+            '<i data-topup-info-operator>×</i>' +
+            '<span data-topup-info-middle>1.08</span>' +
+            '<i data-topup-info-equals>=</i>' +
+            '<strong data-topup-info-result>540 ₽</strong>' +
           '</div>' +
-          '<p class="steam-login-modal__warning">Примеры: 1500 ₽ × 1.06 = 1590 ₽, 3000 ₽ × 1.04 = 3120 ₽. Итог может отличаться примерно на 5 ₽ в плюс или минус из-за округления и финальной проверки перед выдачей.</p>' +
+          '<p class="steam-login-modal__warning" data-topup-info-warning>Примеры: 1500 ₽ × 1.06 = 1590 ₽, 3000 ₽ × 1.04 = 3120 ₽. Итог может отличаться примерно на 5 ₽ в плюс или минус из-за округления и финальной проверки перед выдачей.</p>' +
           '<button class="steam-login-modal__ok" type="button" data-steam-help-close>Понятно</button>' +
         '</div>' +
       '</div>';
@@ -227,6 +227,14 @@
     var commissionButton = root.querySelector("[data-steam-commission]");
     var helpModal = root.querySelector("[data-steam-login-modal]");
     var commissionModal = root.querySelector("[data-steam-commission-modal]");
+    var infoTitle = root.querySelector("[data-topup-info-title]");
+    var infoLead = root.querySelector("[data-topup-info-lead]");
+    var infoLeft = root.querySelector("[data-topup-info-left]");
+    var infoOperator = root.querySelector("[data-topup-info-operator]");
+    var infoMiddle = root.querySelector("[data-topup-info-middle]");
+    var infoEquals = root.querySelector("[data-topup-info-equals]");
+    var infoResult = root.querySelector("[data-topup-info-result]");
+    var infoWarning = root.querySelector("[data-topup-info-warning]");
     var helpCloseButtons = root.querySelectorAll("[data-steam-help-close]");
     var status = root.querySelector("[data-steam-status]");
     var helpLastFocus = null;
@@ -305,6 +313,7 @@
 
     function setService(service) {
       activeService = service === "telegram" ? "telegram" : "steam";
+      root.classList.toggle("is-telegram-topup", activeService === "telegram");
 
       serviceButtons.forEach(function (button) {
         button.classList.toggle("is-active", button.dataset.topupService === activeService);
@@ -322,7 +331,17 @@
         amountInput.value = "500";
         loginInput.placeholder = "@username";
         loginInput.value = "";
-        if (steamLinks) steamLinks.hidden = true;
+        if (steamLinks) steamLinks.hidden = false;
+        if (helpButton) helpButton.hidden = true;
+        if (commissionButton) commissionButton.textContent = "Как рассчитывается номинал?";
+        if (infoTitle) infoTitle.textContent = "Как рассчитывается номинал?";
+        if (infoLead) infoLead.textContent = "Звёзды можно купить только кратно 50: 50, 100, 150, 200 и так далее до 10 000. Если готового пакета нет, сайт собирает сумму из доступных номиналов.";
+        if (infoLeft) infoLeft.textContent = "400 ⭐";
+        if (infoOperator) infoOperator.textContent = "=";
+        if (infoMiddle) infoMiddle.textContent = "200 ⭐ + 200 ⭐";
+        if (infoEquals) infoEquals.textContent = "→";
+        if (infoResult) infoResult.textContent = "590 ₽";
+        if (infoWarning) infoWarning.textContent = "Некратные значения вроде 57, 60 или 80 звёзд не принимаются. Подойдут 50, 150, 400, 750, 1250 и другие суммы с шагом 50.";
       } else {
         if (amountLabel) amountLabel.textContent = "Получите";
         if (currency) currency.setAttribute("aria-label", "Регион и валюта");
@@ -336,6 +355,16 @@
         loginInput.placeholder = "Логин Steam";
         loginInput.value = "";
         if (steamLinks) steamLinks.hidden = false;
+        if (helpButton) helpButton.hidden = false;
+        if (commissionButton) commissionButton.textContent = "Как рассчитывается комиссия?";
+        if (infoTitle) infoTitle.textContent = "Как считается комиссия?";
+        if (infoLead) infoLead.textContent = "Комиссия зависит от суммы пополнения: от 300 до 1000 ₽ — 8%, от 1001 до 2000 ₽ — 6%, от 2001 ₽ и выше — 4%.";
+        if (infoLeft) infoLeft.textContent = "500 ₽";
+        if (infoOperator) infoOperator.textContent = "×";
+        if (infoMiddle) infoMiddle.textContent = "1.08";
+        if (infoEquals) infoEquals.textContent = "=";
+        if (infoResult) infoResult.textContent = "540 ₽";
+        if (infoWarning) infoWarning.textContent = "Примеры: 1500 ₽ × 1.06 = 1590 ₽, 3000 ₽ × 1.04 = 3120 ₽. Итог может отличаться примерно на 5 ₽ в плюс или минус из-за округления и финальной проверки перед выдачей.";
       }
 
       renderQuickButtons();

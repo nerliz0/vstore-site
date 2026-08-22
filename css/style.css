@@ -1271,6 +1271,14 @@ body.is-steam-product .product-prices {
   gap: 0.58rem;
 }
 
+.steam-topup.is-telegram-topup .steam-topup__amount-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.steam-topup.is-telegram-topup .steam-topup__currency {
+  display: none;
+}
+
 .steam-topup__field,
 .steam-topup__currency {
   height: var(--steam-field-height);
@@ -1356,6 +1364,11 @@ body.is-steam-product .product-prices {
   align-items: center;
   gap: 0.32rem 0.72rem;
   margin-top: 0.32rem;
+}
+
+.steam-topup__links[hidden],
+.steam-topup__help[hidden] {
+  display: none;
 }
 
 .steam-topup__help {
