@@ -22,6 +22,7 @@
   var selectedRegion = null;
   var selectedOptionName = "";
   var selectedOptionPrice = "";
+  var selectedOptionDetails = null;
   var recentRepeatItem = null;
 
   if (!product) {
@@ -47,6 +48,10 @@
     tag.className = "product-tag";
     tag.textContent = label;
     return tag;
+  }
+
+  function asArray(value) {
+    return Array.isArray(value) ? value : [];
   }
 
   function createBenefit(benefit, index) {
@@ -109,7 +114,7 @@
       item.appendChild(name);
       item.appendChild(price);
       item.addEventListener("click", function () {
-        selectPrice(item, row[0], row[1]);
+        selectPrice(item, row[0], row[1], row[2]);
       });
       list.appendChild(item);
     });
@@ -190,6 +195,135 @@
     return managerUrl.replace(/\/?$/, "") + "?text=" + encodeURIComponent(text);
   }
 
+  function normalizeText(value) {
+    return String(value || "")
+      .toLocaleLowerCase("ru-RU")
+      .replace(/ё/g, "е")
+      .replace(/[^\p{L}\p{N}]+/gu, " ")
+      .trim();
+  }
+
+  function getDefaultOptionDetails(optionName) {
+    var productSlug = normalizeText(product.slug);
+    var optionKey = normalizeText(optionName);
+    var titleKey = normalizeText(product.title);
+
+    if (optionKey.indexOf("crew") !== -1 || optionKey.indexOf("отряд") !== -1) {
+      return {
+        summary: "Оформляем Fortnite Crew на ваш аккаунт вручную.",
+        need: "После оплаты нужны данные Epic/Xbox для входа.",
+        guarantee: "Гарантия на весь срок подписки."
+      };
+    }
+
+    if (optionKey.indexOf("v bucks") !== -1 || optionKey.indexOf("bucks") !== -1 || optionKey.indexOf("в бак") !== -1) {
+      return {
+        summary: "Пополнение V-Bucks с ручной проверкой перед выдачей.",
+        need: "Менеджер подскажет актуальный способ и данные для оформления.",
+        guarantee: "Проверяем заказ перед выдачей."
+      };
+    }
+
+    if (optionKey.indexOf("battle pass") !== -1 || optionKey.indexOf("батл") !== -1) {
+      return {
+        summary: "Оформление Battle Pass после подтверждения актуального сезона.",
+        need: "После оплаты менеджер уточнит аккаунт и способ выдачи.",
+        guarantee: "Сопровождаем до успешной активации."
+      };
+    }
+
+    if (productSlug.indexOf("telegram") !== -1 || titleKey.indexOf("telegram") !== -1) {
+      return {
+        summary: optionKey.indexOf("star") !== -1 || optionKey.indexOf("звезд") !== -1
+          ? "Звезды Telegram отправляются на указанный аккаунт."
+          : "Premium оформляется официальным подарком.",
+        need: "Нужен ваш @username или ссылка на профиль.",
+        guarantee: "Без входа в аккаунт."
+      };
+    }
+
+    if (productSlug.indexOf("steam") !== -1 || titleKey.indexOf("steam") !== -1) {
+      return {
+        summary: "Пополнение Steam проводится по логину аккаунта.",
+        need: "Нужен именно логин Steam, не никнейм.",
+        guarantee: "Перед выдачей проверяем регион и сумму."
+      };
+    }
+
+    if (optionKey || productSlug || titleKey) {
+      return {
+        summary: "Позиция оформляется вручную через менеджера.",
+        need: "После оплаты менеджер уточнит данные для выдачи.",
+        guarantee: product.guarantee || "Гарантия после выдачи."
+      };
+    }
+
+    return null;
+  }
+
+  function normalizeOptionDetails(details, optionName) {
+    var normalized = null;
+
+    if (typeof details === "string") {
+      normalized = { summary: details };
+    } else if (Array.isArray(details)) {
+      normalized = { bullets: details };
+    } else if (details && typeof details === "object") {
+      normalized = details;
+    }
+
+    if (!normalized || (!normalized.summary && !normalized.need && !normalized.guarantee && !asArray(normalized.bullets).length)) {
+      normalized = getDefaultOptionDetails(optionName);
+    }
+
+    return normalized;
+  }
+
+  function createOrderNoteLine(label, value) {
+    var line = document.createElement("p");
+    var strong = document.createElement("strong");
+    strong.textContent = label;
+    line.appendChild(strong);
+    line.appendChild(document.createTextNode(" " + value));
+    return line;
+  }
+
+  function renderOrderNote(details, optionName) {
+    var note = document.querySelector("[data-order-note]");
+    var body = document.querySelector("[data-order-note-body]");
+    var toggle = document.querySelector("[data-order-note-toggle]");
+    var icon = toggle ? toggle.querySelector("i") : null;
+    var normalized = normalizeOptionDetails(details, optionName);
+
+    selectedOptionDetails = normalized;
+
+    if (!note || !body || !toggle || !normalized) return;
+
+    body.replaceChildren();
+
+    if (normalized.summary) {
+      var summary = document.createElement("p");
+      summary.textContent = normalized.summary;
+      body.appendChild(summary);
+    }
+
+    asArray(normalized.bullets).slice(0, 4).forEach(function (bullet) {
+      var line = document.createElement("p");
+      line.className = "product-order__note-bullet";
+      line.textContent = "✓ " + bullet;
+      body.appendChild(line);
+    });
+
+    if (normalized.need) body.appendChild(createOrderNoteLine("Нужно:", normalized.need));
+    if (normalized.guarantee) body.appendChild(createOrderNoteLine("Гарантия:", normalized.guarantee));
+
+    note.hidden = false;
+    note.classList.remove("is-open");
+    body.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+    if (icon) icon.textContent = "↓";
+  }
+
   function addCurrentSelectionToCart() {
     if (!selectedOptionName || !selectedOptionPrice || !window.VSTORE_CART) return false;
     return window.VSTORE_CART.add({
@@ -199,7 +333,8 @@
       regionCode: selectedRegion ? selectedRegion.code : "",
       regionName: selectedRegion ? selectedRegion.name : "",
       optionName: selectedOptionName,
-      priceLabel: selectedOptionPrice
+      priceLabel: selectedOptionPrice,
+      optionDetails: selectedOptionDetails
     });
   }
 
@@ -249,7 +384,7 @@
     }
   }
 
-  function selectPrice(card, optionName, optionPrice) {
+  function selectPrice(card, optionName, optionPrice, optionDetails) {
     if (selectedPriceCard) {
       selectedPriceCard.classList.remove("is-selected");
       selectedPriceCard.setAttribute("aria-pressed", "false");
@@ -267,6 +402,7 @@
     setText("[data-order-product]", product.title);
     setText("[data-order-name]", optionName);
     setText("[data-order-price]", optionPrice);
+    renderOrderNote(optionDetails, optionName);
 
     if (orderImage) {
       orderImage.src = product.image;
@@ -294,6 +430,7 @@
     }
     selectedOptionName = "";
     selectedOptionPrice = "";
+    selectedOptionDetails = null;
 
     if (orderPanel) orderPanel.classList.add("is-empty");
     if (priceLayout) priceLayout.classList.remove("has-order");
@@ -301,6 +438,16 @@
     setText("[data-order-product]", product.title);
     setText("[data-order-name]", "Выберите позицию из прайса");
     setText("[data-order-price]", product.priceFrom || "—");
+
+    var note = document.querySelector("[data-order-note]");
+    var body = document.querySelector("[data-order-note-body]");
+    var toggle = document.querySelector("[data-order-note-toggle]");
+    if (note) note.hidden = true;
+    if (body) {
+      body.hidden = true;
+      body.replaceChildren();
+    }
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
 
     var orderLink = document.querySelector("[data-order-link]");
     if (orderLink) {
@@ -410,6 +557,20 @@
 
   var clear = document.querySelector("[data-order-clear]");
   if (clear) clear.addEventListener("click", clearSelection);
+
+  var orderNoteToggle = document.querySelector("[data-order-note-toggle]");
+  if (orderNoteToggle) {
+    orderNoteToggle.addEventListener("click", function () {
+      var note = document.querySelector("[data-order-note]");
+      var body = document.querySelector("[data-order-note-body]");
+      var icon = orderNoteToggle.querySelector("i");
+      var isOpen = orderNoteToggle.getAttribute("aria-expanded") === "true";
+      orderNoteToggle.setAttribute("aria-expanded", String(!isOpen));
+      if (note) note.classList.toggle("is-open", !isOpen);
+      if (body) body.hidden = isOpen;
+      if (icon) icon.textContent = isOpen ? "↓" : "↑";
+    });
+  }
 
   var actions = document.querySelector(".product-actions");
   if (actions && window.VSTORE_FAVORITES && typeof window.VSTORE_FAVORITES.createToggle === "function") {

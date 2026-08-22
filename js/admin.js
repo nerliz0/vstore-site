@@ -225,11 +225,28 @@
   }
 
   function appendPriceRow(container, row) {
+    var details = row && row[2];
+    var detailsValue = "";
+
+    if (typeof details === "string") {
+      detailsValue = details;
+    } else if (Array.isArray(details)) {
+      detailsValue = details.join("\n");
+    } else if (details && typeof details === "object") {
+      detailsValue = [
+        details.summary,
+        details.need ? "Нужно: " + details.need : "",
+        details.guarantee ? "Гарантия: " + details.guarantee : "",
+        asArray(details.bullets).length ? "Плюсы: " + asArray(details.bullets).join(", ") : ""
+      ].filter(Boolean).join("\n");
+    }
+
     var item = createElement("article", "admin-price-row");
     item.dataset.builderCard = "";
     item.dataset.priceRow = "";
     item.appendChild(createInput("Позиция", row && row[0], "1000 UC", "priceName"));
     item.appendChild(createInput("Цена", row && row[1], "990 ₽", "priceValue"));
+    item.appendChild(createTextarea("Мини-описание", detailsValue, "Заглушка: что получает покупатель, что нужно от него, гарантия", "priceDetails"));
     item.appendChild(createRemoveButton("×"));
     container.appendChild(item);
   }
@@ -313,10 +330,15 @@
         var title = group.querySelector("[data-group-title]").value.trim() || "Прайс";
         var rows = Array.prototype.slice.call(group.querySelectorAll(":scope [data-price-row]"))
           .map(function (row) {
-            return [
+            var priceRow = [
               row.querySelector("[data-price-name]").value.trim(),
               row.querySelector("[data-price-value]").value.trim()
             ];
+            var details = row.querySelector("[data-price-details]").value.trim();
+            if (details) {
+              priceRow.push({ summary: details });
+            }
+            return priceRow;
           })
           .filter(function (row) { return row[0] || row[1]; });
         return { title: title, rows: rows };
