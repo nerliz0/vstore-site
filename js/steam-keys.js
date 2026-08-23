@@ -333,7 +333,6 @@
     var activeEdition = editions[activeIndex] || editions[0];
     var hasPrice = Boolean(activeEdition && activeEdition.priceValue);
     var wrap = document.createElement("div");
-    var media = document.createElement("div");
     var info = document.createElement("div");
     var header = document.createElement("div");
     var title = document.createElement("h3");
@@ -343,8 +342,6 @@
 
     picker.hidden = false;
     wrap.className = "steam-key-picker__inner";
-    media.className = "steam-key-picker__media";
-    media.dataset.initials = getInitials(game.title);
     info.className = "steam-key-picker__info";
     header.className = "steam-key-picker__head";
     title.textContent = game.title;
@@ -396,7 +393,6 @@
     info.appendChild(header);
     info.appendChild(options);
     info.appendChild(action);
-    wrap.appendChild(media);
     wrap.appendChild(info);
     picker.appendChild(wrap);
   }
