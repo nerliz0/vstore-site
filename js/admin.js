@@ -22,6 +22,7 @@
   var steamEditorTitle = document.querySelector("[data-steam-editor-title]");
   var steamStatus = document.querySelector("[data-steam-status]");
   var steamEditionsList = document.querySelector("[data-steam-editions-list]");
+  var steamSearchInput = document.querySelector("[data-steam-search]");
   var currentProduct = null;
   var currentSteamKey = null;
   var products = [];
@@ -580,9 +581,29 @@
   function renderSteamList() {
     if (!steamList) return;
     steamList.replaceChildren();
-    if (steamCount) steamCount.textContent = String(steamKeys.length);
+    var query = steamSearchInput ? steamSearchInput.value.trim().toLowerCase() : "";
+    var visibleKeys = steamKeys.filter(function (item) {
+      if (!query) return true;
+      return [
+        item.title,
+        item.region,
+        item.priceLabel,
+        asArray(item.tags).join(" "),
+        asArray(item.aliases).join(" "),
+        normalizeSteamEditions(item).map(function (edition) {
+          return [edition.name, edition.region, edition.priceLabel, edition.note].join(" ");
+        }).join(" ")
+      ].join(" ").toLowerCase().indexOf(query) !== -1;
+    });
 
-    steamKeys.forEach(function (item) {
+    if (steamCount) steamCount.textContent = query ? String(visibleKeys.length) + "/" + steamKeys.length : String(steamKeys.length);
+
+    if (!visibleKeys.length) {
+      steamList.appendChild(createElement("p", "admin-empty", "Ничего не найдено. Попробуй другое название, регион или тег."));
+      return;
+    }
+
+    visibleKeys.forEach(function (item) {
       var button = document.createElement("button");
       var title = createElement("strong", null, item.title);
       var editionsCount = normalizeSteamEditions(item).length;
@@ -901,10 +922,18 @@
     var isSteam = tab === "steam";
     if (productsPanel) productsPanel.hidden = isSteam;
     if (steamPanel) steamPanel.hidden = !isSteam;
+    document.body.dataset.adminMode = isSteam ? "steam" : "products";
+    if (window.location.hash !== "#" + tab) {
+      window.history.replaceState(null, "", "#" + tab);
+    }
     document.querySelectorAll("[data-admin-tab]").forEach(function (button) {
       button.classList.toggle("is-active", button.dataset.adminTab === tab);
     });
     if (isSteam && !steamKeys.length) loadSteamKeys();
+    window.requestAnimationFrame(function () {
+      var target = isSteam ? steamPanel : productsPanel;
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }
 
   async function init() {
@@ -912,6 +941,7 @@
     if (sessionResult.data && sessionResult.data.session) {
       showAdmin();
       loadProducts();
+      switchAdminTab(window.location.hash === "#steam" ? "steam" : "products");
     } else {
       showLogin();
     }
@@ -935,6 +965,7 @@
       setStatus(loginStatus, "");
       showAdmin();
       loadProducts();
+      switchAdminTab(window.location.hash === "#steam" ? "steam" : "products");
     });
   }
 
@@ -951,6 +982,10 @@
 
   if (steamForm) {
     steamForm.addEventListener("submit", saveSteamKey);
+  }
+
+  if (steamSearchInput) {
+    steamSearchInput.addEventListener("input", renderSteamList);
   }
 
   document.querySelectorAll("[data-admin-tab]").forEach(function (button) {

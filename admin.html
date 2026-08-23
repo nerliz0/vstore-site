@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/admin.css?v=20260823-1" />
+  <link rel="stylesheet" href="css/admin.css?v=20260823-2" />
 </head>
 
 <body>
@@ -236,6 +236,10 @@
               <span>Steam ключи</span>
               <strong data-steam-count>0</strong>
             </div>
+            <label class="admin-sidebar-search">
+              <span>Поиск по ключам</span>
+              <input data-steam-search type="search" placeholder="GTA, Spider-Man, RU/CIS..." />
+            </label>
             <div class="admin-products" data-steam-list></div>
           </aside>
 
@@ -253,7 +257,7 @@
               </div>
 
               <div class="admin-editor-main">
-                <section class="admin-card">
+                <section class="admin-card admin-card--steam-main">
                   <div class="admin-card__head">
                     <div>
                       <p class="admin-eyebrow">Карточка</p>
@@ -300,7 +304,7 @@
                   </div>
                 </section>
 
-                <section class="admin-card">
+                <section class="admin-card admin-card--steam-editions">
                   <div class="admin-card__head">
                     <div>
                       <p class="admin-eyebrow">Варианты</p>
@@ -327,7 +331,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js?v=20260816-1"></script>
   <script src="js/products-data.js?v=20260815-1"></script>
-  <script src="js/admin.js?v=20260823-1"></script>
+  <script src="js/admin.js?v=20260823-2"></script>
 </body>
 
 </html>
