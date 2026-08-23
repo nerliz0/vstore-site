@@ -98,6 +98,56 @@
       .toUpperCase();
   }
 
+  function gameKey(game) {
+    return normalize((game && game.title) || "") + "::" + normalize((game && game.region) || "");
+  }
+
+  function normalizeEdition(game, edition, index) {
+    var source = edition && typeof edition === "object" ? edition : {};
+    var name = source.name || source.title || (index ? "Edition " + (index + 1) : "Standard Edition");
+    var region = source.region || (game && game.region) || "Global";
+    var priceValue = Number(source.priceValue || source.price_value);
+    var priceLabel = source.priceLabel || source.price_label || "";
+
+    if (!priceLabel && Number.isFinite(priceValue) && priceValue > 0) {
+      priceLabel = formatPrice(priceValue);
+    }
+
+    return {
+      id: source.id || normalize(name + " " + region),
+      name: name,
+      region: region,
+      priceLabel: priceLabel || "Цена по запросу",
+      priceValue: Number.isFinite(priceValue) ? priceValue : 0,
+      note: source.note || source.description || ""
+    };
+  }
+
+  function getGameEditions(game) {
+    var editions = Array.isArray(game && game.editions) ? game.editions : [];
+
+    if (!editions.length) {
+      editions = [{
+        name: "Standard Edition",
+        region: game && game.region,
+        priceLabel: game && game.priceLabel,
+        priceValue: game && game.priceValue
+      }, {
+        name: "Другое издание / DLC",
+        region: game && game.region,
+        priceLabel: "Цена по запросу",
+        priceValue: 0,
+        note: "Уточним доступные издания и дополнения вручную"
+      }];
+    }
+
+    return editions.map(function (edition, index) {
+      return normalizeEdition(game, edition, index);
+    }).filter(function (edition) {
+      return edition.name || edition.region || edition.priceLabel;
+    });
+  }
+
   function getSteamProduct() {
     var products = window.VSTORE_PRODUCTS || [];
     return products.find(function (product) {
@@ -118,7 +168,8 @@
       priceValue: Number(row.price_value) || 0,
       tags: Array.isArray(row.tags) ? row.tags : [],
       aliases: Array.isArray(row.aliases) ? row.aliases : [],
-      cover: row.cover || ""
+      cover: row.cover || "",
+      editions: Array.isArray(row.editions) ? row.editions : []
     };
   }
 
@@ -158,16 +209,18 @@
     return (params.get("item") || "fortnite") === "steam";
   }
 
-  function buildTelegramLink(game, query) {
+  function buildTelegramLink(game, query, edition) {
     var config = window.VSTORE_CONFIG || {};
     var managerUrl = config.telegram || "https://t.me/MenagerVstore";
+    var chosenEdition = edition || (game ? getGameEditions(game)[0] : null);
     var lines = [
       "Здравствуйте!",
       "",
       "Хочу Steam ключ:",
       game ? "Игра: " + game.title : "Игра: " + (query || "уточнить наличие"),
-      game && game.region ? "Регион: " + game.region : "",
-      game && game.priceLabel ? "Цена: " + game.priceLabel : ""
+      chosenEdition && chosenEdition.name ? "Издание: " + chosenEdition.name : "",
+      chosenEdition && chosenEdition.region ? "Регион: " + chosenEdition.region : "",
+      chosenEdition && chosenEdition.priceLabel ? "Цена: " + chosenEdition.priceLabel : ""
     ].filter(Boolean);
 
     return managerUrl.replace(/\/?$/, "") + "?text=" + encodeURIComponent(lines.join("\n"));
@@ -190,7 +243,7 @@
     return tagMatch && queryMatch;
   }
 
-  function createKeyCard(game, steamProduct) {
+  function createKeyCard(game, selectedGame, onSelect) {
     var card = document.createElement("article");
     var cover = document.createElement("div");
     var body = document.createElement("div");
@@ -199,9 +252,12 @@
     var region = document.createElement("span");
     var price = document.createElement("strong");
     var button = document.createElement("button");
-    var hasPrice = Boolean(game.priceValue);
+    var editions = getGameEditions(game);
+    var hasPrice = editions.some(function (edition) { return Boolean(edition.priceValue); });
+    var selected = selectedGame && gameKey(selectedGame) === gameKey(game);
 
     card.className = "steam-key-card";
+    if (selected) card.classList.add("is-selected");
     card.style.setProperty("--steam-key-accent", "139, 92, 246");
     cover.className = "steam-key-card__cover";
     if (game.cover) {
@@ -211,35 +267,26 @@
     body.className = "steam-key-card__body";
     title.textContent = game.title;
     meta.textContent = "Steam ключ";
-    region.textContent = game.region || "Global";
-    price.textContent = game.priceLabel || "Цена по запросу";
+    region.textContent = editions.length > 1
+      ? editions.length + " варианта"
+      : editions[0].region || game.region || "Global";
+    price.textContent = game.priceLabel || (editions[0] && editions[0].priceLabel) || "Цена по запросу";
     button.type = "button";
     button.textContent = hasPrice ? "Выбрать" : "Уточнить";
 
+    card.tabIndex = 0;
+    card.addEventListener("click", function (event) {
+      if (event.target.closest("button")) return;
+      onSelect(game);
+    });
+    card.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      onSelect(game);
+    });
+
     button.addEventListener("click", function () {
-      if (!hasPrice || !window.VSTORE_CART) {
-        window.open(buildTelegramLink(game), "_blank", "noopener,noreferrer");
-        return;
-      }
-
-      var added = window.VSTORE_CART.add({
-        slug: steamProduct.slug,
-        title: steamProduct.title,
-        image: steamProduct.image,
-        regionCode: game.region || "",
-        regionName: game.region || "",
-        optionName: "Steam ключ: " + game.title,
-        note: "Регион ключа: " + (game.region || "Global"),
-        priceLabel: game.priceLabel || formatPrice(game.priceValue),
-        priceValue: game.priceValue
-      });
-
-      if (added) {
-        button.textContent = "Добавлено";
-        window.setTimeout(function () {
-          button.textContent = "Выбрать";
-        }, 1200);
-      }
+      onSelect(game);
     });
 
     cover.setAttribute("aria-hidden", "true");
@@ -253,7 +300,111 @@
     return card;
   }
 
-  function renderGames(list, games, steamProduct, query) {
+  function createEditionButton(game, edition, index, selectedIndex, onChoose) {
+    var button = document.createElement("button");
+    var title = document.createElement("strong");
+    var meta = document.createElement("span");
+    var price = document.createElement("b");
+
+    button.type = "button";
+    button.className = "steam-key-edition";
+    if (index === selectedIndex) button.classList.add("is-active");
+    title.textContent = edition.name;
+    meta.textContent = edition.region || "Global";
+    price.textContent = edition.priceLabel || "Цена по запросу";
+    button.appendChild(title);
+    button.appendChild(meta);
+    button.appendChild(price);
+    button.addEventListener("click", function () { onChoose(index); });
+
+    return button;
+  }
+
+  function renderPicker(picker, game, steamProduct, selectedEditionIndex, onChooseEdition) {
+    picker.replaceChildren();
+
+    if (!game) {
+      picker.hidden = true;
+      return;
+    }
+
+    var editions = getGameEditions(game);
+    var activeIndex = Math.max(0, Math.min(selectedEditionIndex || 0, editions.length - 1));
+    var activeEdition = editions[activeIndex] || editions[0];
+    var hasPrice = Boolean(activeEdition && activeEdition.priceValue);
+    var wrap = document.createElement("div");
+    var media = document.createElement("div");
+    var info = document.createElement("div");
+    var header = document.createElement("div");
+    var title = document.createElement("h3");
+    var subtitle = document.createElement("p");
+    var options = document.createElement("div");
+    var action = document.createElement("button");
+
+    picker.hidden = false;
+    wrap.className = "steam-key-picker__inner";
+    media.className = "steam-key-picker__media";
+    media.dataset.initials = getInitials(game.title);
+    if (game.cover) {
+      media.style.backgroundImage = "linear-gradient(180deg, transparent, rgba(0,0,0,.44)), url('" + COVER_DIR + game.cover + "')";
+    }
+    info.className = "steam-key-picker__info";
+    header.className = "steam-key-picker__head";
+    title.textContent = game.title;
+    subtitle.textContent = editions.length > 1
+      ? "Выберите издание и регион ключа"
+      : "Проверьте вариант перед добавлением в корзину";
+    options.className = "steam-key-picker__options";
+
+    editions.forEach(function (edition, index) {
+      options.appendChild(createEditionButton(game, edition, index, activeIndex, onChooseEdition));
+    });
+
+    action.type = "button";
+    action.className = "steam-key-picker__action";
+    action.textContent = hasPrice ? "Добавить в корзину" : "Уточнить в Telegram";
+    action.addEventListener("click", function () {
+      if (!hasPrice || !window.VSTORE_CART) {
+        window.open(buildTelegramLink(game, "", activeEdition), "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      var added = window.VSTORE_CART.add({
+        slug: steamProduct.slug,
+        title: steamProduct.title,
+        image: steamProduct.image,
+        regionCode: activeEdition.region || "",
+        regionName: activeEdition.region || "",
+        optionName: "Steam ключ: " + game.title + " — " + activeEdition.name,
+        note: [
+          "Игра: " + game.title,
+          "Издание: " + activeEdition.name,
+          "Регион ключа: " + (activeEdition.region || "Global"),
+          activeEdition.note
+        ].filter(Boolean).join(" · "),
+        priceLabel: activeEdition.priceLabel || formatPrice(activeEdition.priceValue),
+        priceValue: activeEdition.priceValue
+      });
+
+      if (added) {
+        action.textContent = "Добавлено";
+        window.setTimeout(function () {
+          action.textContent = "Добавить в корзину";
+        }, 1200);
+      }
+    });
+
+    header.appendChild(title);
+    header.appendChild(subtitle);
+    info.appendChild(header);
+    info.appendChild(options);
+    info.appendChild(action);
+    wrap.appendChild(media);
+    wrap.appendChild(info);
+    picker.appendChild(wrap);
+  }
+
+  function renderGames(list, games, selectedGame, onSelect, query) {
     list.replaceChildren();
 
     if (!games.length) {
@@ -271,7 +422,7 @@
     }
 
     games.forEach(function (game) {
-      list.appendChild(createKeyCard(game, steamProduct));
+      list.appendChild(createKeyCard(game, selectedGame, onSelect));
     });
   }
 
@@ -296,6 +447,7 @@
             return '<button type="button" data-steam-keys-tag="' + escapeHtml(tag) + '">' + escapeHtml(tag) + '</button>';
           }).join("") +
         '</div>' +
+        '<div class="steam-key-picker" data-steam-key-picker hidden></div>' +
         '<div class="steam-keys__subhead">Популярные игры</div>' +
         '<div class="steam-keys__grid" data-steam-keys-list></div>' +
       '</div>';
@@ -303,7 +455,27 @@
     var search = root.querySelector("[data-steam-keys-search]");
     var request = root.querySelector("[data-steam-keys-request]");
     var list = root.querySelector("[data-steam-keys-list]");
+    var picker = root.querySelector("[data-steam-key-picker]");
     var activeTag = "";
+    var selectedGame = null;
+    var selectedEditionIndex = 0;
+
+    function chooseEdition(index) {
+      selectedEditionIndex = index;
+      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition);
+    }
+
+    function selectGame(game) {
+      selectedGame = game;
+      selectedEditionIndex = 0;
+      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition);
+      update();
+      if (picker && typeof picker.scrollIntoView === "function") {
+        window.setTimeout(function () {
+          picker.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 40);
+      }
+    }
 
     function update() {
       var query = search ? search.value : "";
@@ -311,7 +483,7 @@
         return gameMatches(game, query, activeTag);
       });
       if (request) request.href = buildTelegramLink(null, query);
-      renderGames(list, games, steamProduct, query);
+      renderGames(list, games, selectedGame, selectGame, query);
     }
 
     root.querySelectorAll("[data-steam-keys-tag]").forEach(function (button) {

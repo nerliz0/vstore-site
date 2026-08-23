@@ -44,11 +44,15 @@ create table if not exists public.steam_keys (
   tags text[] not null default '{}',
   aliases text[] not null default '{}',
   cover text not null default '',
+  editions jsonb not null default '[]'::jsonb,
   active boolean not null default true,
   sort_order integer not null default 100,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.steam_keys
+  add column if not exists editions jsonb not null default '[]'::jsonb;
 
 create index if not exists products_active_sort_idx
   on public.products (active, sort_order, title);

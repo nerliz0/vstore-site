@@ -448,6 +448,16 @@ textarea:focus {
   grid-template-columns: minmax(0, 0.9fr) minmax(130px, 0.36fr) minmax(0, 1.15fr) 44px;
 }
 
+.admin-steam-edition-row {
+  grid-template-columns:
+    minmax(150px, 0.7fr)
+    minmax(100px, 0.34fr)
+    minmax(120px, 0.36fr)
+    minmax(110px, 0.28fr)
+    minmax(0, 0.9fr)
+    44px;
+}
+
 .admin-builder-card {
   display: grid;
   gap: 0.85rem;
@@ -583,13 +593,15 @@ textarea:focus {
 
   .admin-builder-row,
   .admin-price-row,
+  .admin-steam-edition-row,
   .admin-builder-row--wide,
   .admin-builder-card__head {
     grid-template-columns: 1fr;
   }
 
   .admin-builder-row,
-  .admin-price-row {
+  .admin-price-row,
+  .admin-steam-edition-row {
     display: grid;
   }
 

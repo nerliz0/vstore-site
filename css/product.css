@@ -418,6 +418,7 @@ body.has-steam-keys .product-prices {
 .steam-keys__head,
 .steam-keys__search,
 .steam-keys__tags,
+.steam-key-picker,
 .steam-keys__subhead,
 .steam-keys__grid {
   position: relative;
@@ -574,6 +575,7 @@ body.has-steam-keys .product-prices {
   grid-template-rows: 72px minmax(0, 1fr);
   min-height: 228px;
   overflow: hidden;
+  cursor: pointer;
   transition:
     transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.22s ease,
@@ -584,6 +586,18 @@ body.has-steam-keys .product-prices {
   border-color: rgba(196, 181, 253, 0.38);
   box-shadow: 0 18px 45px rgba(58, 33, 128, 0.2);
   transform: translateY(-3px);
+}
+
+.steam-key-card:focus-visible {
+  outline: 3px solid rgba(196, 181, 253, 0.34);
+  outline-offset: 3px;
+}
+
+.steam-key-card.is-selected {
+  border-color: rgba(196, 181, 253, 0.62);
+  box-shadow:
+    0 18px 52px rgba(88, 56, 166, 0.24),
+    inset 0 0 0 1px rgba(196, 181, 253, 0.16);
 }
 
 .steam-key-card__cover {
@@ -710,6 +724,160 @@ body.has-steam-keys .product-prices {
   color: rgba(244, 244, 245, 0.6);
   font-size: 0.86rem;
   font-weight: 760;
+}
+
+.steam-key-picker[hidden] {
+  display: none;
+}
+
+.steam-key-picker {
+  margin-top: 0.85rem;
+}
+
+.steam-key-picker__inner {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: stretch;
+  padding: 0.8rem;
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 94% 16%, rgba(167, 139, 250, 0.2), transparent 18rem),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.09), rgba(255, 255, 255, 0.024)),
+    rgba(10, 10, 18, 0.62);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.steam-key-picker__media {
+  position: relative;
+  min-height: 116px;
+  overflow: hidden;
+  border: 1px solid rgba(196, 181, 253, 0.2);
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(139, 92, 246, 0.36), transparent 52%),
+    linear-gradient(135deg, rgba(30, 27, 46, 0.96), rgba(9, 9, 15, 0.82));
+  background-position: center;
+  background-size: cover;
+}
+
+.steam-key-picker__media::before {
+  content: attr(data-initials);
+  position: absolute;
+  right: 0.42rem;
+  bottom: -0.07em;
+  color: rgba(196, 181, 253, 0.14);
+  font-size: 3.6rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.steam-key-picker__info {
+  display: grid;
+  gap: 0.72rem;
+  min-width: 0;
+}
+
+.steam-key-picker__head h3 {
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 950;
+  line-height: 1.12;
+}
+
+.steam-key-picker__head p {
+  margin-top: 0.2rem;
+  color: rgba(244, 244, 245, 0.58);
+  font-size: 0.78rem;
+  font-weight: 780;
+}
+
+.steam-key-picker__options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 0.5rem;
+}
+
+.steam-key-edition {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.2rem 0.52rem;
+  align-items: center;
+  min-height: 64px;
+  padding: 0.62rem 0.7rem;
+  border: 1px solid rgba(167, 139, 250, 0.18);
+  border-radius: 12px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.steam-key-edition:hover,
+.steam-key-edition:focus-visible,
+.steam-key-edition.is-active {
+  border-color: rgba(196, 181, 253, 0.52);
+  background: rgba(139, 92, 246, 0.15);
+  transform: translateY(-1px);
+}
+
+.steam-key-edition strong,
+.steam-key-edition span,
+.steam-key-edition b {
+  min-width: 0;
+}
+
+.steam-key-edition strong {
+  overflow: hidden;
+  font-size: 0.78rem;
+  font-weight: 920;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.steam-key-edition span {
+  grid-column: 1;
+  color: rgba(244, 244, 245, 0.56);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.steam-key-edition b {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.steam-key-picker__action {
+  min-height: 40px;
+  width: min(260px, 100%);
+  border: 1px solid rgba(196, 181, 253, 0.36);
+  border-radius: 11px;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.92), rgba(91, 33, 182, 0.9));
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 930;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.steam-key-picker__action:hover,
+.steam-key-picker__action:focus-visible {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .product-prices__head {
@@ -1550,6 +1718,25 @@ body.has-steam-keys .product-prices {
   .steam-keys__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
+  }
+
+  .steam-key-picker__inner {
+    grid-template-columns: 1fr;
+    gap: 0.62rem;
+    padding: 0.62rem;
+    border-radius: 13px;
+  }
+
+  .steam-key-picker__media {
+    min-height: 86px;
+  }
+
+  .steam-key-picker__options {
+    grid-template-columns: 1fr;
+  }
+
+  .steam-key-picker__action {
+    width: 100%;
   }
 
   .steam-key-card {

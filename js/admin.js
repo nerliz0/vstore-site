@@ -21,6 +21,7 @@
   var steamForm = document.querySelector("[data-steam-form]");
   var steamEditorTitle = document.querySelector("[data-steam-editor-title]");
   var steamStatus = document.querySelector("[data-steam-status]");
+  var steamEditionsList = document.querySelector("[data-steam-editions-list]");
   var currentProduct = null;
   var currentSteamKey = null;
   var products = [];
@@ -124,6 +125,43 @@
     return Array.isArray(value) ? value : [];
   }
 
+  function firstValue() {
+    for (var index = 0; index < arguments.length; index += 1) {
+      if (arguments[index] !== undefined && arguments[index] !== null && arguments[index] !== "") {
+        return arguments[index];
+      }
+    }
+    return "";
+  }
+
+  function normalizeSteamEditions(item) {
+    var editions = asArray(item && item.editions).map(function (edition, index) {
+      var priceValue = firstValue(edition.priceValue, edition.price_value, item.priceValue, item.price_value, 0);
+
+      return {
+        name: edition.name || edition.title || (index ? "Edition " + (index + 1) : "Standard Edition"),
+        region: edition.region || item.region || "Global",
+        priceLabel: edition.priceLabel || edition.price_label || item.priceLabel || item.price_label || "",
+        priceValue: Number(priceValue) || 0,
+        note: edition.note || edition.description || ""
+      };
+    }).filter(function (edition) {
+      return edition.name || edition.region || edition.priceLabel || edition.priceValue || edition.note;
+    });
+
+    if (!editions.length && item) {
+      editions.push({
+        name: "Standard Edition",
+        region: item.region || "Global",
+        priceLabel: item.priceLabel || item.price_label || "",
+        priceValue: Number(item.priceValue || item.price_value) || 0,
+        note: ""
+      });
+    }
+
+    return editions;
+  }
+
   function makeSlug(value) {
     var map = {
       а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z",
@@ -208,6 +246,7 @@
       tags: item.tags || [],
       aliases: item.aliases || [],
       cover: item.cover || "",
+      editions: normalizeSteamEditions(item),
       active: item.active !== false,
       sort_order: Number.isFinite(Number(item.sortOrder || item.sort_order))
         ? Number(item.sortOrder || item.sort_order)
@@ -225,6 +264,7 @@
       tags: row.tags || [],
       aliases: row.aliases || [],
       cover: row.cover || "",
+      editions: normalizeSteamEditions(row),
       active: row.active !== false,
       sortOrder: row.sort_order || 100
     };
@@ -239,6 +279,7 @@
       tags: [],
       aliases: [],
       cover: "",
+      editions: [{ name: "Standard Edition", region: "Global", priceLabel: "по запросу", priceValue: 0, note: "" }],
       active: true,
       sortOrder: 100
     };
@@ -429,6 +470,21 @@
     regionsList.appendChild(card);
   }
 
+  function appendSteamEdition(edition) {
+    if (!steamEditionsList) return;
+
+    var item = createElement("article", "admin-price-row admin-steam-edition-row");
+    item.dataset.builderCard = "";
+    item.dataset.steamEdition = "";
+    item.appendChild(createInput("Издание", edition && edition.name, "Standard Edition", "steamEditionName"));
+    item.appendChild(createInput("Регион", edition && edition.region, "Global", "steamEditionRegion"));
+    item.appendChild(createInput("Цена текстом", edition && edition.priceLabel, "от 1490 ₽", "steamEditionPriceLabel"));
+    item.appendChild(createInput("Цена числом", edition && edition.priceValue, "1490", "steamEditionPriceValue"));
+    item.appendChild(createTextarea("Пометка", edition && edition.note, "Например: ключ RU/CIS, Deluxe, DLC included", "steamEditionNote"));
+    item.appendChild(createRemoveButton("×"));
+    steamEditionsList.appendChild(item);
+  }
+
   function readBenefits() {
     return Array.prototype.slice.call(benefitsList.querySelectorAll("[data-benefit-item]"))
       .map(function (item) {
@@ -483,6 +539,24 @@
       });
   }
 
+  function readSteamEditions() {
+    if (!steamEditionsList) return [];
+
+    return Array.prototype.slice.call(steamEditionsList.querySelectorAll("[data-steam-edition]"))
+      .map(function (item) {
+        return {
+          name: item.querySelector("[data-steam-edition-name]").value.trim(),
+          region: item.querySelector("[data-steam-edition-region]").value.trim() || "Global",
+          priceLabel: item.querySelector("[data-steam-edition-price-label]").value.trim(),
+          priceValue: Number(item.querySelector("[data-steam-edition-price-value]").value) || 0,
+          note: item.querySelector("[data-steam-edition-note]").value.trim()
+        };
+      })
+      .filter(function (edition) {
+        return edition.name || edition.region || edition.priceLabel || edition.priceValue || edition.note;
+      });
+  }
+
   function renderList() {
     if (!list) return;
     list.replaceChildren();
@@ -511,7 +585,8 @@
     steamKeys.forEach(function (item) {
       var button = document.createElement("button");
       var title = createElement("strong", null, item.title);
-      var meta = createElement("span", null, (item.region || "Global") + " · " + (item.active ? "активен" : "скрыт"));
+      var editionsCount = normalizeSteamEditions(item).length;
+      var meta = createElement("span", null, (item.region || "Global") + " · " + editionsCount + " вар. · " + (item.active ? "активен" : "скрыт"));
 
       button.className = "admin-product";
       button.type = "button";
@@ -581,6 +656,10 @@
     steamForm.elements.keyCover.value = item.cover || "";
     steamForm.elements.keySortOrder.value = item.sortOrder || 100;
     steamForm.elements.keyActive.checked = item.active !== false;
+    if (steamEditionsList) {
+      steamEditionsList.replaceChildren();
+      normalizeSteamEditions(item).forEach(appendSteamEdition);
+    }
 
     renderSteamList();
   }
@@ -595,6 +674,7 @@
       tags: toList(steamForm.elements.keyTags.value),
       aliases: toList(steamForm.elements.keyAliases.value),
       cover: steamForm.elements.keyCover.value.trim(),
+      editions: readSteamEditions(),
       sortOrder: Number(steamForm.elements.keySortOrder.value) || 100,
       active: steamForm.elements.keyActive.checked
     };
@@ -916,6 +996,13 @@
     newSteamKey.addEventListener("click", function () {
       fillSteamForm(createEmptySteamKey());
       setStatus(steamStatus, "Новый Steam ключ.");
+    });
+  }
+
+  var addSteamEdition = document.querySelector("[data-add-steam-edition]");
+  if (addSteamEdition) {
+    addSteamEdition.addEventListener("click", function () {
+      appendSteamEdition({ name: "Standard Edition", region: steamForm.elements.keyRegion.value.trim() || "Global", priceLabel: "", priceValue: 0, note: "" });
     });
   }
 
