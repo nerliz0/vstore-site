@@ -757,6 +757,13 @@ body.has-steam-keys .product-prices {
   min-width: 0;
 }
 
+.steam-key-picker__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 0.75rem;
+  align-items: start;
+}
+
 .steam-key-picker__head h3 {
   color: #fff;
   font-size: 1.05rem;
@@ -765,10 +772,73 @@ body.has-steam-keys .product-prices {
 }
 
 .steam-key-picker__head p {
+  grid-column: 1;
   margin-top: 0.2rem;
   color: rgba(244, 244, 245, 0.58);
   font-size: 0.78rem;
   font-weight: 780;
+}
+
+.steam-key-picker__clear {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  min-height: 34px;
+  padding: 0 0.78rem;
+  border: 1px solid rgba(196, 181, 253, 0.22);
+  border-radius: 999px;
+  color: rgba(244, 244, 245, 0.72);
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 880;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.steam-key-picker__clear:hover,
+.steam-key-picker__clear:focus-visible {
+  border-color: rgba(196, 181, 253, 0.42);
+  color: #fff;
+  background: rgba(139, 92, 246, 0.13);
+  transform: translateY(-1px);
+}
+
+.steam-key-picker__regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.steam-key-region {
+  min-height: 32px;
+  padding: 0 0.72rem;
+  border: 1px solid rgba(167, 139, 250, 0.18);
+  border-radius: 999px;
+  color: rgba(244, 244, 245, 0.62);
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 900;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.steam-key-region:hover,
+.steam-key-region:focus-visible,
+.steam-key-region.is-active {
+  border-color: rgba(196, 181, 253, 0.5);
+  color: #fff;
+  background: rgba(139, 92, 246, 0.16);
+  transform: translateY(-1px);
 }
 
 .steam-key-picker__options {
@@ -1701,6 +1771,21 @@ body.has-steam-keys .product-prices {
     gap: 0.62rem;
     padding: 0.62rem;
     border-radius: 13px;
+  }
+
+  .steam-key-picker__head {
+    grid-template-columns: 1fr;
+  }
+
+  .steam-key-picker__head p,
+  .steam-key-picker__clear {
+    grid-column: 1;
+  }
+
+  .steam-key-picker__clear {
+    grid-row: auto;
+    justify-self: start;
+    margin-top: 0.12rem;
   }
 
   .steam-key-picker__options {

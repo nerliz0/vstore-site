@@ -320,7 +320,7 @@
     return button;
   }
 
-  function renderPicker(picker, game, steamProduct, selectedEditionIndex, onChooseEdition) {
+  function renderPicker(picker, game, steamProduct, selectedEditionIndex, onChooseEdition, onClear) {
     picker.replaceChildren();
 
     if (!game) {
@@ -337,8 +337,14 @@
     var header = document.createElement("div");
     var title = document.createElement("h3");
     var subtitle = document.createElement("p");
+    var clear = document.createElement("button");
+    var regions = document.createElement("div");
     var options = document.createElement("div");
     var action = document.createElement("button");
+    var regionList = Array.from(new Set(editions.map(function (edition) {
+      return edition.region || "Global";
+    }).filter(Boolean)));
+    var activeRegion = (activeEdition && activeEdition.region) || "";
 
     picker.hidden = false;
     wrap.className = "steam-key-picker__inner";
@@ -348,7 +354,29 @@
     subtitle.textContent = editions.length > 1
       ? "Выберите издание и регион ключа"
       : "Проверьте вариант перед добавлением в корзину";
+    clear.type = "button";
+    clear.className = "steam-key-picker__clear";
+    clear.textContent = "Отменить выбор";
+    clear.addEventListener("click", onClear);
+    regions.className = "steam-key-picker__regions";
     options.className = "steam-key-picker__options";
+
+    if (regionList.length > 1) {
+      regionList.forEach(function (region) {
+        var regionButton = document.createElement("button");
+        regionButton.type = "button";
+        regionButton.className = "steam-key-region";
+        regionButton.textContent = region;
+        regionButton.classList.toggle("is-active", region === activeRegion);
+        regionButton.addEventListener("click", function () {
+          var nextIndex = editions.findIndex(function (edition) {
+            return (edition.region || "Global") === region;
+          });
+          if (nextIndex >= 0) onChooseEdition(nextIndex);
+        });
+        regions.appendChild(regionButton);
+      });
+    }
 
     editions.forEach(function (edition, index) {
       options.appendChild(createEditionButton(game, edition, index, activeIndex, onChooseEdition));
@@ -390,7 +418,9 @@
 
     header.appendChild(title);
     header.appendChild(subtitle);
+    header.appendChild(clear);
     info.appendChild(header);
+    if (regionList.length > 1) info.appendChild(regions);
     info.appendChild(options);
     info.appendChild(action);
     wrap.appendChild(info);
@@ -455,13 +485,20 @@
 
     function chooseEdition(index) {
       selectedEditionIndex = index;
-      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition);
+      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition, clearSelection);
+    }
+
+    function clearSelection() {
+      selectedGame = null;
+      selectedEditionIndex = 0;
+      renderPicker(picker, null, steamProduct, selectedEditionIndex, chooseEdition, clearSelection);
+      update();
     }
 
     function selectGame(game) {
       selectedGame = game;
       selectedEditionIndex = 0;
-      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition);
+      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition, clearSelection);
       update();
       if (picker && typeof picker.scrollIntoView === "function") {
         window.setTimeout(function () {
