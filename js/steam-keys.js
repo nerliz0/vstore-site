@@ -345,9 +345,6 @@
     wrap.className = "steam-key-picker__inner";
     media.className = "steam-key-picker__media";
     media.dataset.initials = getInitials(game.title);
-    if (game.cover) {
-      media.style.backgroundImage = "linear-gradient(180deg, transparent, rgba(0,0,0,.44)), url('" + COVER_DIR + game.cover + "')";
-    }
     info.className = "steam-key-picker__info";
     header.className = "steam-key-picker__head";
     title.textContent = game.title;
