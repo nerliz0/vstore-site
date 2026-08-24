@@ -261,9 +261,11 @@
     card.style.setProperty("--steam-key-accent", "139, 92, 246");
     cover.className = "steam-key-card__cover";
     if (game.cover) {
+      cover.classList.add("has-cover");
       cover.style.backgroundImage = "linear-gradient(180deg, transparent, rgba(0,0,0,.42)), url('" + COVER_DIR + game.cover + "')";
+    } else {
+      cover.setAttribute("aria-label", game.title);
     }
-    cover.dataset.initials = getInitials(game.title);
     body.className = "steam-key-card__body";
     title.textContent = game.title;
     meta.textContent = "Steam ключ";
@@ -340,6 +342,7 @@
     var clear = document.createElement("button");
     var regions = document.createElement("div");
     var options = document.createElement("div");
+    var actions = document.createElement("div");
     var action = document.createElement("button");
     var regionList = Array.from(new Set(editions.map(function (edition) {
       return edition.region || "Global";
@@ -360,6 +363,7 @@
     clear.addEventListener("click", onClear);
     regions.className = "steam-key-picker__regions";
     options.className = "steam-key-picker__options";
+    actions.className = "steam-key-picker__actions";
 
     if (regionList.length > 1) {
       regionList.forEach(function (region) {
@@ -418,11 +422,12 @@
 
     header.appendChild(title);
     header.appendChild(subtitle);
-    header.appendChild(clear);
     info.appendChild(header);
     if (regionList.length > 1) info.appendChild(regions);
     info.appendChild(options);
-    info.appendChild(action);
+    actions.appendChild(action);
+    actions.appendChild(clear);
+    info.appendChild(actions);
     wrap.appendChild(info);
     picker.appendChild(wrap);
   }

@@ -613,14 +613,17 @@ body.has-steam-keys .product-prices {
 }
 
 .steam-key-card__cover::before {
-  content: attr(data-initials);
+  content: "";
   position: absolute;
-  right: 0.5rem;
-  bottom: -0.08em;
-  color: rgba(196, 181, 253, 0.13);
-  font-size: 3.1rem;
-  font-weight: 950;
-  line-height: 1;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(196, 181, 253, 0.12), transparent 58%),
+    linear-gradient(180deg, transparent 34%, rgba(8, 8, 13, 0.18));
+  pointer-events: none;
+}
+
+.steam-key-card__cover.has-cover::before {
+  background: linear-gradient(180deg, transparent 58%, rgba(8, 8, 13, 0.16));
 }
 
 .steam-key-card__cover::after {
@@ -758,10 +761,7 @@ body.has-steam-keys .product-prices {
 }
 
 .steam-key-picker__head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.25rem 0.75rem;
-  align-items: start;
+  min-width: 0;
 }
 
 .steam-key-picker__head h3 {
@@ -772,17 +772,20 @@ body.has-steam-keys .product-prices {
 }
 
 .steam-key-picker__head p {
-  grid-column: 1;
   margin-top: 0.2rem;
   color: rgba(244, 244, 245, 0.58);
   font-size: 0.78rem;
   font-weight: 780;
 }
 
+.steam-key-picker__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.52rem;
+  align-items: center;
+}
+
 .steam-key-picker__clear {
-  grid-row: 1 / span 2;
-  grid-column: 2;
-  align-self: center;
   min-height: 34px;
   padding: 0 0.78rem;
   border: 1px solid rgba(196, 181, 253, 0.22);
@@ -793,6 +796,7 @@ body.has-steam-keys .product-prices {
   font: inherit;
   font-size: 0.72rem;
   font-weight: 880;
+  white-space: nowrap;
   transition:
     border-color 0.2s ease,
     color 0.2s ease,
@@ -1777,22 +1781,20 @@ body.has-steam-keys .product-prices {
     grid-template-columns: 1fr;
   }
 
-  .steam-key-picker__head p,
-  .steam-key-picker__clear {
-    grid-column: 1;
-  }
-
-  .steam-key-picker__clear {
-    grid-row: auto;
-    justify-self: start;
-    margin-top: 0.12rem;
-  }
-
   .steam-key-picker__options {
     grid-template-columns: 1fr;
   }
 
+  .steam-key-picker__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
   .steam-key-picker__action {
+    width: 100%;
+  }
+
+  .steam-key-picker__clear {
     width: 100%;
   }
 
