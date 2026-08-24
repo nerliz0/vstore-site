@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/admin.css?v=20260823-2" />
+  <link rel="stylesheet" href="css/admin.css?v=20260825-1" />
 </head>
 
 <body>
@@ -270,6 +270,15 @@
                   </div>
                   <div class="admin-grid">
                     <label>
+                      <span>Платформа</span>
+                      <select name="keyPlatform">
+                        <option value="steam">Steam</option>
+                        <option value="rockstar">Rockstar</option>
+                        <option value="xbox-game-pass">Xbox</option>
+                        <option value="psn">PSN / PS5</option>
+                      </select>
+                    </label>
+                    <label>
                       <span>Название</span>
                       <input name="keyTitle" placeholder="Red Dead Redemption 2" required />
                     </label>
@@ -330,8 +339,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js?v=20260816-1"></script>
-  <script src="js/products-data.js?v=20260815-1"></script>
-  <script src="js/admin.js?v=20260823-2"></script>
+  <script src="js/products-data.js?v=20260824-1"></script>
+  <script src="js/admin.js?v=20260825-1"></script>
 </body>
 
 </html>

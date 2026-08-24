@@ -37,6 +37,7 @@ create table if not exists public.products (
 
 create table if not exists public.steam_keys (
   id uuid primary key default gen_random_uuid(),
+  platform text not null default 'steam',
   title text not null,
   region text not null default 'Global',
   price_label text not null default '',
@@ -54,14 +55,22 @@ create table if not exists public.steam_keys (
 alter table public.steam_keys
   add column if not exists editions jsonb not null default '[]'::jsonb;
 
+alter table public.steam_keys
+  add column if not exists platform text not null default 'steam';
+
 create index if not exists products_active_sort_idx
   on public.products (active, sort_order, title);
 
 create index if not exists steam_keys_active_sort_idx
   on public.steam_keys (active, sort_order, title);
 
-create unique index if not exists steam_keys_title_region_key
-  on public.steam_keys (title, region);
+create index if not exists steam_keys_platform_active_sort_idx
+  on public.steam_keys (platform, active, sort_order, title);
+
+drop index if exists steam_keys_title_region_key;
+
+create unique index if not exists steam_keys_platform_title_region_key
+  on public.steam_keys (platform, title, region);
 
 create or replace function public.set_updated_at()
 returns trigger

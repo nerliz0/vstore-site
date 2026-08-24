@@ -731,6 +731,41 @@
           ]
         }
       ]
+    },
+    {
+      slug: "rockstar",
+      title: "Rockstar",
+      category: "Игры",
+      filters: ["games"],
+      image: "assets/catalog/rockstar.jpeg",
+      aliases: ["Rockstar", "Рокстар", "GTA", "GTA V", "RDR", "RDR 2", "Red Dead Redemption", "ГТА", "РДР"],
+      items: ["GTA", "RDR", "Ключи"],
+      priceFrom: "по запросу",
+      description: "Ключи Rockstar для GTA и Red Dead Redemption с выбором региона и издания.",
+      accent: "#8b5cf6",
+      accentRgb: "139, 92, 246",
+      watermark: "ROCKSTAR",
+      benefits: [
+        { icon: "✓", label: "GTA и RDR" },
+        { icon: "↯", label: "Выбор издания" },
+        { icon: "◇", label: "Регион ключа" },
+        { icon: "◎", label: "Проверка наличия" }
+      ],
+      details: [
+        "Ключи Rockstar для популярных игр и разных изданий.",
+        "Перед покупкой менеджер проверит регион, доступность и точную цену.",
+        "Чтобы купить, выберите игру и издание -> отправьте запрос или добавьте позицию в корзину."
+      ],
+      guarantee: "Проверка перед выдачей",
+      prices: [
+        {
+          title: "Rockstar ключи",
+          rows: [
+            ["GTA V", "Цена по запросу"],
+            ["Red Dead Redemption 2", "Цена по запросу"]
+          ]
+        }
+      ]
     }
   ];
 })();

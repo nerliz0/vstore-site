@@ -30,6 +30,55 @@
   var slugTouched = false;
   var defaultSteamKeys = [
     {
+      platform: "steam",
+      title: "ARC Raiders",
+      region: "global",
+      priceLabel: "от 2300 ₽",
+      priceValue: 2300,
+      tags: ["Новинки"],
+      aliases: ["arc", "arc raiders", "арк", "арк рейдерс"],
+      cover: "arc-raiders.jpg",
+      sortOrder: 5,
+      active: true
+    },
+    {
+      platform: "steam",
+      title: "Marvel's Spider-Man Remastered",
+      region: "RU/CIS",
+      priceLabel: "от 1490 ₽",
+      priceValue: 1490,
+      tags: ["Marvel"],
+      aliases: ["marvel", "spider man", "spiderman", "spider-man", "паук", "человек паук"],
+      cover: "marvel.jpg",
+      sortOrder: 10,
+      active: true
+    },
+    {
+      platform: "steam",
+      title: "DARK SOULS II: Scholar of the First Sin",
+      region: "Global",
+      priceLabel: "от 1469 ₽",
+      priceValue: 1469,
+      tags: ["Dark Souls"],
+      aliases: ["dark souls 2", "dark souls ii", "ds2", "дарк соулс 2"],
+      cover: "dark-souls2 scholar.jpg",
+      sortOrder: 20,
+      active: true
+    },
+    {
+      platform: "steam",
+      title: "DARK SOULS: REMASTERED",
+      region: "Global",
+      priceLabel: "от 2100 ₽",
+      priceValue: 2100,
+      tags: ["Dark Souls"],
+      aliases: ["dark souls", "dark souls remastered", "ds1", "дарк соулс"],
+      cover: "dark souls re.jpg",
+      sortOrder: 30,
+      active: true
+    },
+    {
+      platform: "steam",
       title: "Red Dead Redemption 2",
       region: "RU/CIS",
       priceLabel: "от 1490 ₽",
@@ -37,10 +86,11 @@
       tags: ["RDR", "Rockstar"],
       aliases: ["rdr", "rdr2", "red dead", "ред дед", "рдр", "рдр2"],
       cover: "",
-      sortOrder: 10,
+      sortOrder: 40,
       active: true
     },
     {
+      platform: "steam",
       title: "GTA V",
       region: "Global",
       priceLabel: "от 990 ₽",
@@ -48,10 +98,11 @@
       tags: ["GTA", "Rockstar"],
       aliases: ["gta", "gta 5", "gta v", "гта", "гта 5"],
       cover: "",
-      sortOrder: 20,
+      sortOrder: 50,
       active: true
     },
     {
+      platform: "steam",
       title: "Counter-Strike 2",
       region: "Global",
       priceLabel: "от 750 ₽",
@@ -59,21 +110,23 @@
       tags: ["CS2"],
       aliases: ["cs2", "counter strike", "кс", "кс2", "контра"],
       cover: "",
-      sortOrder: 30,
+      sortOrder: 60,
       active: true
     },
     {
+      platform: "steam",
       title: "Elden Ring",
       region: "Global",
       priceLabel: "от 1990 ₽",
       priceValue: 1990,
       tags: ["Новинки"],
       aliases: ["elden", "elden ring", "элден", "елден"],
-      cover: "",
-      sortOrder: 40,
+      cover: "elden.jpg",
+      sortOrder: 70,
       active: true
     },
     {
+      platform: "steam",
       title: "Hogwarts Legacy",
       region: "Global",
       priceLabel: "от 1590 ₽",
@@ -81,10 +134,11 @@
       tags: ["Новинки"],
       aliases: ["hogwarts", "хогвартс", "гарри поттер"],
       cover: "",
-      sortOrder: 50,
+      sortOrder: 80,
       active: true
     },
     {
+      platform: "steam",
       title: "Cyberpunk 2077",
       region: "RU/CIS",
       priceLabel: "Цена по запросу",
@@ -92,7 +146,7 @@
       tags: ["Новинки"],
       aliases: ["cyberpunk", "cyber punk", "киберпанк"],
       cover: "",
-      sortOrder: 60,
+      sortOrder: 90,
       active: true
     }
   ];
@@ -240,6 +294,7 @@
 
   function steamKeyToRow(item) {
     return {
+      platform: item.platform || "steam",
       title: item.title || "",
       region: item.region || "Global",
       price_label: item.priceLabel || item.price_label || "",
@@ -258,6 +313,7 @@
   function rowToSteamKey(row) {
     return {
       id: row.id,
+      platform: row.platform || "steam",
       title: row.title || "",
       region: row.region || "Global",
       priceLabel: row.price_label || "",
@@ -273,6 +329,7 @@
 
   function createEmptySteamKey() {
     return {
+      platform: "steam",
       title: "Новый Steam ключ",
       region: "Global",
       priceLabel: "по запросу",
@@ -607,7 +664,7 @@
       var button = document.createElement("button");
       var title = createElement("strong", null, item.title);
       var editionsCount = normalizeSteamEditions(item).length;
-      var meta = createElement("span", null, (item.region || "Global") + " · " + editionsCount + " вар. · " + (item.active ? "активен" : "скрыт"));
+      var meta = createElement("span", null, (item.platform || "steam") + " · " + (item.region || "Global") + " · " + editionsCount + " вар. · " + (item.active ? "активен" : "скрыт"));
 
       button.className = "admin-product";
       button.type = "button";
@@ -668,6 +725,7 @@
     currentSteamKey = item;
     if (steamEditorTitle) steamEditorTitle.textContent = item.title || "Новый ключ";
 
+    if (steamForm.elements.keyPlatform) steamForm.elements.keyPlatform.value = item.platform || "steam";
     steamForm.elements.keyTitle.value = item.title || "";
     steamForm.elements.keyRegion.value = item.region || "";
     steamForm.elements.keyPriceLabel.value = item.priceLabel || "";
@@ -688,6 +746,7 @@
   function readSteamForm() {
     return {
       id: currentSteamKey ? currentSteamKey.id : null,
+      platform: steamForm.elements.keyPlatform ? steamForm.elements.keyPlatform.value : "steam",
       title: steamForm.elements.keyTitle.value.trim(),
       region: steamForm.elements.keyRegion.value.trim() || "Global",
       priceLabel: steamForm.elements.keyPriceLabel.value.trim(),
@@ -786,6 +845,14 @@
         : client.from("products").insert(row).select("*").single();
       var result = await request;
 
+      if (result.error && /platform/i.test(result.error.message || "")) {
+        result = await client
+          .from("steam_keys")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("title", { ascending: true });
+      }
+
       if (result.error) throw result.error;
       setStatus(saveStatus, "Сохранено");
       await loadProducts();
@@ -845,6 +912,7 @@
       var result = await client
         .from("steam_keys")
         .select("*")
+        .order("platform", { ascending: true })
         .order("sort_order", { ascending: true })
         .order("title", { ascending: true });
 
@@ -906,7 +974,7 @@
     });
     var result = await client
       .from("steam_keys")
-      .upsert(rows, { onConflict: "title,region" })
+      .upsert(rows, { onConflict: "platform,title,region" })
       .select("id");
 
     if (result.error) {

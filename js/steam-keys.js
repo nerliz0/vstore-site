@@ -5,6 +5,46 @@
   var DEFAULT_TAGS = ["GTA", "RDR", "CS2", "EA", "Ubisoft", "Indie", "Новинки"];
   var DEFAULT_GAMES = [
     {
+      title: "ARC Raiders",
+      region: "global",
+      priceLabel: "от 2300 ₽",
+      priceValue: 2300,
+      tags: ["Новинки"],
+      aliases: ["arc", "arc raiders", "арк", "арк рейдерс"],
+      cover: "arc-raiders.jpg",
+      accent: "235, 210, 55"
+    },
+    {
+      title: "Marvel's Spider-Man Remastered",
+      region: "RU/CIS",
+      priceLabel: "от 1490 ₽",
+      priceValue: 1490,
+      tags: ["Marvel"],
+      aliases: ["marvel", "spider man", "spiderman", "spider-man", "паук", "человек паук"],
+      cover: "marvel.jpg",
+      accent: "203, 73, 56"
+    },
+    {
+      title: "DARK SOULS II: Scholar of the First Sin",
+      region: "Global",
+      priceLabel: "от 1469 ₽",
+      priceValue: 1469,
+      tags: ["Dark Souls"],
+      aliases: ["dark souls 2", "dark souls ii", "ds2", "дарк соулс 2"],
+      cover: "dark-souls2 scholar.jpg",
+      accent: "214, 174, 76"
+    },
+    {
+      title: "DARK SOULS: REMASTERED",
+      region: "Global",
+      priceLabel: "от 2100 ₽",
+      priceValue: 2100,
+      tags: ["Dark Souls"],
+      aliases: ["dark souls", "dark souls remastered", "ds1", "дарк соулс"],
+      cover: "dark souls re.jpg",
+      accent: "155, 129, 203"
+    },
+    {
       title: "Red Dead Redemption 2",
       region: "RU/CIS",
       priceLabel: "от 1490 ₽",
@@ -41,7 +81,7 @@
       priceValue: 1990,
       tags: ["Новинки"],
       aliases: ["elden", "elden ring", "элден", "елден"],
-      cover: "",
+      cover: "elden.jpg",
       accent: "214, 174, 76"
     },
     {
@@ -65,8 +105,202 @@
       accent: "235, 210, 55"
     }
   ];
+  var DEFAULT_ROCKSTAR_KEYS = [
+    {
+      title: "GTA V",
+      region: "Rockstar / Global",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["GTA", "Rockstar"],
+      aliases: ["gta", "gta 5", "gta v", "гта", "гта 5", "рокстар"],
+      accent: "68, 147, 221",
+      editions: [
+        { name: "Standard Edition", region: "Rockstar / Global", priceLabel: "Цена по запросу" },
+        { name: "Premium Edition", region: "Rockstar / Global", priceLabel: "Цена по запросу" },
+        { name: "RU/CIS ключ", region: "Rockstar / RU/CIS", priceLabel: "Цена по запросу" }
+      ]
+    },
+    {
+      title: "Red Dead Redemption 2",
+      region: "Rockstar / RU/CIS",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["RDR", "Rockstar"],
+      aliases: ["rdr", "rdr2", "red dead", "ред дед", "рдр", "рдр2", "рокстар"],
+      accent: "203, 73, 56",
+      editions: [
+        { name: "Standard Edition", region: "Rockstar / RU/CIS", priceLabel: "Цена по запросу" },
+        { name: "Ultimate Edition", region: "Rockstar / RU/CIS", priceLabel: "Цена по запросу" },
+        { name: "Global ключ", region: "Rockstar / Global", priceLabel: "Цена по запросу" }
+      ]
+    }
+  ];
+  var DEFAULT_XBOX_KEYS = [
+    {
+      title: "Xbox Game Pass",
+      region: "US / IN",
+      priceLabel: "от 770 ₽",
+      priceValue: 770,
+      tags: ["Game Pass", "Xbox", "Подписки"],
+      aliases: ["xbox", "game pass", "gamepass", "гейм пасс", "геймпасс", "иксбокс"],
+      accent: "57, 150, 82",
+      editions: [
+        { name: "Essential · 1 месяц", region: "US", priceLabel: "770 ₽", priceValue: 770 },
+        { name: "Premium · 1 месяц", region: "US", priceLabel: "1150 ₽", priceValue: 1150 },
+        { name: "Ultimate · 1 месяц", region: "US", priceLabel: "1770 ₽", priceValue: 1770 },
+        { name: "Essential · 6 месяцев", region: "IN", priceLabel: "1580 ₽", priceValue: 1580 },
+        { name: "Premium · 3 месяца", region: "IN", priceLabel: "2443 ₽", priceValue: 2443 },
+        { name: "Essential · 12 месяцев", region: "IN", priceLabel: "3150 ₽", priceValue: 3150 }
+      ]
+    },
+    {
+      title: "GTA V Xbox",
+      region: "Xbox / Global",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["GTA", "Xbox"],
+      aliases: ["gta xbox", "гта xbox", "гта иксбокс"],
+      accent: "68, 147, 221",
+      editions: [
+        { name: "Standard Edition", region: "Xbox / Global", priceLabel: "Цена по запросу" },
+        { name: "Premium Edition", region: "Xbox / Global", priceLabel: "Цена по запросу" }
+      ]
+    },
+    {
+      title: "Red Dead Redemption 2 Xbox",
+      region: "Xbox / Global",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["RDR", "Xbox"],
+      aliases: ["rdr xbox", "rdr2 xbox", "рдр xbox", "ред дед xbox"],
+      accent: "203, 73, 56",
+      editions: [
+        { name: "Standard Edition", region: "Xbox / Global", priceLabel: "Цена по запросу" },
+        { name: "Ultimate Edition", region: "Xbox / Global", priceLabel: "Цена по запросу" }
+      ]
+    }
+  ];
+  var DEFAULT_PSN_KEYS = [
+    {
+      title: "PS5 игра",
+      region: "PSN / Global",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["PS5", "PlayStation", "Игры"],
+      aliases: ["ps5", "playstation", "psn", "пс5", "плейстейшен", "плейстешен"],
+      accent: "74, 125, 231",
+      editions: [
+        { name: "Standard Edition", region: "PS5 / Global", priceLabel: "Цена по запросу" },
+        { name: "Deluxe Edition", region: "PS5 / Global", priceLabel: "Цена по запросу" },
+        { name: "RU/CIS ключ", region: "PS5 / RU/CIS", priceLabel: "Цена по запросу" }
+      ]
+    },
+    {
+      title: "GTA V PS5",
+      region: "PS5 / Global",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["GTA", "PS5"],
+      aliases: ["gta ps5", "гта ps5", "гта пс5"],
+      accent: "68, 147, 221",
+      editions: [
+        { name: "Standard Edition", region: "PS5 / Global", priceLabel: "Цена по запросу" },
+        { name: "Premium Edition", region: "PS5 / Global", priceLabel: "Цена по запросу" }
+      ]
+    },
+    {
+      title: "Red Dead Redemption 2 PS5",
+      region: "PS5 / Global",
+      priceLabel: "Цена по запросу",
+      priceValue: 0,
+      tags: ["RDR", "PS5"],
+      aliases: ["rdr ps5", "rdr2 ps5", "рдр ps5", "ред дед ps5"],
+      accent: "203, 73, 56",
+      editions: [
+        { name: "Standard Edition", region: "PS5 / Global", priceLabel: "Цена по запросу" },
+        { name: "Ultimate Edition", region: "PS5 / Global", priceLabel: "Цена по запросу" }
+      ]
+    }
+  ];
+
+  var KEY_CONFIGS = {
+    steam: {
+      slug: "steam",
+      fallbackTitle: "Steam",
+      fallbackImage: "assets/catalog/steam-vstore-224x165.png",
+      eyebrow: "Steam ключи",
+      heading: "Найдите игру или отправьте запрос",
+      requestText: "Запросить игру →",
+      searchPlaceholder: "Найти игру: GTA V, RDR 2, Elden Ring...",
+      subhead: "Популярные игры",
+      itemLabel: "Steam ключ",
+      telegramTitle: "Хочу Steam ключ:",
+      tags: DEFAULT_TAGS,
+      games: DEFAULT_GAMES,
+      supabase: true
+    },
+    rockstar: {
+      slug: "rockstar",
+      fallbackTitle: "Rockstar",
+      fallbackImage: "assets/catalog/rockstar.jpeg",
+      eyebrow: "Rockstar ключи",
+      heading: "Выберите игру Rockstar",
+      requestText: "Запросить ключ →",
+      searchPlaceholder: "Найти игру: GTA V, RDR 2...",
+      subhead: "Rockstar ключи",
+      itemLabel: "Rockstar ключ",
+      telegramTitle: "Хочу Rockstar ключ:",
+      tags: ["GTA", "RDR", "Rockstar", "RU/CIS", "Global"],
+      games: DEFAULT_ROCKSTAR_KEYS,
+      supabase: true
+    },
+    "xbox-game-pass": {
+      slug: "xbox-game-pass",
+      fallbackTitle: "Xbox",
+      fallbackImage: "assets/catalog/xbox-game-pass-vstore-224x165.png",
+      eyebrow: "Xbox ключи",
+      heading: "Выберите подписку или игру Xbox",
+      requestText: "Запросить Xbox ключ →",
+      searchPlaceholder: "Найти: Game Pass, GTA V, RDR 2...",
+      subhead: "Xbox позиции",
+      itemLabel: "Xbox ключ",
+      telegramTitle: "Хочу Xbox ключ:",
+      tags: ["Game Pass", "Xbox", "GTA", "RDR", "US", "IN"],
+      games: DEFAULT_XBOX_KEYS,
+      supabase: true
+    },
+    psn: {
+      slug: "psn",
+      fallbackTitle: "PSN",
+      fallbackImage: "assets/catalog/playstation-vstore-224x165.png",
+      eyebrow: "PS5 ключи",
+      heading: "Выберите игру или издание PS5",
+      requestText: "Запросить PS5 ключ →",
+      searchPlaceholder: "Найти игру: GTA V, RDR 2, PS5...",
+      subhead: "PS5 ключи",
+      itemLabel: "PS5 ключ",
+      telegramTitle: "Хочу PS5 ключ:",
+      tags: ["PS5", "PlayStation", "GTA", "RDR", "Global"],
+      games: DEFAULT_PSN_KEYS,
+      supabase: true
+    }
+  };
+  var KEY_ALIASES = {
+    xbox: "xbox-game-pass",
+    playstation: "psn",
+    "playstation-gift-card": "psn"
+  };
 
   window.VSTORE_DEFAULT_STEAM_KEYS = DEFAULT_GAMES;
+
+  function resolveCoverUrl(cover) {
+    var value = String(cover || "").trim();
+    if (!value) return "";
+    if (/^(https?:)?\/\//i.test(value) || value.charAt(0) === "/" || value.indexOf("assets/") === 0) {
+      return value;
+    }
+    return COVER_DIR + value;
+  }
 
   function normalize(value) {
     return String(value || "")
@@ -148,38 +382,61 @@
     });
   }
 
-  function getSteamProduct() {
+  function getActiveConfig() {
+    var params = new URLSearchParams(window.location.search);
+    var slug = params.get("item") || "fortnite";
+    return KEY_CONFIGS[KEY_ALIASES[slug] || slug] || null;
+  }
+
+  function getKeyProduct(config) {
     var products = window.VSTORE_PRODUCTS || [];
     return products.find(function (product) {
-      return product.slug === "steam";
+      return product.slug === config.slug;
     }) || {
-      slug: "steam",
-      title: "Steam",
-      image: "assets/catalog/steam-vstore-224x165.png"
+      slug: config.slug,
+      title: config.fallbackTitle,
+      image: config.fallbackImage
     };
   }
 
-  function mapSteamKey(row) {
+  function findDefaultGame(row, config) {
+    var source = Array.isArray(config && config.games) ? config.games : DEFAULT_GAMES;
+    var rowTitle = normalize(row && row.title);
+    var rowRegion = normalize(row && row.region);
+
+    return source.find(function (game) {
+      return normalize(game.title) === rowTitle && normalize(game.region) === rowRegion;
+    }) || source.find(function (game) {
+      return normalize(game.title) === rowTitle;
+    }) || null;
+  }
+
+  function mapSteamKey(row, config) {
+    var fallback = findDefaultGame(row, config);
+
     return {
       id: row.id,
       title: row.title || "",
       region: row.region || "Global",
       priceLabel: row.price_label || "",
       priceValue: Number(row.price_value) || 0,
-      tags: Array.isArray(row.tags) ? row.tags : [],
-      aliases: Array.isArray(row.aliases) ? row.aliases : [],
-      cover: row.cover || "",
+      tags: Array.isArray(row.tags) && row.tags.length ? row.tags : (fallback && fallback.tags) || [],
+      aliases: Array.isArray(row.aliases) && row.aliases.length ? row.aliases : (fallback && fallback.aliases) || [],
+      cover: row.cover || (fallback && fallback.cover) || "",
+      platform: row.platform || "steam",
+      accent: row.accent || (fallback && fallback.accent) || "139, 92, 246",
       editions: Array.isArray(row.editions) ? row.editions : []
     };
   }
 
-  async function loadSteamGames() {
+  async function loadKeyGames(config) {
     if (
+      !config.supabase ||
       !window.supabase ||
       !window.VSTORE_SUPABASE_URL ||
       !window.VSTORE_SUPABASE_ANON_KEY
     ) {
-      return DEFAULT_GAMES;
+      return config.games;
     }
 
     try {
@@ -187,36 +444,43 @@
         window.VSTORE_SUPABASE_URL,
         window.VSTORE_SUPABASE_ANON_KEY
       );
-      var result = await client
+      var query = client
         .from("steam_keys")
         .select("*")
         .eq("active", true)
+        .eq("platform", config.slug)
         .order("sort_order", { ascending: true })
         .order("title", { ascending: true });
+      var result = await query;
+
+      if (result.error && config.slug === "steam" && /platform/i.test(result.error.message || "")) {
+        result = await client
+          .from("steam_keys")
+          .select("*")
+          .eq("active", true)
+          .order("sort_order", { ascending: true })
+          .order("title", { ascending: true });
+      }
 
       if (result.error) throw result.error;
       return Array.isArray(result.data) && result.data.length
-        ? result.data.map(mapSteamKey)
-        : DEFAULT_GAMES;
+        ? result.data.map(function (row) { return mapSteamKey(row, config); })
+        : config.games;
     } catch (error) {
       console.warn("Vstore Steam keys fallback:", error);
-      return DEFAULT_GAMES;
+      return config.games;
     }
   }
 
-  function isSteamPage() {
-    var params = new URLSearchParams(window.location.search);
-    return (params.get("item") || "fortnite") === "steam";
-  }
-
-  function buildTelegramLink(game, query, edition) {
-    var config = window.VSTORE_CONFIG || {};
-    var managerUrl = config.telegram || "https://t.me/MenagerVstore";
+  function buildTelegramLink(game, query, edition, keyConfigArg) {
+    var siteConfig = window.VSTORE_CONFIG || {};
+    var managerUrl = siteConfig.telegram || "https://t.me/MenagerVstore";
+    var keyConfig = keyConfigArg || getActiveConfig() || KEY_CONFIGS.steam;
     var chosenEdition = edition || (game ? getGameEditions(game)[0] : null);
     var lines = [
       "Здравствуйте!",
       "",
-      "Хочу Steam ключ:",
+      keyConfig.telegramTitle,
       game ? "Игра: " + game.title : "Игра: " + (query || "уточнить наличие"),
       chosenEdition && chosenEdition.name ? "Издание: " + chosenEdition.name : "",
       chosenEdition && chosenEdition.region ? "Регион: " + chosenEdition.region : "",
@@ -243,7 +507,7 @@
     return tagMatch && queryMatch;
   }
 
-  function createKeyCard(game, selectedGame, onSelect) {
+  function createKeyCard(game, selectedGame, onSelect, keyConfig) {
     var card = document.createElement("article");
     var cover = document.createElement("div");
     var body = document.createElement("div");
@@ -258,17 +522,17 @@
 
     card.className = "steam-key-card";
     if (selected) card.classList.add("is-selected");
-    card.style.setProperty("--steam-key-accent", "139, 92, 246");
+    card.style.setProperty("--steam-key-accent", game.accent || "139, 92, 246");
     cover.className = "steam-key-card__cover";
     if (game.cover) {
       cover.classList.add("has-cover");
-      cover.style.backgroundImage = "linear-gradient(180deg, transparent, rgba(0,0,0,.42)), url('" + COVER_DIR + game.cover + "')";
+      cover.style.backgroundImage = "linear-gradient(180deg, transparent, rgba(0,0,0,.42)), url('" + resolveCoverUrl(game.cover) + "')";
     } else {
       cover.setAttribute("aria-label", game.title);
     }
     body.className = "steam-key-card__body";
     title.textContent = game.title;
-    meta.textContent = "Steam ключ";
+    meta.textContent = keyConfig.itemLabel;
     region.textContent = editions.length > 1
       ? editions.length + " варианта"
       : editions[0].region || game.region || "Global";
@@ -322,7 +586,7 @@
     return button;
   }
 
-  function renderPicker(picker, game, steamProduct, selectedEditionIndex, onChooseEdition, onClear) {
+  function renderPicker(picker, game, keyProduct, selectedEditionIndex, onChooseEdition, onClear, keyConfig) {
     picker.replaceChildren();
 
     if (!game) {
@@ -391,17 +655,17 @@
     action.textContent = hasPrice ? "Добавить в корзину" : "Уточнить в Telegram";
     action.addEventListener("click", function () {
       if (!hasPrice || !window.VSTORE_CART) {
-        window.open(buildTelegramLink(game, "", activeEdition), "_blank", "noopener,noreferrer");
+        window.open(buildTelegramLink(game, "", activeEdition, keyConfig), "_blank", "noopener,noreferrer");
         return;
       }
 
       var added = window.VSTORE_CART.add({
-        slug: steamProduct.slug,
-        title: steamProduct.title,
-        image: steamProduct.image,
+        slug: keyProduct.slug,
+        title: keyProduct.title,
+        image: keyProduct.image,
         regionCode: activeEdition.region || "",
         regionName: activeEdition.region || "",
-        optionName: "Steam ключ: " + game.title + " — " + activeEdition.name,
+        optionName: keyConfig.itemLabel + ": " + game.title + " — " + activeEdition.name,
         note: [
           "Игра: " + game.title,
           "Издание: " + activeEdition.name,
@@ -432,7 +696,7 @@
     picker.appendChild(wrap);
   }
 
-  function renderGames(list, games, selectedGame, onSelect, query) {
+  function renderGames(list, games, selectedGame, onSelect, query, keyConfig) {
     list.replaceChildren();
 
     if (!games.length) {
@@ -440,7 +704,7 @@
       var button = document.createElement("a");
       empty.className = "steam-keys__empty";
       empty.innerHTML = '<strong>Не нашли игру?</strong><span>Отправим запрос менеджеру и проверим наличие вручную.</span>';
-      button.href = buildTelegramLink(null, query);
+      button.href = buildTelegramLink(null, query, null, keyConfig);
       button.target = "_blank";
       button.rel = "noopener noreferrer";
       button.textContent = "Уточнить в Telegram";
@@ -450,33 +714,33 @@
     }
 
     games.forEach(function (game) {
-      list.appendChild(createKeyCard(game, selectedGame, onSelect));
+      list.appendChild(createKeyCard(game, selectedGame, onSelect, keyConfig));
     });
   }
 
-  function createMarkup(root, steamProduct, gamesSource) {
-    var gamesSourceList = Array.isArray(gamesSource) && gamesSource.length ? gamesSource : DEFAULT_GAMES;
+  function createMarkup(root, keyProduct, gamesSource, keyConfig) {
+    var gamesSourceList = Array.isArray(gamesSource) && gamesSource.length ? gamesSource : keyConfig.games;
 
     root.innerHTML = '' +
       '<div class="steam-keys__panel">' +
         '<div class="steam-keys__head">' +
           '<div>' +
-            '<p class="section__eyebrow">Steam ключи</p>' +
-            '<h2 id="steam-keys-title">Найдите игру или отправьте запрос</h2>' +
+            '<p class="section__eyebrow">' + escapeHtml(keyConfig.eyebrow) + '</p>' +
+            '<h2 id="steam-keys-title">' + escapeHtml(keyConfig.heading) + '</h2>' +
           '</div>' +
-          '<a class="steam-keys__request" data-steam-keys-request href="' + escapeHtml(buildTelegramLink(null, "")) + '" target="_blank" rel="noopener noreferrer">Запросить игру →</a>' +
+          '<a class="steam-keys__request" data-steam-keys-request href="' + escapeHtml(buildTelegramLink(null, "", null, keyConfig)) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(keyConfig.requestText) + '</a>' +
         '</div>' +
         '<label class="steam-keys__search">' +
           '<span aria-hidden="true">⌕</span>' +
-          '<input data-steam-keys-search type="search" placeholder="Найти игру: GTA V, RDR 2, Elden Ring..." autocomplete="off" />' +
+          '<input data-steam-keys-search type="search" placeholder="' + escapeHtml(keyConfig.searchPlaceholder) + '" autocomplete="off" />' +
         '</label>' +
         '<div class="steam-keys__tags" aria-label="Быстрые фильтры">' +
-          DEFAULT_TAGS.map(function (tag) {
+          keyConfig.tags.map(function (tag) {
             return '<button type="button" data-steam-keys-tag="' + escapeHtml(tag) + '">' + escapeHtml(tag) + '</button>';
           }).join("") +
         '</div>' +
         '<div class="steam-key-picker" data-steam-key-picker hidden></div>' +
-        '<div class="steam-keys__subhead">Популярные игры</div>' +
+        '<div class="steam-keys__subhead">' + escapeHtml(keyConfig.subhead) + '</div>' +
         '<div class="steam-keys__grid" data-steam-keys-list></div>' +
       '</div>';
 
@@ -490,20 +754,20 @@
 
     function chooseEdition(index) {
       selectedEditionIndex = index;
-      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition, clearSelection);
+      renderPicker(picker, selectedGame, keyProduct, selectedEditionIndex, chooseEdition, clearSelection, keyConfig);
     }
 
     function clearSelection() {
       selectedGame = null;
       selectedEditionIndex = 0;
-      renderPicker(picker, null, steamProduct, selectedEditionIndex, chooseEdition, clearSelection);
+      renderPicker(picker, null, keyProduct, selectedEditionIndex, chooseEdition, clearSelection, keyConfig);
       update();
     }
 
     function selectGame(game) {
       selectedGame = game;
       selectedEditionIndex = 0;
-      renderPicker(picker, selectedGame, steamProduct, selectedEditionIndex, chooseEdition, clearSelection);
+      renderPicker(picker, selectedGame, keyProduct, selectedEditionIndex, chooseEdition, clearSelection, keyConfig);
       update();
       if (picker && typeof picker.scrollIntoView === "function") {
         window.setTimeout(function () {
@@ -517,8 +781,8 @@
       var games = gamesSourceList.filter(function (game) {
         return gameMatches(game, query, activeTag);
       });
-      if (request) request.href = buildTelegramLink(null, query);
-      renderGames(list, games, selectedGame, selectGame, query);
+      if (request) request.href = buildTelegramLink(null, query, null, keyConfig);
+      renderGames(list, games, selectedGame, selectGame, query, keyConfig);
     }
 
     root.querySelectorAll("[data-steam-keys-tag]").forEach(function (button) {
@@ -540,7 +804,7 @@
           return gameMatches(game, search.value, activeTag);
         });
         if (!games.length) {
-          window.open(buildTelegramLink(null, search.value), "_blank", "noopener,noreferrer");
+          window.open(buildTelegramLink(null, search.value, null, keyConfig), "_blank", "noopener,noreferrer");
         }
       });
     }
@@ -550,11 +814,12 @@
 
   async function init() {
     var root = document.querySelector("[data-steam-keys]");
-    if (!root || !isSteamPage()) return;
+    var keyConfig = getActiveConfig();
+    if (!root || !keyConfig) return;
 
     document.body.classList.add("has-steam-keys");
     root.hidden = false;
-    createMarkup(root, getSteamProduct(), await loadSteamGames());
+    createMarkup(root, getKeyProduct(keyConfig), await loadKeyGames(keyConfig), keyConfig);
   }
 
   Promise.resolve(window.VSTORE_PRODUCTS_READY || window.VSTORE_PRODUCTS)
