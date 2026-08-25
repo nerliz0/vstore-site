@@ -158,6 +158,139 @@
       cover: "",
       sortOrder: 90,
       active: true
+    },
+    {
+      platform: "rockstar",
+      title: "Grand Theft Auto V",
+      region: "Rockstar",
+      priceLabel: "по запросу",
+      priceValue: 0,
+      tags: ["GTA", "Rockstar"],
+      aliases: ["gta", "gta v", "gta 5", "гта", "гта 5", "rockstar", "рокстар"],
+      cover: "",
+      editions: [
+        {
+          name: "Standard Edition",
+          region: "Rockstar",
+          priceLabel: "по запросу",
+          priceValue: 0,
+          note: "Ключ Rockstar Launcher"
+        }
+      ],
+      sortOrder: 10,
+      active: true
+    },
+    {
+      platform: "rockstar",
+      title: "Red Dead Redemption 2",
+      region: "Rockstar",
+      priceLabel: "по запросу",
+      priceValue: 0,
+      tags: ["RDR", "Rockstar"],
+      aliases: ["rdr", "rdr2", "red dead", "ред дед", "рдр", "рдр2", "rockstar", "рокстар"],
+      cover: "",
+      editions: [
+        {
+          name: "Standard Edition",
+          region: "Rockstar",
+          priceLabel: "по запросу",
+          priceValue: 0,
+          note: "Ключ Rockstar Launcher"
+        }
+      ],
+      sortOrder: 20,
+      active: true
+    },
+    {
+      platform: "xbox-keys",
+      title: "Xbox Game Pass Ultimate",
+      region: "TR",
+      priceLabel: "по запросу",
+      priceValue: 0,
+      tags: ["Xbox", "Game Pass", "Подписка"],
+      aliases: ["xbox", "game pass", "ultimate", "иксбокс", "икс бокс", "гейм пасс"],
+      cover: "",
+      editions: [
+        {
+          name: "1 месяц",
+          region: "TR",
+          priceLabel: "по запросу",
+          priceValue: 0,
+          note: "Ключ или оформление Xbox Game Pass Ultimate"
+        },
+        {
+          name: "3 месяца",
+          region: "TR",
+          priceLabel: "по запросу",
+          priceValue: 0,
+          note: "Ключ или оформление Xbox Game Pass Ultimate"
+        }
+      ],
+      sortOrder: 10,
+      active: true
+    },
+    {
+      platform: "xbox-keys",
+      title: "Xbox ключ игры",
+      region: "Global",
+      priceLabel: "по запросу",
+      priceValue: 0,
+      tags: ["Xbox", "Игры"],
+      aliases: ["xbox key", "xbox game", "ключ xbox", "иксбокс", "икс бокс"],
+      cover: "",
+      editions: [
+        {
+          name: "Standard Edition",
+          region: "Global",
+          priceLabel: "по запросу",
+          priceValue: 0,
+          note: "Шаблон для Xbox-игры. Переименуй под нужный товар."
+        }
+      ],
+      sortOrder: 20,
+      active: true
+    },
+    {
+      platform: "psn-keys",
+      title: "PlayStation Store Card",
+      region: "TR",
+      priceLabel: "по запросу",
+      priceValue: 0,
+      tags: ["PlayStation", "PSN", "Карты"],
+      aliases: ["psn", "playstation", "ps5", "ps store", "псн", "плейстейшен"],
+      cover: "",
+      editions: [
+        {
+          name: "PSN Gift Card",
+          region: "TR",
+          priceLabel: "по запросу",
+          priceValue: 0,
+          note: "Код пополнения кошелька PlayStation Network"
+        }
+      ],
+      sortOrder: 10,
+      active: true
+    },
+    {
+      platform: "psn-keys",
+      title: "PS5 ключ игры",
+      region: "TR",
+      priceLabel: "по запросу",
+      priceValue: 0,
+      tags: ["PlayStation", "PS5", "Игры"],
+      aliases: ["ps5 key", "psn game", "ключ ps5", "пс5", "плейстейшен"],
+      cover: "",
+      editions: [
+        {
+          name: "Standard Edition",
+          region: "TR",
+          priceLabel: "по запросу",
+          priceValue: 0,
+          note: "Шаблон для PSN/PS5-игры. Переименуй под нужный товар."
+        }
+      ],
+      sortOrder: 20,
+      active: true
     }
   ];
 
@@ -1144,7 +1277,12 @@
       return;
     }
 
-    setStatus(steamStatus, steamKeysPlatformSupported ? "Ключи импортированы" : "Steam ключи импортированы в старом режиме. " + getPlatformMigrationHint());
+    setStatus(
+      steamStatus,
+      steamKeysPlatformSupported
+        ? "Ключи импортированы: Steam, Rockstar, Xbox и PSN/PS5."
+        : "Steam ключи импортированы в старом режиме. " + getPlatformMigrationHint()
+    );
     await loadSteamKeys();
   }
 
