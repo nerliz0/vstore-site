@@ -373,10 +373,6 @@
     rgba(255, 255, 255, 0.022);
 }
 
-body.has-steam-keys .product-prices {
-  display: none;
-}
-
 .steam-keys[hidden] {
   display: none;
 }

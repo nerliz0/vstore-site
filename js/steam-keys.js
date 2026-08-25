@@ -137,23 +137,6 @@
   ];
   var DEFAULT_XBOX_KEYS = [
     {
-      title: "Xbox Game Pass",
-      region: "US / IN",
-      priceLabel: "от 770 ₽",
-      priceValue: 770,
-      tags: ["Game Pass", "Xbox", "Подписки"],
-      aliases: ["xbox", "game pass", "gamepass", "гейм пасс", "геймпасс", "иксбокс"],
-      accent: "57, 150, 82",
-      editions: [
-        { name: "Essential · 1 месяц", region: "US", priceLabel: "770 ₽", priceValue: 770 },
-        { name: "Premium · 1 месяц", region: "US", priceLabel: "1150 ₽", priceValue: 1150 },
-        { name: "Ultimate · 1 месяц", region: "US", priceLabel: "1770 ₽", priceValue: 1770 },
-        { name: "Essential · 6 месяцев", region: "IN", priceLabel: "1580 ₽", priceValue: 1580 },
-        { name: "Premium · 3 месяца", region: "IN", priceLabel: "2443 ₽", priceValue: 2443 },
-        { name: "Essential · 12 месяцев", region: "IN", priceLabel: "3150 ₽", priceValue: 3150 }
-      ]
-    },
-    {
       title: "GTA V Xbox",
       region: "Xbox / Global",
       priceLabel: "Цена по запросу",
@@ -256,21 +239,23 @@
     },
     "xbox-game-pass": {
       slug: "xbox-game-pass",
+      platform: "xbox-keys",
       fallbackTitle: "Xbox",
       fallbackImage: "assets/catalog/xbox-game-pass-vstore-224x165.png",
       eyebrow: "Xbox ключи",
-      heading: "Выберите подписку или игру Xbox",
+      heading: "Игры и ключи Xbox",
       requestText: "Запросить Xbox ключ →",
-      searchPlaceholder: "Найти: Game Pass, GTA V, RDR 2...",
-      subhead: "Xbox позиции",
+      searchPlaceholder: "Найти игру: GTA V, RDR 2...",
+      subhead: "Игры Xbox",
       itemLabel: "Xbox ключ",
       telegramTitle: "Хочу Xbox ключ:",
-      tags: ["Game Pass", "Xbox", "GTA", "RDR", "US", "IN"],
+      tags: ["Xbox", "GTA", "RDR", "Global", "RU/CIS"],
       games: DEFAULT_XBOX_KEYS,
       supabase: true
     },
     psn: {
       slug: "psn",
+      platform: "psn-keys",
       fallbackTitle: "PSN",
       fallbackImage: "assets/catalog/playstation-vstore-224x165.png",
       eyebrow: "PS5 ключи",
@@ -448,7 +433,7 @@
         .from("steam_keys")
         .select("*")
         .eq("active", true)
-        .eq("platform", config.slug)
+        .eq("platform", config.platform || config.slug)
         .order("sort_order", { ascending: true })
         .order("title", { ascending: true });
       var result = await query;
