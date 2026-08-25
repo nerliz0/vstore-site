@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/admin.css?v=20260825-1" />
+  <link rel="stylesheet" href="css/admin.css?v=20260825-2" />
 </head>
 
 <body>
@@ -52,7 +52,7 @@
 
       <div class="admin-tabs" aria-label="Разделы админки">
         <button class="is-active" type="button" data-admin-tab="products">Товары каталога</button>
-        <button type="button" data-admin-tab="steam">Steam ключи</button>
+        <button type="button" data-admin-tab="steam">Ключи игр</button>
       </div>
 
       <div class="admin-layout" data-products-panel>
@@ -233,7 +233,7 @@
         <div class="admin-layout admin-layout--steam">
           <aside class="admin-sidebar">
             <div class="admin-sidebar__head">
-              <span>Steam ключи</span>
+              <span>Ключи игр</span>
               <strong data-steam-count>0</strong>
             </div>
             <label class="admin-sidebar-search">
@@ -247,7 +247,7 @@
             <form data-steam-form>
               <div class="admin-editor__top">
                 <div>
-                  <p class="admin-eyebrow">Редактор Steam</p>
+                  <p class="admin-eyebrow">Редактор ключей</p>
                   <h1 data-steam-editor-title>Выберите ключ</h1>
                 </div>
                 <label class="admin-toggle">
@@ -261,10 +261,10 @@
                   <div class="admin-card__head">
                     <div>
                       <p class="admin-eyebrow">Карточка</p>
-                      <h2>Steam товар</h2>
+                      <h2>Ключ / игра</h2>
                     </div>
                     <div class="admin-builder-tools">
-                      <button class="admin-mini-button" type="button" data-import-steam-keys>Импорт текущих</button>
+                      <button class="admin-mini-button" type="button" data-import-steam-keys>Импорт текущих ключей</button>
                       <button class="admin-mini-button" type="button" data-new-steam-key>Новый ключ</button>
                     </div>
                   </div>
@@ -325,7 +325,7 @@
                 </section>
 
                 <div class="admin-actions">
-                  <button class="admin-button" type="submit">Сохранить Steam ключ</button>
+                  <button class="admin-button" type="submit">Сохранить ключ</button>
                   <button class="admin-button admin-button--ghost" type="button" data-delete-steam-key>Удалить</button>
                   <span data-steam-status></span>
                 </div>
@@ -340,7 +340,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js?v=20260816-1"></script>
   <script src="js/products-data.js?v=20260824-1"></script>
-  <script src="js/admin.js?v=20260825-1"></script>
+  <script src="js/admin.js?v=20260825-2"></script>
 </body>
 
 </html>

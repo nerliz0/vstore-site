@@ -28,6 +28,7 @@
   var products = [];
   var steamKeys = [];
   var slugTouched = false;
+  var collapseStorageKey = "vstore-admin-collapsed-cards";
   var defaultSteamKeys = [
     {
       platform: "steam",
@@ -330,7 +331,7 @@
   function createEmptySteamKey() {
     return {
       platform: "steam",
-      title: "Новый Steam ключ",
+      title: "Новый ключ",
       region: "Global",
       priceLabel: "по запросу",
       priceValue: 0,
@@ -388,6 +389,72 @@
     if (className) node.className = className;
     if (text !== undefined) node.textContent = text;
     return node;
+  }
+
+  function getCollapsedCards() {
+    try {
+      return JSON.parse(localStorage.getItem(collapseStorageKey) || "{}");
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function saveCollapsedCards(state) {
+    try {
+      localStorage.setItem(collapseStorageKey, JSON.stringify(state));
+    } catch (error) {
+      // LocalStorage can be disabled in private browsers; collapsing should still work.
+    }
+  }
+
+  function makeCollapseKey(card, index) {
+    var panel = card.closest("[data-steam-panel]") ? "keys" : "products";
+    var heading = card.querySelector(":scope > .admin-card__head h2");
+    var text = heading ? heading.textContent : "section-" + index;
+    return panel + "-" + text.toLowerCase().replace(/[^a-zа-я0-9]+/gi, "-");
+  }
+
+  function getCardTools(head) {
+    var tools = head.querySelector(":scope > .admin-builder-tools");
+    if (tools) return tools;
+
+    tools = createElement("div", "admin-builder-tools");
+    Array.from(head.children).forEach(function (child) {
+      if (child.tagName === "BUTTON") tools.appendChild(child);
+    });
+    head.appendChild(tools);
+    return tools;
+  }
+
+  function initCollapsibleCards() {
+    var state = getCollapsedCards();
+    document.querySelectorAll(".admin-editor-main > .admin-card").forEach(function (card, index) {
+      var head = card.querySelector(":scope > .admin-card__head");
+      if (!head || card.dataset.collapseReady === "true") return;
+
+      var key = card.dataset.collapseKey || makeCollapseKey(card, index);
+      var tools = getCardTools(head);
+      var toggle = createElement("button", "admin-mini-button admin-collapse-toggle", "Свернуть");
+      toggle.type = "button";
+      toggle.setAttribute("aria-expanded", "true");
+      tools.appendChild(toggle);
+
+      function setCollapsed(collapsed, persist) {
+        card.classList.toggle("is-collapsed", collapsed);
+        toggle.textContent = collapsed ? "Развернуть" : "Свернуть";
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+        if (persist) {
+          state[key] = collapsed;
+          saveCollapsedCards(state);
+        }
+      }
+
+      setCollapsed(Boolean(state[key]), false);
+      toggle.addEventListener("click", function () {
+        setCollapsed(!card.classList.contains("is-collapsed"), true);
+      });
+      card.dataset.collapseReady = "true";
+    });
   }
 
   function createInput(label, value, placeholder, datasetName) {
@@ -906,7 +973,7 @@
 
   async function loadSteamKeys() {
     if (!steamList) return;
-    setStatus(steamStatus, "Загружаю Steam ключи...");
+    setStatus(steamStatus, "Загружаю ключи...");
 
     try {
       var result = await client
@@ -921,17 +988,17 @@
       renderSteamList();
       if (steamKeys.length) fillSteamForm(steamKeys[0]);
       else fillSteamForm(createEmptySteamKey());
-      setStatus(steamStatus, steamKeys.length ? "Готово" : "Таблица пустая. Можно импортировать текущие Steam ключи.");
+      setStatus(steamStatus, steamKeys.length ? "Готово" : "Таблица пустая. Можно импортировать текущие ключи.");
     } catch (error) {
       steamKeys = [];
       renderSteamList();
-      setStatus(steamStatus, "Ошибка Steam ключей: " + error.message + ". Проверь таблицу steam_keys в Supabase.");
+      setStatus(steamStatus, "Ошибка ключей: " + error.message + ". Проверь таблицу steam_keys в Supabase.");
     }
   }
 
   async function saveSteamKey(event) {
     event.preventDefault();
-    setStatus(steamStatus, "Сохраняю Steam ключ...");
+    setStatus(steamStatus, "Сохраняю ключ...");
 
     try {
       var item = readSteamForm();
@@ -944,7 +1011,7 @@
       var result = await request;
 
       if (result.error) throw result.error;
-      setStatus(steamStatus, "Steam ключ сохранён");
+      setStatus(steamStatus, "Ключ сохранён");
       await loadSteamKeys();
       if (result.data) fillSteamForm(rowToSteamKey(result.data));
     } catch (error) {
@@ -954,9 +1021,9 @@
 
   async function deleteSteamKey() {
     if (!currentSteamKey || !currentSteamKey.id) return;
-    if (!window.confirm("Удалить Steam ключ " + currentSteamKey.title + "?")) return;
+    if (!window.confirm("Удалить ключ " + currentSteamKey.title + "?")) return;
 
-    setStatus(steamStatus, "Удаляю Steam ключ...");
+    setStatus(steamStatus, "Удаляю ключ...");
     var result = await client.from("steam_keys").delete().eq("id", currentSteamKey.id);
     if (result.error) {
       setStatus(steamStatus, "Ошибка: " + result.error.message);
@@ -968,7 +1035,7 @@
   }
 
   async function importStaticSteamKeys() {
-    setStatus(steamStatus, "Импортирую Steam ключи...");
+    setStatus(steamStatus, "Импортирую ключи...");
     var rows = defaultSteamKeys.map(function (item) {
       return steamKeyToRow(item);
     });
@@ -982,7 +1049,7 @@
       return;
     }
 
-    setStatus(steamStatus, "Steam ключи импортированы");
+    setStatus(steamStatus, "Ключи импортированы");
     await loadSteamKeys();
   }
 
@@ -1098,7 +1165,7 @@
   if (newSteamKey) {
     newSteamKey.addEventListener("click", function () {
       fillSteamForm(createEmptySteamKey());
-      setStatus(steamStatus, "Новый Steam ключ.");
+      setStatus(steamStatus, "Новый ключ.");
     });
   }
 
@@ -1122,5 +1189,6 @@
     appendRegion({ code: "", name: "", currency: "", prices: [{ title: "Прайс", rows: [["", ""]] }] });
   });
 
+  initCollapsibleCards();
   init();
 })();

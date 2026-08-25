@@ -478,6 +478,24 @@ textarea:focus {
   line-height: 1.15;
 }
 
+.admin-card.is-collapsed {
+  gap: 0;
+}
+
+.admin-card.is-collapsed > :not(.admin-card__head) {
+  display: none !important;
+}
+
+.admin-collapse-toggle {
+  min-width: 118px;
+}
+
+.admin-card.is-collapsed .admin-collapse-toggle {
+  border-color: rgba(167, 139, 250, 0.44);
+  color: #fff;
+  background: rgba(139, 92, 246, 0.16);
+}
+
 .admin-mini-button,
 .admin-icon-button {
   min-height: 40px;
