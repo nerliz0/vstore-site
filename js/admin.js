@@ -23,6 +23,7 @@
   var steamStatus = document.querySelector("[data-steam-status]");
   var steamEditionsList = document.querySelector("[data-steam-editions-list]");
   var steamSearchInput = document.querySelector("[data-steam-search]");
+  var steamPlatformTabs = document.querySelectorAll("[data-key-platform]");
   var currentProduct = null;
   var currentSteamKey = null;
   var products = [];
@@ -30,6 +31,13 @@
   var slugTouched = false;
   var collapseStorageKey = "vstore-admin-collapsed-cards";
   var steamKeysPlatformSupported = true;
+  var activeSteamPlatform = "all";
+  var keyPlatformLabels = {
+    steam: "Steam",
+    rockstar: "Rockstar",
+    "xbox-keys": "Xbox",
+    "psn-keys": "PSN / PS5"
+  };
   var defaultSteamKeys = [
     {
       platform: "steam",
@@ -344,9 +352,18 @@
     };
   }
 
-  function createEmptySteamKey() {
+  function getKeyPlatformLabel(platform) {
+    return keyPlatformLabels[platform] || platform || "Steam";
+  }
+
+  function getNewSteamKeyPlatform() {
+    return activeSteamPlatform && activeSteamPlatform !== "all" ? activeSteamPlatform : "steam";
+  }
+
+  function createEmptySteamKey(platform) {
+    var nextPlatform = platform || getNewSteamKeyPlatform();
     return {
-      platform: "steam",
+      platform: nextPlatform,
       title: "Новый ключ",
       region: "Global",
       priceLabel: "по запросу",
@@ -718,14 +735,35 @@
     });
   }
 
+  function updateSteamPlatformTabs() {
+    if (!steamPlatformTabs.length) return;
+
+    steamPlatformTabs.forEach(function (button) {
+      var platform = button.dataset.keyPlatform || "all";
+      var platformCount = platform === "all"
+        ? steamKeys.length
+        : steamKeys.filter(function (item) { return (item.platform || "steam") === platform; }).length;
+      var countNode = button.querySelector("[data-key-platform-count]");
+
+      button.classList.toggle("is-active", platform === activeSteamPlatform);
+      if (countNode) countNode.textContent = String(platformCount);
+    });
+  }
+
   function renderSteamList() {
     if (!steamList) return;
     steamList.replaceChildren();
     var query = steamSearchInput ? steamSearchInput.value.trim().toLowerCase() : "";
-    var visibleKeys = steamKeys.filter(function (item) {
+
+    var platformKeys = steamKeys.filter(function (item) {
+      return activeSteamPlatform === "all" || (item.platform || "steam") === activeSteamPlatform;
+    });
+
+    var visibleKeys = platformKeys.filter(function (item) {
       if (!query) return true;
       return [
         item.title,
+        getKeyPlatformLabel(item.platform),
         item.region,
         item.priceLabel,
         asArray(item.tags).join(" "),
@@ -736,10 +774,19 @@
       ].join(" ").toLowerCase().indexOf(query) !== -1;
     });
 
-    if (steamCount) steamCount.textContent = query ? String(visibleKeys.length) + "/" + steamKeys.length : String(steamKeys.length);
+    updateSteamPlatformTabs();
+
+    if (steamCount) {
+      steamCount.textContent = query
+        ? String(visibleKeys.length) + "/" + platformKeys.length
+        : String(platformKeys.length);
+    }
 
     if (!visibleKeys.length) {
-      steamList.appendChild(createElement("p", "admin-empty", "Ничего не найдено. Попробуй другое название, регион или тег."));
+      var emptyText = platformKeys.length
+        ? "Ничего не найдено. Попробуй другое название, регион или тег."
+        : "В этой платформе пока нет ключей. Нажми «Новый ключ» и добавь первую позицию.";
+      steamList.appendChild(createElement("p", "admin-empty", emptyText));
       return;
     }
 
@@ -747,7 +794,7 @@
       var button = document.createElement("button");
       var title = createElement("strong", null, item.title);
       var editionsCount = normalizeSteamEditions(item).length;
-      var meta = createElement("span", null, (item.platform || "steam") + " · " + (item.region || "Global") + " · " + editionsCount + " вар. · " + (item.active ? "активен" : "скрыт"));
+      var meta = createElement("span", null, getKeyPlatformLabel(item.platform) + " · " + (item.region || "Global") + " · " + editionsCount + " вар. · " + (item.active ? "активен" : "скрыт"));
 
       button.className = "admin-product";
       button.type = "button";
@@ -1005,8 +1052,11 @@
       if (result.error) throw result.error;
       steamKeys = (result.data || []).map(rowToSteamKey);
       renderSteamList();
-      if (steamKeys.length) fillSteamForm(steamKeys[0]);
-      else fillSteamForm(createEmptySteamKey());
+      var firstVisibleKey = steamKeys.find(function (item) {
+        return activeSteamPlatform === "all" || (item.platform || "steam") === activeSteamPlatform;
+      });
+      if (firstVisibleKey) fillSteamForm(firstVisibleKey);
+      else fillSteamForm(createEmptySteamKey(getNewSteamKeyPlatform()));
       if (!steamKeysPlatformSupported) {
         setStatus(steamStatus, "Ключи загружены в старом режиме. " + getPlatformMigrationHint());
       } else {
@@ -1168,6 +1218,20 @@
     steamSearchInput.addEventListener("input", renderSteamList);
   }
 
+  steamPlatformTabs.forEach(function (button) {
+    button.addEventListener("click", function () {
+      activeSteamPlatform = button.dataset.keyPlatform || "all";
+      renderSteamList();
+
+      var firstVisibleKey = steamKeys.find(function (item) {
+        return activeSteamPlatform === "all" || (item.platform || "steam") === activeSteamPlatform;
+      });
+
+      if (firstVisibleKey) fillSteamForm(firstVisibleKey);
+      else fillSteamForm(createEmptySteamKey(getNewSteamKeyPlatform()));
+    });
+  });
+
   document.querySelectorAll("[data-admin-tab]").forEach(function (button) {
     button.addEventListener("click", function () {
       switchAdminTab(button.dataset.adminTab || "products");
@@ -1209,8 +1273,8 @@
   var newSteamKey = document.querySelector("[data-new-steam-key]");
   if (newSteamKey) {
     newSteamKey.addEventListener("click", function () {
-      fillSteamForm(createEmptySteamKey());
-      setStatus(steamStatus, "Новый ключ.");
+      fillSteamForm(createEmptySteamKey(getNewSteamKeyPlatform()));
+      setStatus(steamStatus, "Новый ключ для " + getKeyPlatformLabel(getNewSteamKeyPlatform()) + ".");
     });
   }
 

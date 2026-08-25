@@ -285,6 +285,56 @@ textarea:focus {
   padding: 0.75rem 0.7rem 0;
 }
 
+.admin-key-platforms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  padding: 0.7rem 0.7rem 0;
+}
+
+.admin-key-platforms button {
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0 0.65rem;
+  border: 1px solid rgba(167, 139, 250, 0.18);
+  border-radius: 13px;
+  color: rgba(245, 243, 255, 0.68);
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  font-weight: 900;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.admin-key-platforms button:first-child {
+  grid-column: 1 / -1;
+}
+
+.admin-key-platforms button:hover,
+.admin-key-platforms button.is-active {
+  color: #fff;
+  border-color: rgba(196, 181, 253, 0.4);
+  background:
+    linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.07)),
+    rgba(255, 255, 255, 0.045);
+}
+
+.admin-key-platforms button:hover {
+  transform: translateY(-1px);
+}
+
+.admin-key-platforms strong {
+  min-width: 1.45rem;
+  padding: 0.12rem 0.38rem;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(139, 92, 246, 0.28);
+  text-align: center;
+  font-size: 0.74rem;
+}
+
 .admin-sidebar-search input {
   min-height: 42px;
   border-radius: 13px;
@@ -299,7 +349,7 @@ textarea:focus {
 }
 
 .admin-layout--steam .admin-products {
-  max-height: calc(100vh - 12rem);
+  max-height: calc(100vh - 18rem);
 }
 
 .admin-empty {
