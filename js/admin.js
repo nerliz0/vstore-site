@@ -29,6 +29,7 @@
   var steamKeys = [];
   var slugTouched = false;
   var collapseStorageKey = "vstore-admin-collapsed-cards";
+  var steamKeysPlatformSupported = true;
   var defaultSteamKeys = [
     {
       platform: "steam",
@@ -309,6 +310,21 @@
         ? Number(item.sortOrder || item.sort_order)
         : 100
     };
+  }
+
+  function withoutPlatform(row) {
+    var copy = Object.assign({}, row);
+    delete copy.platform;
+    return copy;
+  }
+
+  function isMissingPlatformError(error) {
+    var message = String(error && error.message || "");
+    return /platform/i.test(message) && /schema cache|could not find|column/i.test(message);
+  }
+
+  function getPlatformMigrationHint() {
+    return "В Supabase не хватает колонки platform. Выполни supabase/patch-steam-keys-platform.sql в SQL Editor, потом нажми Reload schema в API settings.";
   }
 
   function rowToSteamKey(row) {
@@ -912,14 +928,6 @@
         : client.from("products").insert(row).select("*").single();
       var result = await request;
 
-      if (result.error && /platform/i.test(result.error.message || "")) {
-        result = await client
-          .from("steam_keys")
-          .select("*")
-          .order("sort_order", { ascending: true })
-          .order("title", { ascending: true });
-      }
-
       if (result.error) throw result.error;
       setStatus(saveStatus, "Сохранено");
       await loadProducts();
@@ -983,12 +991,27 @@
         .order("sort_order", { ascending: true })
         .order("title", { ascending: true });
 
+      if (result.error && isMissingPlatformError(result.error)) {
+        steamKeysPlatformSupported = false;
+        result = await client
+          .from("steam_keys")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("title", { ascending: true });
+      } else {
+        steamKeysPlatformSupported = true;
+      }
+
       if (result.error) throw result.error;
       steamKeys = (result.data || []).map(rowToSteamKey);
       renderSteamList();
       if (steamKeys.length) fillSteamForm(steamKeys[0]);
       else fillSteamForm(createEmptySteamKey());
-      setStatus(steamStatus, steamKeys.length ? "Готово" : "Таблица пустая. Можно импортировать текущие ключи.");
+      if (!steamKeysPlatformSupported) {
+        setStatus(steamStatus, "Ключи загружены в старом режиме. " + getPlatformMigrationHint());
+      } else {
+        setStatus(steamStatus, steamKeys.length ? "Готово" : "Таблица пустая. Можно импортировать текущие ключи.");
+      }
     } catch (error) {
       steamKeys = [];
       renderSteamList();
@@ -1009,6 +1032,17 @@
         ? client.from("steam_keys").update(row).eq("id", currentSteamKey.id).select("*").single()
         : client.from("steam_keys").insert(row).select("*").single();
       var result = await request;
+
+      if (result.error && isMissingPlatformError(result.error)) {
+        steamKeysPlatformSupported = false;
+        if ((row.platform || "steam") !== "steam") {
+          throw new Error(getPlatformMigrationHint() + " Без неё можно сохранять только обычные Steam ключи.");
+        }
+        var legacyRow = withoutPlatform(row);
+        result = currentSteamKey && currentSteamKey.id
+          ? await client.from("steam_keys").update(legacyRow).eq("id", currentSteamKey.id).select("*").single()
+          : await client.from("steam_keys").insert(legacyRow).select("*").single();
+      }
 
       if (result.error) throw result.error;
       setStatus(steamStatus, "Ключ сохранён");
@@ -1044,12 +1078,23 @@
       .upsert(rows, { onConflict: "platform,title,region" })
       .select("id");
 
+    if (result.error && isMissingPlatformError(result.error)) {
+      steamKeysPlatformSupported = false;
+      var legacyRows = rows.map(withoutPlatform);
+      result = await client
+        .from("steam_keys")
+        .upsert(legacyRows, { onConflict: "title,region" })
+        .select("id");
+    } else {
+      steamKeysPlatformSupported = true;
+    }
+
     if (result.error) {
       setStatus(steamStatus, "Ошибка импорта: " + result.error.message);
       return;
     }
 
-    setStatus(steamStatus, "Ключи импортированы");
+    setStatus(steamStatus, steamKeysPlatformSupported ? "Ключи импортированы" : "Steam ключи импортированы в старом режиме. " + getPlatformMigrationHint());
     await loadSteamKeys();
   }
 
