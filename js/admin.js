@@ -526,7 +526,7 @@
       title: "Новый товар",
       category: "Игры",
       filters: ["games"],
-      image: "assets/catalog/fortnite-vstore.png",
+      image: "assets/catalog/fort.jpeg",
       featuredImage: "",
       featuredMobileImage: "",
       featuredTitle: "",
@@ -1059,7 +1059,7 @@
     var description = document.querySelector("[data-preview-description]");
     var price = document.querySelector("[data-preview-price]");
     var tags = document.querySelector("[data-preview-tags]");
-    var imagePath = form.elements.featuredImage.value.trim() || form.elements.image.value.trim() || "assets/catalog/fortnite-vstore.png";
+    var imagePath = form.elements.featuredImage.value.trim() || form.elements.image.value.trim() || "assets/catalog/fort.jpeg";
 
     if (image) image.src = imagePath;
     if (title) title.textContent = form.elements.featuredTitle.value.trim() || form.elements.title.value.trim() || "Товар";

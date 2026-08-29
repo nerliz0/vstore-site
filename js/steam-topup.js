@@ -35,14 +35,14 @@
   }) || {
     slug: "steam",
     title: "Steam",
-    image: "assets/catalog/steam-vstore-224x165.png"
+    image: "assets/catalog/steam.jpeg"
   };
   var telegramProduct = products.find(function (product) {
     return product.slug === "telegram-premium";
   }) || {
     slug: "telegram-premium",
     title: "Telegram",
-    image: "assets/catalog/telegram-vstore-224x165.png"
+    image: "assets/catalog/tg.jpeg"
   };
 
   function formatPrice(value) {
