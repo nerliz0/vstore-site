@@ -54,7 +54,10 @@
         .order("title", { ascending: true });
 
       if (result.error) throw result.error;
-      if (Array.isArray(result.data) && result.data.length) {
+      // A successful empty response is intentional: it means that the admin
+      // disabled or removed every public product. The static catalog is used
+      // only when Supabase is unavailable or the request fails.
+      if (Array.isArray(result.data)) {
         window.VSTORE_PRODUCTS = result.data.map(mapProduct);
       }
     } catch (error) {

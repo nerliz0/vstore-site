@@ -1304,15 +1304,53 @@
     });
   }
 
+  async function enterAdmin(session) {
+    if (!session || !session.user) {
+      showLogin();
+      return false;
+    }
+
+    setStatus(loginStatus, "Проверяю права...");
+    var accessResult = await client
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id", session.user.id)
+      .maybeSingle();
+
+    if (accessResult.error) {
+      showLogin();
+      setStatus(loginStatus, "Не удалось проверить права: " + accessResult.error.message);
+      return false;
+    }
+
+    if (!accessResult.data) {
+      await client.auth.signOut();
+      showLogin();
+      setStatus(loginStatus, "У этой учетной записи нет прав администратора.");
+      return false;
+    }
+
+    setStatus(loginStatus, "");
+    showAdmin();
+    loadProducts();
+    switchAdminTab(window.location.hash === "#steam" ? "steam" : "products");
+    return true;
+  }
+
   async function init() {
     var sessionResult = await client.auth.getSession();
-    if (sessionResult.data && sessionResult.data.session) {
-      showAdmin();
-      loadProducts();
-      switchAdminTab(window.location.hash === "#steam" ? "steam" : "products");
-    } else {
+    if (sessionResult.error) {
       showLogin();
+      setStatus(loginStatus, "Не удалось проверить сессию: " + sessionResult.error.message);
+      return;
     }
+
+    if (sessionResult.data && sessionResult.data.session) {
+      await enterAdmin(sessionResult.data.session);
+      return;
+    }
+
+    showLogin();
   }
 
   if (loginForm) {
@@ -1330,10 +1368,7 @@
         return;
       }
 
-      setStatus(loginStatus, "");
-      showAdmin();
-      loadProducts();
-      switchAdminTab(window.location.hash === "#steam" ? "steam" : "products");
+      await enterAdmin(result.data && result.data.session);
     });
   }
 

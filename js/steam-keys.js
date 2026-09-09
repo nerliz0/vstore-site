@@ -448,7 +448,9 @@
       }
 
       if (result.error) throw result.error;
-      return Array.isArray(result.data) && result.data.length
+      // Keep an intentionally empty platform empty. Built-in keys are only a
+      // network/configuration fallback, not a replacement for admin choices.
+      return Array.isArray(result.data)
         ? result.data.map(function (row) { return mapSteamKey(row, config); })
         : config.games;
     } catch (error) {
