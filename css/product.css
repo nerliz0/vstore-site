@@ -382,6 +382,7 @@
 }
 
 .steam-keys__panel {
+  --steam-key-card-width: clamp(176px, calc(20% - 0.52rem), 192px);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -399,16 +400,7 @@
 }
 
 .steam-keys__panel::before {
-  content: "STEAM KEYS";
-  position: absolute;
-  z-index: -1;
-  right: 1.5rem;
-  bottom: -0.34em;
-  color: rgba(255, 255, 255, 0.028);
-  font-size: clamp(4rem, 12vw, 10rem);
-  font-weight: 950;
-  line-height: 1;
-  pointer-events: none;
+  content: none;
 }
 
 .steam-keys__head,
@@ -550,7 +542,7 @@
 
 .steam-keys__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 150px);
+  grid-template-columns: repeat(auto-fill, minmax(0, var(--steam-key-card-width)));
   align-items: stretch;
   justify-content: start;
   gap: 0.65rem;
@@ -569,8 +561,8 @@
 
 .steam-key-card {
   display: grid;
-  grid-template-rows: 72px minmax(0, 1fr);
-  min-height: 228px;
+  grid-template-rows: 80px minmax(0, 1fr);
+  min-height: 244px;
   overflow: hidden;
   cursor: pointer;
   transition:
@@ -599,7 +591,7 @@
 
 .steam-key-card__cover {
   position: relative;
-  min-height: 72px;
+  min-height: 80px;
   overflow: hidden;
   background:
     radial-gradient(circle at 18% 12%, rgba(var(--steam-key-accent), 0.26), transparent 52%),

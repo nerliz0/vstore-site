@@ -98,12 +98,17 @@ test("all JavaScript files parse", () => {
   }
 });
 
-test("desktop key cards use fixed-width grid tracks", () => {
+test("desktop key cards use five-up fixed grid tracks", () => {
   const productCss = read("css/product.css");
   assert.match(
     productCss,
-    /\.steam-keys__grid\s*{[^}]*grid-template-columns:\s*repeat\(auto-fill,\s*150px\)/s
+    /--steam-key-card-width:\s*clamp\(176px,\s*calc\(20%\s*-\s*0\.52rem\),\s*192px\)/
   );
+  assert.match(
+    productCss,
+    /\.steam-keys__grid\s*{[^}]*grid-template-columns:\s*repeat\(auto-fill,\s*minmax\(0,\s*var\(--steam-key-card-width\)\)\)/s
+  );
+  assert.match(productCss, /\.steam-keys__panel::before\s*{[^}]*content:\s*none/s);
   assert.match(productCss, /\.steam-keys__empty\s*{[^}]*grid-column:\s*1\s*\/\s*-1/s);
 });
 
