@@ -98,6 +98,15 @@ test("all JavaScript files parse", () => {
   }
 });
 
+test("desktop key cards use fixed-width grid tracks", () => {
+  const productCss = read("css/product.css");
+  assert.match(
+    productCss,
+    /\.steam-keys__grid\s*{[^}]*grid-template-columns:\s*repeat\(auto-fill,\s*150px\)/s
+  );
+  assert.match(productCss, /\.steam-keys__empty\s*{[^}]*grid-column:\s*1\s*\/\s*-1/s);
+});
+
 test("successful empty Supabase catalog does not restore static products", async () => {
   let orderCalls = 0;
   const query = {

@@ -550,8 +550,9 @@
 
 .steam-keys__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, 150px);
   align-items: stretch;
+  justify-content: start;
   gap: 0.65rem;
   margin-top: 0.65rem;
 }
@@ -708,6 +709,7 @@
 
 .steam-keys__empty {
   display: grid;
+  grid-column: 1 / -1;
   gap: 0.5rem;
   padding: 1rem;
   color: rgba(244, 244, 245, 0.68);
