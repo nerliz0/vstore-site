@@ -67,8 +67,9 @@ test("HTML local resources exist and use one release token", () => {
 
 test("home hero is a product storefront with direct actions", () => {
   const html = read("index.html");
+  const textContent = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 
-  assert.match(html, /Игры, подписки и пополнения/);
+  assert.match(textContent, /Игры, подписки и пополнения без лишней возни/);
   assert.match(html, /<h2 id="hero-showcase-title">Сейчас берут<\/h2>/);
   assert.match(html, /href="catalog\.html"[^>]*>[\s\S]*?Открыть каталог/);
   assert.match(html, /href="product\.html\?item=steam"/);
