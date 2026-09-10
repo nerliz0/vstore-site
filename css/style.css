@@ -1749,183 +1749,341 @@ body.steam-login-modal-open .header {
 
 /* Hero */
 .hero {
-  min-height: 86svh;
+  min-height: min(860px, 92svh);
   display: flex;
   align-items: center;
-  padding-top: var(--header-offset);
-  padding-bottom: 1rem;
+  padding-top: calc(var(--header-offset) + 2rem);
+  padding-bottom: 3.75rem;
 }
 
 .hero__inner {
   position: relative;
   isolation: isolate;
-  text-align: center;
-  max-width: 640px;
-  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 5rem);
 }
 
 .hero__inner::before {
   content: "";
   position: absolute;
-  top: 0.4rem;
-  left: 50%;
-  width: 260px;
-  height: 110px;
+  top: 10%;
+  right: 3%;
+  width: 52%;
+  height: 72%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.14), transparent 68%);
-  filter: blur(22px);
-  opacity: 0.28;
-  transform: translateX(-50%) scale(0.92);
-  animation: logoAura 5.8s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.16), transparent 68%);
+  filter: blur(48px);
+  opacity: 0.42;
   pointer-events: none;
   z-index: -1;
 }
 
-.hero__logo {
-  display: block;
-  margin-inline: auto;
-  margin-bottom: 2.5rem;
-  width: auto;
-  height: clamp(56px, 12vw, 80px);
-  object-fit: contain;
-  object-position: center;
-  transform-origin: center;
-  will-change: transform, filter;
+.hero__copy {
+  min-width: 0;
 }
 
 .hero__title {
-  font-size: clamp(2rem, 5.5vw, 3.25rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin-bottom: 1.25rem;
-  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.75) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  max-width: 9.5em;
+  margin-bottom: 1.4rem;
+  font-size: clamp(2.8rem, 5vw, 4.65rem);
+  font-weight: 850;
+  letter-spacing: -0.062em;
+  line-height: 0.98;
+  color: #f7f5ff;
+}
+
+.hero__title em {
+  display: block;
+  color: var(--accent-light);
+  font-style: normal;
 }
 
 .hero__subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  max-width: 32rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
   color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 2.5rem;
+  line-height: 1.65;
 }
 
 .hero__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  max-width: 31rem;
+}
+
+.hero__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  min-height: 48px;
+  padding: 0.78rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(244, 244, 245, 0.86);
+  font-size: 0.84rem;
+  font-weight: 750;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.hero__action--primary {
+  grid-column: 1 / -1;
+  min-height: 56px;
+  padding-inline: 1.1rem;
+  border-color: rgba(167, 139, 250, 0.38);
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  font-size: 0.92rem;
+  box-shadow: 0 16px 38px rgba(76, 29, 149, 0.25);
+}
+
+.hero__action i,
+.hero-product__body i {
+  color: var(--accent-light);
+  font-style: normal;
+}
+
+.hero__action--primary i {
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.hero__service-note {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.85rem;
-  justify-content: center;
-  margin-bottom: 0;
-}
-
-.hero__stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
-  width: min(100%, 760px);
-  margin: 2.5rem auto 2.2rem;
-  padding: 1.2rem 0;
-  border-block: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.hero__stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  min-width: 0;
-  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.hero__stat-value {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.42rem;
-  font-size: clamp(1.15rem, 2.4vw, 1.42rem);
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--text);
-  white-space: nowrap;
-}
-
-.hero__stat-value span {
-  transition:
-    color 0.28s ease,
-    text-shadow 0.28s ease;
-}
-
-.hero__stat-icon {
-  width: 34px;
-  height: 34px;
-  flex: 0 0 auto;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
-}
-
-.hero__stat-label {
-  font-size: 0.78rem;
-  line-height: 1.35;
+  gap: 0.6rem 1.1rem;
+  margin-top: 1.25rem;
   color: var(--text-dim);
-}
-
-@media (hover: hover) {
-  .hero__stat:hover {
-    transform: translateY(-3px);
-  }
-
-  .hero__stat:hover .hero__stat-value span {
-    color: #fff;
-    text-shadow: 0 0 18px rgba(167, 139, 250, 0.45);
-  }
-}
-
-.hero__products-line {
-  width: min(100%, 680px);
-  margin: 0 auto 1.9rem;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-}
-
-.hero__products-track {
-  display: flex;
-  width: max-content;
-  min-width: max-content;
-  flex-wrap: nowrap;
-  gap: 0.85rem;
-  color: rgba(167, 139, 250, 0.72);
   font-size: 0.72rem;
   font-weight: 600;
-  line-height: 1;
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-  animation: productLine 14s linear infinite;
 }
 
-.hero__products-track span {
-  flex: 0 0 auto;
+.hero__service-note span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.hero__service-note i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.62);
+}
+
+.hero__showcase {
+  position: relative;
+  min-width: 0;
+  padding: 1.05rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgba(22, 21, 32, 0.94), rgba(11, 11, 17, 0.9));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.32);
+}
+
+.hero__showcase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 88% 8%, rgba(139, 92, 246, 0.18), transparent 35%);
+  pointer-events: none;
+}
+
+.hero__showcase-head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.15rem 0.2rem 0.9rem;
+}
+
+.hero__showcase-label {
+  display: block;
+  margin-bottom: 0.08rem;
+  color: var(--text-dim);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero__showcase-head h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.hero__showcase-head > a {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.hero__showcase-head > a span {
+  color: var(--accent-light);
+}
+
+.hero__products {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.hero-product {
+  --hero-card-accent: 139, 92, 246;
+  position: relative;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  min-width: 0;
+  min-height: 94px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 14px;
+  background:
+    linear-gradient(115deg, rgba(var(--hero-card-accent), 0.12), transparent 55%),
+    rgba(255, 255, 255, 0.035);
+  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+}
+
+.hero-product--featured {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(180px, 46%) minmax(0, 1fr);
+  min-height: 120px;
+}
+
+.hero-product--steam { --hero-card-accent: 56, 189, 248; }
+.hero-product--telegram { --hero-card-accent: 96, 165, 250; }
+.hero-product--stars { --hero-card-accent: 250, 204, 21; }
+.hero-product--discord { --hero-card-accent: 129, 140, 248; }
+.hero-product--gta { --hero-card-accent: 74, 222, 128; }
+.hero-product--rdr { --hero-card-accent: 248, 113, 113; }
+.hero-product--fortnite { --hero-card-accent: 192, 132, 252; }
+
+.hero-product > img {
+  width: 100%;
+  height: 100%;
+  min-height: 94px;
+  object-fit: cover;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-product__symbol {
+  display: grid;
+  place-items: center;
+  min-height: 94px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle, rgba(250, 204, 21, 0.26), transparent 58%),
+    linear-gradient(145deg, #332b18, #17151a);
+  color: #fde68a;
+  font-size: 2rem;
+  text-shadow: 0 0 24px rgba(250, 204, 21, 0.46);
+}
+
+.hero-product__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.78rem;
+}
+
+.hero-product__body small {
+  margin-bottom: 0.12rem;
+  overflow: hidden;
+  color: var(--text-dim);
+  font-size: 0.62rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.hero-product__body strong {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1.15;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.hero-product--featured .hero-product__body strong {
+  font-size: 1.08rem;
+}
+
+.hero-product__body > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.52rem;
+  color: rgba(244, 244, 245, 0.78);
+  font-size: 0.68rem;
+  font-weight: 750;
 }
 
 .hero__eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.48rem;
+  margin-bottom: 1.35rem;
+  font-size: 0.68rem;
+  font-weight: 750;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--accent-light);
-  margin-bottom: 1rem;
+  letter-spacing: 0.11em;
+  color: rgba(244, 244, 245, 0.58);
 }
 
-@keyframes productLine {
-  from {
-    transform: translate3d(0, 0, 0);
+.hero__eyebrow span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.65);
+}
+
+@media (hover: hover) {
+  .hero__action:hover,
+  .hero-product:hover {
+    border-color: rgba(var(--hero-card-accent, 167, 139, 250), 0.42);
+    background-color: rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
   }
 
-  to {
-    transform: translate3d(calc(-50% - 0.425rem), 0, 0);
+  .hero__action--primary:hover {
+    border-color: rgba(196, 181, 253, 0.62);
+    background: linear-gradient(135deg, #9b75f8, #7c3aed);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: auto;
+    padding-top: calc(var(--header-offset) + 3rem);
+  }
+
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: 2.6rem;
+  }
+
+  .hero__copy {
+    max-width: 620px;
+  }
+
+  .hero__title {
+    max-width: 10.5em;
   }
 }
 
@@ -3465,63 +3623,75 @@ body.steam-login-modal-open .header {
 
   .hero {
     min-height: auto;
-    padding-top: calc(var(--header-offset) + 3rem);
-    padding-bottom: 3rem;
-  }
-
-  .hero__logo {
-    height: 54px;
-    margin-bottom: 1.65rem;
+    padding-top: calc(var(--header-offset) + 2rem);
+    padding-bottom: 2.75rem;
   }
 
   .hero__title {
-    max-width: 24rem;
-    margin-inline: auto;
-    font-size: 2.15rem;
-    line-height: 1.12;
-  }
-
-  .hero__title br,
-  .hero__subtitle br {
-    display: none;
+    max-width: 9.8em;
+    margin-bottom: 1.15rem;
+    font-size: clamp(2.25rem, 11.2vw, 3.15rem);
+    line-height: 1;
   }
 
   .hero__subtitle {
-    max-width: 22rem;
-    margin: 0 auto 1.8rem;
-    font-size: 0.98rem;
-    line-height: 1.6;
+    max-width: 27rem;
+    margin: 0 0 1.6rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
   }
 
-  .hero__actions .btn {
+  .hero__actions {
+    max-width: none;
+    gap: 0.55rem;
+  }
+
+  .hero__action {
+    padding-inline: 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  .hero__service-note {
+    gap: 0.45rem 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .hero__showcase {
+    padding: 0.72rem;
+    border-radius: 18px;
+  }
+
+  .hero__showcase-head {
+    padding: 0.3rem 0.25rem 0.78rem;
+  }
+
+  .hero-product:not(.hero-product--featured) {
+    display: flex;
+    min-height: 176px;
+    flex-direction: column;
+  }
+
+  .hero-product:not(.hero-product--featured) > img,
+  .hero-product:not(.hero-product--featured) > .hero-product__symbol {
     width: 100%;
-    max-width: 360px;
-    min-height: 48px;
+    height: 82px;
+    min-height: 82px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .hero__stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.9rem 0.75rem;
-    width: min(100%, 360px);
-    margin-top: 2rem;
+  .hero-product__body {
+    flex: 1;
+    padding: 0.7rem;
   }
 
-  .hero__stat-value {
-    font-size: 1.05rem;
+  .hero-product__body strong {
+    font-size: 0.76rem;
   }
 
-  .hero__stat-icon {
-    width: 30px;
-    height: 30px;
-  }
-
-  .hero__services {
-    width: min(100%, 360px);
-  }
-
-  .hero__products-line {
-    width: min(100%, 360px);
-    margin-bottom: 0;
+  .hero-product__body > span {
+    margin-top: auto;
+    padding-top: 0.48rem;
   }
 
   .about {
@@ -3863,7 +4033,7 @@ body.steam-login-modal-open .header {
   }
 
   .hero__title {
-    font-size: 1.9rem;
+    font-size: 2.12rem;
   }
 
   .brand-final__title {
@@ -3901,8 +4071,6 @@ body.steam-login-modal-open .header {
   display: none;
 }
 
-.is-telegram-webview .hero__logo,
-.is-telegram-webview .hero__products-track,
 .is-telegram-webview .reviews__halo,
 .is-telegram-webview .brand-final__visual img {
   animation: none !important;
@@ -3956,12 +4124,6 @@ body.steam-login-modal-open .header {
   }
 }
 
-.hero__logo {
-  animation:
-    logoFloat 5.8s ease-in-out infinite,
-    logoGlow 5.8s ease-in-out infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
 
   .reveal,
@@ -3972,15 +4134,6 @@ body.steam-login-modal-open .header {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
-  }
-
-  .hero__services-track {
-    transition: none !important;
-    animation: none !important;
-  }
-
-  .hero__products-track {
-    animation-duration: 24s;
   }
 
 }
@@ -4026,32 +4179,12 @@ body.steam-login-modal-open .header {
     display: none;
   }
 
-  .hero__logo,
-  .hero__products-track,
   .how__icon img,
   .brand-final__visual img {
     animation: none !important;
     transform: none;
     translate: none;
     will-change: auto;
-  }
-
-  .hero__products-line {
-    overflow: visible;
-    mask-image: none;
-    -webkit-mask-image: none;
-  }
-
-  .hero__products-track {
-    width: 100%;
-    min-width: 0;
-    flex-wrap: wrap;
-    justify-content: center;
-    line-height: 1.5;
-  }
-
-  .hero__products-track span:nth-child(n + 7) {
-    display: none;
   }
 
   .about__visual::before,
@@ -4393,31 +4526,6 @@ body.steam-login-modal-open .header {
 
 /* Compact mobile compositions keep the content aligned in iOS and Telegram webviews. */
 @media (max-width: 640px) {
-  .hero__products-line {
-    width: calc(100% + 1.25rem);
-    margin-right: -0.625rem;
-    margin-left: -0.625rem;
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  }
-
-  .hero__products-track,
-  html.is-telegram-webview .hero__products-track {
-    width: max-content;
-    min-width: max-content;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    line-height: 1;
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
-    animation: productLine 18s linear infinite !important;
-  }
-
-  .hero__products-track span:nth-child(n + 7) {
-    display: inline;
-  }
-
   .how {
     padding-block: 3.25rem;
   }
@@ -4697,14 +4805,6 @@ body.steam-login-modal-open .header {
   .reviews__phone.reviews__phone--front {
     right: 7%;
     width: min(56vw, 12.4rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) and (max-width: 640px) {
-  .hero__products-track,
-  html.is-telegram-webview .hero__products-track {
-    animation: none !important;
-    transform: none !important;
   }
 }
 
@@ -5056,13 +5156,8 @@ body.support-modal-open {
 
 /* First-screen entrance. Without the JS class the hero stays fully readable. */
 body.hero-intro-pending .header,
-body.hero-intro-pending .hero__logo,
-body.hero-intro-pending .hero__eyebrow,
-body.hero-intro-pending .hero__title,
-body.hero-intro-pending .hero__subtitle,
-body.hero-intro-pending .hero__actions,
-body.hero-intro-pending .hero__stats,
-body.hero-intro-pending .hero__products-line {
+body.hero-intro-pending .hero__copy,
+body.hero-intro-pending .hero__showcase {
   opacity: 0;
   translate: 0 26px;
   transition:
@@ -5075,54 +5170,24 @@ body.hero-intro-pending .header {
 }
 
 body.hero-intro-pending.hero-intro-active .header,
-body.hero-intro-pending.hero-intro-active .hero__logo,
-body.hero-intro-pending.hero-intro-active .hero__eyebrow,
-body.hero-intro-pending.hero-intro-active .hero__title,
-body.hero-intro-pending.hero-intro-active .hero__subtitle,
-body.hero-intro-pending.hero-intro-active .hero__actions,
-body.hero-intro-pending.hero-intro-active .hero__stats,
-body.hero-intro-pending.hero-intro-active .hero__products-line {
+body.hero-intro-pending.hero-intro-active .hero__copy,
+body.hero-intro-pending.hero-intro-active .hero__showcase {
   opacity: 1;
   translate: 0 0;
 }
 
-body.hero-intro-pending .hero__logo {
+body.hero-intro-pending .hero__copy {
   transition-delay: 70ms;
 }
 
-body.hero-intro-pending .hero__eyebrow {
-  transition-delay: 150ms;
-}
-
-body.hero-intro-pending .hero__title {
-  transition-delay: 230ms;
-}
-
-body.hero-intro-pending .hero__subtitle {
-  transition-delay: 320ms;
-}
-
-body.hero-intro-pending .hero__actions {
-  transition-delay: 410ms;
-}
-
-body.hero-intro-pending .hero__stats {
-  transition-delay: 500ms;
-}
-
-body.hero-intro-pending .hero__products-line {
-  transition-delay: 590ms;
+body.hero-intro-pending .hero__showcase {
+  transition-delay: 190ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
   body.hero-intro-pending .header,
-  body.hero-intro-pending .hero__logo,
-  body.hero-intro-pending .hero__eyebrow,
-  body.hero-intro-pending .hero__title,
-  body.hero-intro-pending .hero__subtitle,
-  body.hero-intro-pending .hero__actions,
-  body.hero-intro-pending .hero__stats,
-  body.hero-intro-pending .hero__products-line {
+  body.hero-intro-pending .hero__copy,
+  body.hero-intro-pending .hero__showcase {
     opacity: 1 !important;
     translate: none !important;
     transition: none !important;

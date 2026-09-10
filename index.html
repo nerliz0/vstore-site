@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#08080d" />
   <meta name="description" content="Vstore — цифровые товары, игровые сервисы и подписки с ручной выдачей через Telegram." />
-  <title>Vstore — Digital Marketplace</title>
+  <title>Vstore — игры, подписки и пополнения</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20260909-3" />
+  <link rel="stylesheet" href="css/style.css?v=20260910-1" />
 </head>
 
 <body>
@@ -54,43 +54,104 @@
   <main>
     <section class="hero section scene" id="hero">
       <div class="container hero__inner">
-        <img class="hero__logo" src="assets/brand/logo.svg" alt="Vstore" width="320" height="80" />
-        <p class="hero__eyebrow">Digital Marketplace</p>
-        <h1 class="hero__title">Сервис цифровых <br>товаров и подписок</h1>
-        <p class="hero__subtitle">Игровые сервисы и подписки — <br>с выдачей и поддержкой через Telegram.</p>
+        <div class="hero__copy">
+          <p class="hero__eyebrow"><span aria-hidden="true"></span> Vstore работает</p>
+          <h1 class="hero__title">Игры, подписки и пополнения <em>без лишней возни</em></h1>
+          <p class="hero__subtitle">Выбирайте нужную позицию, а мы проверим заказ и поможем с выдачей в Telegram.</p>
 
-        <div class="hero__actions">
-          <a href="#" class="btn btn--hero" data-telegram>Написать в Telegram</a>
-          <a href="catalog.html" class="btn btn--ghost">Смотреть каталог</a>
-        </div>
+          <div class="hero__actions" aria-label="Быстрые действия">
+            <a href="catalog.html" class="hero__action hero__action--primary">
+              <span>Открыть каталог</span>
+              <i aria-hidden="true">→</i>
+            </a>
+            <a href="product.html?item=steam" class="hero__action">
+              <span>Пополнить Steam</span>
+              <i aria-hidden="true">↗</i>
+            </a>
+            <a href="product.html?item=telegram-premium" class="hero__action">
+              <span>Купить Stars</span>
+              <i aria-hidden="true">↗</i>
+            </a>
+          </div>
 
-        <div class="hero__stats" aria-label="Показатели Vstore">
-          <div class="hero__stat">
-            <img class="hero__stat-icon" src="assets/stats/stat-orders.png" alt="" width="36" height="36" />
-            <strong class="hero__stat-value">1500+</strong>
-            <span class="hero__stat-label">Заказов</span>
-          </div>
-          <div class="hero__stat">
-            <img class="hero__stat-icon" src="assets/stats/stat-rating.png" alt="" width="36" height="36" />
-            <strong class="hero__stat-value">4.9</strong>
-            <span class="hero__stat-label">Средняя оценка</span>
-          </div>
-          <div class="hero__stat">
-            <img class="hero__stat-icon" src="assets/stats/stat-speed.png" alt="" width="36" height="36" />
-            <strong class="hero__stat-value">15 мин</strong>
-            <span class="hero__stat-label">Средняя выдача</span>
-          </div>
-          <div class="hero__stat">
-            <img class="hero__stat-icon" src="assets/stats/stat-since.png" alt="" width="36" height="36" />
-            <strong class="hero__stat-value">с 2024</strong>
-            <span class="hero__stat-label">На рынке</span>
+          <div class="hero__service-note" aria-label="Информация о заказе">
+            <span><i aria-hidden="true"></i> Ручная проверка</span>
+            <span>Ответ обычно 5–15 минут</span>
           </div>
         </div>
 
-        <div class="hero__products-line" aria-label="Популярные товары">
-          <div class="hero__products-track">
-            <span>Fortnite Crew</span><span>Discord Nitro</span><span>ChatGPT Plus</span><span>Spotify Premium</span><span>Telegram Premium</span><span>Steam Gift</span>
-            <span>Fortnite Crew</span><span>Discord Nitro</span><span>ChatGPT Plus</span><span>Spotify Premium</span><span>Telegram Premium</span><span>Steam Gift</span>
+        <div class="hero__showcase" aria-labelledby="hero-showcase-title">
+          <div class="hero__showcase-head">
+            <div>
+              <span class="hero__showcase-label">Выбор покупателей</span>
+              <h2 id="hero-showcase-title">Сейчас берут</h2>
+            </div>
+            <a href="catalog.html">Все товары <span aria-hidden="true">→</span></a>
+          </div>
+
+          <div class="hero__products">
+            <a class="hero-product hero-product--featured hero-product--steam" href="product.html?item=steam">
+              <img src="assets/catalog/steam.jpeg" alt="Пополнение Steam" width="640" height="360" />
+              <span class="hero-product__body">
+                <small>Пополнение баланса</small>
+                <strong>Steam RU</strong>
+                <span>от 324 ₽ <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="hero-product hero-product--telegram" href="product.html?item=telegram-premium">
+              <img src="assets/catalog/tg.jpeg" alt="Telegram Premium" width="320" height="180" />
+              <span class="hero-product__body">
+                <small>Подписка</small>
+                <strong>Telegram Premium</strong>
+                <span>от 1 100 ₽ <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="hero-product hero-product--stars" href="product.html?item=telegram-premium">
+              <span class="hero-product__symbol" aria-hidden="true">★</span>
+              <span class="hero-product__body">
+                <small>Пополнение</small>
+                <strong>Telegram Stars</strong>
+                <span>от 75 ₽ <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="hero-product hero-product--discord" href="product.html?item=discord">
+              <img src="assets/catalog/ds.jpeg" alt="Discord Nitro" width="320" height="180" />
+              <span class="hero-product__body">
+                <small>Подписка</small>
+                <strong>Discord Nitro</strong>
+                <span>от 179 ₽ <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="hero-product hero-product--gta" href="product.html?item=rockstar">
+              <img src="assets/catalog/steam-keys/gta5.jpg" alt="Ключ GTA V" width="320" height="180" />
+              <span class="hero-product__body">
+                <small>Rockstar ключ</small>
+                <strong>GTA V</strong>
+                <span>Уточнить <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="hero-product hero-product--rdr" href="product.html?item=rockstar">
+              <img src="assets/catalog/steam-keys/rdr2.jpg" alt="Ключ Red Dead Redemption 2" width="320" height="180" />
+              <span class="hero-product__body">
+                <small>Rockstar ключ</small>
+                <strong>Red Dead Redemption 2</strong>
+                <span>Уточнить <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
+
+            <a class="hero-product hero-product--fortnite" href="product.html?item=fortnite">
+              <img src="assets/catalog/fort.jpeg" alt="Fortnite Crew" width="320" height="180" />
+              <span class="hero-product__body">
+                <small>Подписка</small>
+                <strong>Fortnite Crew</strong>
+                <span>от 299 ₽ <i aria-hidden="true">→</i></span>
+              </span>
+            </a>
           </div>
         </div>
       </div>
@@ -258,14 +319,14 @@
     </section>
   </main>
 
-  <script src="js/config.js?v=20260909-3"></script>
-  <script src="js/products-data.js?v=20260909-3"></script>
+  <script src="js/config.js?v=20260910-1"></script>
+  <script src="js/products-data.js?v=20260910-1"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-config.js?v=20260909-3"></script>
-  <script src="js/supabase-products.js?v=20260909-3"></script>
-  <script src="js/cart.js?v=20260909-3"></script>
-  <script src="js/favorites.js?v=20260909-3"></script>
-  <script src="js/main.js?v=20260909-3"></script>
+  <script src="js/supabase-config.js?v=20260910-1"></script>
+  <script src="js/supabase-products.js?v=20260910-1"></script>
+  <script src="js/cart.js?v=20260910-1"></script>
+  <script src="js/favorites.js?v=20260910-1"></script>
+  <script src="js/main.js?v=20260910-1"></script>
  </body>
 
 </html>

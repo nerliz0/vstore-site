@@ -65,6 +65,19 @@ test("HTML local resources exist and use one release token", () => {
   }
 });
 
+test("home hero is a product storefront with direct actions", () => {
+  const html = read("index.html");
+
+  assert.match(html, /Игры, подписки и пополнения/);
+  assert.match(html, /<h2 id="hero-showcase-title">Сейчас берут<\/h2>/);
+  assert.match(html, /href="catalog\.html"[^>]*>[\s\S]*?Открыть каталог/);
+  assert.match(html, /href="product\.html\?item=steam"/);
+  assert.match(html, /href="product\.html\?item=telegram-premium"/);
+  assert.match(html, /href="product\.html\?item=rockstar"/);
+  assert.doesNotMatch(html, /Сервис цифровых <br>товаров и подписок/);
+  assert.doesNotMatch(html, /Показатели Vstore/);
+});
+
 test("CSS assets and built-in Steam covers exist", () => {
   const cssDir = path.join(root, "css");
   for (const filename of fs.readdirSync(cssDir).filter((name) => name.endsWith(".css"))) {
