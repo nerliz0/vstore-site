@@ -174,8 +174,19 @@
       var title = card.querySelector("h3");
       var price = card.querySelector("p");
       var displayTitle = product.featuredTitle || product.title;
+      var fallbackImage = image ? image.getAttribute("src") : "";
+      var fallbackMobileImage = mobileSource ? mobileSource.getAttribute("srcset") : "";
 
       if (image) {
+        image.addEventListener("error", function restoreFeaturedImage() {
+          image.removeEventListener("error", restoreFeaturedImage);
+          if (mobileSource && fallbackMobileImage) {
+            mobileSource.srcset = fallbackMobileImage;
+          }
+          if (fallbackImage) {
+            image.src = fallbackImage;
+          }
+        });
         image.src = product.featuredImage || product.image;
         image.alt = displayTitle;
       }

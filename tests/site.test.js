@@ -79,6 +79,15 @@ test("home hero is a product storefront with direct actions", () => {
   assert.doesNotMatch(html, /Показатели Vstore/);
 });
 
+test("mobile storefront keeps images and quick amounts compact", () => {
+  const mainJs = read("js/main.js");
+  const css = read("css/style.css");
+
+  assert.match(mainJs, /function restoreFeaturedImage\(\)/);
+  assert.match(css, /\.hero__products\s*{[^}]*grid-auto-flow:\s*column/s);
+  assert.match(css, /\.steam-topup__quick\s*{[^}]*repeat\(auto-fit,\s*minmax\(64px,\s*1fr\)\)/s);
+});
+
 test("CSS assets and built-in Steam covers exist", () => {
   const cssDir = path.join(root, "css");
   for (const filename of fs.readdirSync(cssDir).filter((name) => name.endsWith(".css"))) {
