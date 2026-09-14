@@ -1963,23 +1963,24 @@ body.steam-login-modal-open .header {
 .hero-product {
   --hero-card-accent: 139, 92, 246;
   position: relative;
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
+  display: block;
   min-width: 0;
-  min-height: 94px;
+  aspect-ratio: 398 / 321;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.075);
+  border: 0;
   border-radius: 14px;
-  background:
-    linear-gradient(115deg, rgba(var(--hero-card-accent), 0.12), transparent 55%),
-    rgba(255, 255, 255, 0.035);
-  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+  background: #080b12;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+  transition: transform 0.24s ease, filter 0.24s ease;
 }
 
 .hero-product--featured {
   grid-column: 1 / -1;
-  grid-template-columns: minmax(180px, 46%) minmax(0, 1fr);
-  min-height: 120px;
+  aspect-ratio: 1641 / 284;
+}
+
+.hero-product--game {
+  aspect-ratio: 812 / 204;
 }
 
 .hero-product--steam { --hero-card-accent: 56, 189, 248; }
@@ -1990,79 +1991,13 @@ body.steam-login-modal-open .header {
 .hero-product--rdr { --hero-card-accent: 248, 113, 113; }
 .hero-product--fortnite { --hero-card-accent: 192, 132, 252; }
 
-.hero-product > img {
+.hero-product > img,
+.hero-product > picture,
+.hero-product > picture > img {
+  display: block;
   width: 100%;
   height: 100%;
-  min-height: 94px;
   object-fit: cover;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.hero-product__symbol {
-  display: grid;
-  place-items: center;
-  min-height: 94px;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  background:
-    radial-gradient(circle, rgba(250, 204, 21, 0.26), transparent 58%),
-    linear-gradient(145deg, #332b18, #17151a);
-  color: #fde68a;
-  font-size: 2rem;
-  text-shadow: 0 0 24px rgba(250, 204, 21, 0.46);
-}
-
-.hero-product__body {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0.78rem;
-}
-
-.hero-product__body small {
-  margin-bottom: 0.12rem;
-  overflow: hidden;
-  color: var(--text-dim);
-  font-size: 0.62rem;
-  font-weight: 650;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hero-product__body strong {
-  display: -webkit-box;
-  overflow: hidden;
-  font-size: 0.8rem;
-  font-weight: 800;
-  line-height: 1.15;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.hero-product--featured .hero-product__body strong {
-  font-size: 1.08rem;
-}
-
-.hero-product__body > span {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: 0.52rem;
-  color: rgba(244, 244, 245, 0.78);
-  font-size: 0.68rem;
-  font-weight: 750;
-}
-
-.hero-product__body > span i {
-  display: inline-grid;
-  width: 1.75rem;
-  height: 1.75rem;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.045);
 }
 
 .hero__eyebrow {
@@ -2088,9 +2023,11 @@ body.steam-login-modal-open .header {
 @media (hover: hover) {
   .hero__action:hover,
   .hero-product:hover {
-    border-color: rgba(var(--hero-card-accent, 167, 139, 250), 0.42);
-    background-color: rgba(255, 255, 255, 0.06);
     transform: translateY(-2px);
+  }
+
+  .hero-product:hover {
+    filter: brightness(1.08);
   }
 
   .hero__action--primary:hover {
@@ -2116,6 +2053,18 @@ body.steam-login-modal-open .header {
 
   .hero__title {
     max-width: 10.5em;
+  }
+
+  .hero__products {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .hero-product--featured {
+    grid-column: 1 / -1;
+  }
+
+  .hero-product--game {
+    grid-column: span 2;
   }
 }
 
@@ -3740,9 +3689,7 @@ body.steam-login-modal-open .header {
   }
 
   .hero__products {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: min(44vw, 172px);
+    display: flex;
     gap: 0.58rem;
     margin: 0;
     padding: 0.05rem 0.78rem 0.45rem;
@@ -3760,39 +3707,31 @@ body.steam-login-modal-open .header {
   .hero-product,
   .hero-product--featured,
   .hero-product:not(.hero-product--featured) {
-    display: flex;
-    grid-column: auto;
-    min-height: 190px;
-    flex-direction: column;
+    display: block;
+    width: min(76vw, 286px);
+    min-width: min(76vw, 286px);
+    height: 164px;
+    aspect-ratio: auto;
     scroll-snap-align: start;
   }
 
-  .hero-product--featured > img,
-  .hero-product:not(.hero-product--featured) > img,
-  .hero-product:not(.hero-product--featured) > .hero-product__symbol {
+  .hero-product > img {
     width: 100%;
-    height: 88px;
-    min-height: 88px;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    height: 100%;
   }
 
-  .hero-product__body {
-    flex: 1;
-    padding: 0.7rem;
+  .hero-product--steam {
+    width: min(92vw, 360px);
+    min-width: min(92vw, 360px);
+    height: 96px;
   }
 
-  .hero-product__body strong {
-    font-size: 0.78rem;
+  .hero-product--gta > img {
+    object-position: 18% center;
   }
 
-  .hero-product--featured .hero-product__body strong {
-    font-size: 0.86rem;
-  }
-
-  .hero-product__body > span {
-    margin-top: auto;
-    padding-top: 0.48rem;
+  .hero-product--rdr > img {
+    object-position: 48% center;
   }
 
   .home-page .header__link[href="faq.html"] {

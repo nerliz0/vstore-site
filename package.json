@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Static Vstore marketplace for GitHub Pages",
-  "vstoreRelease": "20260914-1",
+  "vstoreRelease": "20260914-2",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "check": "npm test && git diff --check"

@@ -80,11 +80,16 @@ test("home hero is a product storefront with direct actions", () => {
 });
 
 test("mobile storefront keeps images and quick amounts compact", () => {
+  const html = read("index.html");
   const mainJs = read("js/main.js");
   const css = read("css/style.css");
 
   assert.match(mainJs, /function restoreFeaturedImage\(\)/);
-  assert.match(css, /\.hero__products\s*{[^}]*grid-auto-flow:\s*column/s);
+  assert.match(css, /\.hero__products\s*{[^}]*display:\s*flex/s);
+  assert.match(html, /assets\/home\/storefront\/steam\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/steam-mobile\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/telegram-stars\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/rdr-2\.jpg/);
   assert.match(css, /\.steam-topup__quick\s*{[^}]*repeat\(auto-fit,\s*minmax\(64px,\s*1fr\)\)/s);
 });
 

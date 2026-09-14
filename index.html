@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20260914-1" />
+  <link rel="stylesheet" href="css/style.css?v=20260914-2" />
 </head>
 
 <body class="home-page">
@@ -96,67 +96,35 @@
           </div>
 
           <div class="hero__products">
-            <a class="hero-product hero-product--featured hero-product--steam" href="product.html?item=steam">
-              <img src="assets/catalog/steam.jpeg" alt="Пополнение Steam" width="640" height="360" />
-              <span class="hero-product__body">
-                <small>Пополнение баланса</small>
-                <strong>Steam RU</strong>
-                <span>от 324 ₽ <i aria-hidden="true">→</i></span>
-              </span>
+            <a class="hero-product hero-product--featured hero-product--steam" href="product.html?item=steam" aria-label="Пополнить баланс Steam — от 324 рублей">
+              <picture>
+                <source media="(max-width: 640px)" srcset="assets/home/storefront/steam-mobile.jpg" />
+                <img src="assets/home/storefront/steam.jpg" alt="" width="1641" height="284" fetchpriority="high" decoding="async" />
+              </picture>
             </a>
 
-            <a class="hero-product hero-product--telegram" href="product.html?item=telegram-premium">
-              <img src="assets/catalog/tg.jpeg" alt="Telegram Premium" width="320" height="180" />
-              <span class="hero-product__body">
-                <small>Подписка</small>
-                <strong>Telegram Premium</strong>
-                <span>от 1 100 ₽ <i aria-hidden="true">→</i></span>
-              </span>
+            <a class="hero-product hero-product--telegram" href="product.html?item=telegram-premium" aria-label="Купить Telegram Premium — от 1 100 рублей">
+              <img src="assets/home/storefront/telegram-premium.jpg" alt="" width="398" height="321" decoding="async" />
             </a>
 
-            <a class="hero-product hero-product--stars" href="product.html?item=telegram-premium">
-              <span class="hero-product__symbol" aria-hidden="true">★</span>
-              <span class="hero-product__body">
-                <small>Пополнение</small>
-                <strong>Telegram Stars</strong>
-                <span>от 75 ₽ <i aria-hidden="true">→</i></span>
-              </span>
+            <a class="hero-product hero-product--stars" href="product.html?item=telegram-premium" aria-label="Купить Telegram Stars — от 75 рублей">
+              <img src="assets/home/storefront/telegram-stars.jpg" alt="" width="398" height="321" decoding="async" />
             </a>
 
-            <a class="hero-product hero-product--discord" href="product.html?item=discord">
-              <img src="assets/catalog/ds.jpeg" alt="Discord Nitro" width="320" height="180" />
-              <span class="hero-product__body">
-                <small>Подписка</small>
-                <strong>Discord Nitro</strong>
-                <span>от 179 ₽ <i aria-hidden="true">→</i></span>
-              </span>
+            <a class="hero-product hero-product--discord" href="product.html?item=discord" aria-label="Купить Discord Nitro — от 179 рублей">
+              <img src="assets/home/storefront/discord-nitro.jpg" alt="" width="398" height="321" loading="lazy" decoding="async" />
             </a>
 
-            <a class="hero-product hero-product--gta" href="product.html?item=rockstar">
-              <img src="assets/catalog/steam-keys/gta5.jpg" alt="Ключ GTA V" width="320" height="180" />
-              <span class="hero-product__body">
-                <small>Rockstar ключ</small>
-                <strong>GTA V</strong>
-                <span>Уточнить <i aria-hidden="true">→</i></span>
-              </span>
+            <a class="hero-product hero-product--fortnite" href="product.html?item=fortnite" aria-label="Купить Fortnite Crew — от 299 рублей">
+              <img src="assets/home/storefront/fortnite-crew.jpg" alt="" width="397" height="321" loading="lazy" decoding="async" />
             </a>
 
-            <a class="hero-product hero-product--rdr" href="product.html?item=rockstar">
-              <img src="assets/catalog/steam-keys/rdr2.jpg" alt="Ключ Red Dead Redemption 2" width="320" height="180" />
-              <span class="hero-product__body">
-                <small>Rockstar ключ</small>
-                <strong>Red Dead Redemption 2</strong>
-                <span>Уточнить <i aria-hidden="true">→</i></span>
-              </span>
+            <a class="hero-product hero-product--game hero-product--gta" href="product.html?item=rockstar" aria-label="Купить ключ GTA V">
+              <img src="assets/home/storefront/gta-v.jpg" alt="" width="812" height="204" loading="lazy" decoding="async" />
             </a>
 
-            <a class="hero-product hero-product--fortnite" href="product.html?item=fortnite">
-              <img src="assets/catalog/fort.jpeg" alt="Fortnite Crew" width="320" height="180" />
-              <span class="hero-product__body">
-                <small>Подписка</small>
-                <strong>Fortnite Crew</strong>
-                <span>от 299 ₽ <i aria-hidden="true">→</i></span>
-              </span>
+            <a class="hero-product hero-product--game hero-product--rdr" href="product.html?item=rockstar" aria-label="Купить ключ Red Dead Redemption 2">
+              <img src="assets/home/storefront/rdr-2.jpg" alt="" width="812" height="204" loading="lazy" decoding="async" />
             </a>
           </div>
         </div>
@@ -325,14 +293,14 @@
     </section>
   </main>
 
-  <script src="js/config.js?v=20260914-1"></script>
-  <script src="js/products-data.js?v=20260914-1"></script>
+  <script src="js/config.js?v=20260914-2"></script>
+  <script src="js/products-data.js?v=20260914-2"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-config.js?v=20260914-1"></script>
-  <script src="js/supabase-products.js?v=20260914-1"></script>
-  <script src="js/cart.js?v=20260914-1"></script>
-  <script src="js/favorites.js?v=20260914-1"></script>
-  <script src="js/main.js?v=20260914-1"></script>
+  <script src="js/supabase-config.js?v=20260914-2"></script>
+  <script src="js/supabase-products.js?v=20260914-2"></script>
+  <script src="js/cart.js?v=20260914-2"></script>
+  <script src="js/favorites.js?v=20260914-2"></script>
+  <script src="js/main.js?v=20260914-2"></script>
  </body>
 
 </html>
