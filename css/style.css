@@ -1965,7 +1965,7 @@ body.steam-login-modal-open .header {
   position: relative;
   display: block;
   min-width: 0;
-  aspect-ratio: 398 / 321;
+  aspect-ratio: 1986 / 792;
   overflow: hidden;
   border: 0;
   border-radius: 14px;
@@ -1976,11 +1976,7 @@ body.steam-login-modal-open .header {
 
 .hero-product--featured {
   grid-column: 1 / -1;
-  aspect-ratio: 1641 / 284;
-}
-
-.hero-product--game {
-  aspect-ratio: 812 / 204;
+  aspect-ratio: 2880 / 1111;
 }
 
 .hero-product--steam { --hero-card-accent: 56, 189, 248; }
@@ -1991,9 +1987,7 @@ body.steam-login-modal-open .header {
 .hero-product--rdr { --hero-card-accent: 248, 113, 113; }
 .hero-product--fortnite { --hero-card-accent: 192, 132, 252; }
 
-.hero-product > img,
-.hero-product > picture,
-.hero-product > picture > img {
+.hero-product > img {
   display: block;
   width: 100%;
   height: 100%;
@@ -2053,18 +2047,6 @@ body.steam-login-modal-open .header {
 
   .hero__title {
     max-width: 10.5em;
-  }
-
-  .hero__products {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .hero-product--featured {
-    grid-column: 1 / -1;
-  }
-
-  .hero-product--game {
-    grid-column: span 2;
   }
 }
 
@@ -3689,7 +3671,9 @@ body.steam-login-modal-open .header {
   }
 
   .hero__products {
-    display: flex;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(82vw, 320px);
     gap: 0.58rem;
     margin: 0;
     padding: 0.05rem 0.78rem 0.45rem;
@@ -3708,30 +3692,15 @@ body.steam-login-modal-open .header {
   .hero-product--featured,
   .hero-product:not(.hero-product--featured) {
     display: block;
-    width: min(76vw, 286px);
-    min-width: min(76vw, 286px);
-    height: 164px;
-    aspect-ratio: auto;
+    grid-column: auto;
+    min-height: 0;
+    aspect-ratio: 1986 / 792;
     scroll-snap-align: start;
   }
 
   .hero-product > img {
     width: 100%;
     height: 100%;
-  }
-
-  .hero-product--steam {
-    width: min(92vw, 360px);
-    min-width: min(92vw, 360px);
-    height: 96px;
-  }
-
-  .hero-product--gta > img {
-    object-position: 18% center;
-  }
-
-  .hero-product--rdr > img {
-    object-position: 48% center;
   }
 
   .home-page .header__link[href="faq.html"] {

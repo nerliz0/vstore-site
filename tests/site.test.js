@@ -85,11 +85,14 @@ test("mobile storefront keeps images and quick amounts compact", () => {
   const css = read("css/style.css");
 
   assert.match(mainJs, /function restoreFeaturedImage\(\)/);
-  assert.match(css, /\.hero__products\s*{[^}]*display:\s*flex/s);
-  assert.match(html, /assets\/home\/storefront\/steam\.jpg/);
-  assert.match(html, /assets\/home\/storefront\/steam-mobile\.jpg/);
-  assert.match(html, /assets\/home\/storefront\/telegram-stars\.jpg/);
-  assert.match(html, /assets\/home\/storefront\/rdr-2\.jpg/);
+  assert.match(css, /\.hero__products\s*{[^}]*grid-auto-flow:\s*column/s);
+  assert.match(html, /assets\/home\/storefront\/cards\/steam-topup\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/cards\/telegram-premium\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/cards\/telegram-stars\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/cards\/discord-nitro\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/cards\/gta-v\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/cards\/rdr-2\.jpg/);
+  assert.match(html, /assets\/home\/storefront\/cards\/fortnite\.jpg/);
   assert.match(css, /\.steam-topup__quick\s*{[^}]*repeat\(auto-fit,\s*minmax\(64px,\s*1fr\)\)/s);
 });
 
